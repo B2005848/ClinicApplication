@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "MyApp",
+    "slug": "MyApp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/HealthFirst.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/HealthFirst.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/HealthFirst.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/HealthFirst.png"
+    },
+    "plugins": [
+      "expo-font"
+    ]
+  }
+}
