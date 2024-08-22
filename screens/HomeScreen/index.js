@@ -1,9 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import { Text, View, Image } from "react-native";
 import React from "react";
-import styles from "../../App.css.styles";
-// Import font expo
-import * as Font from "expo-font";
+import styles from "./style";
+
 // Import components
 import ButtonSignUp from "../../components/ButtonSignUp/index";
 import ButtonLogin from "../../components/ButtonLogin";
@@ -16,10 +15,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 // Add FontAwesomeIcon into lib
 library.add(fas, fab, far);
-// Load Font
-Font.loadAsync({
-  "Hammersmith One": require("../../assets/fonts/HammersmithOne-Regular.ttf"),
-});
 
 export default function HomeScreen() {
   return (

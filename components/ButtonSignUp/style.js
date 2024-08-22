@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   text: {
-    fontFamily: "Hammersmith One",
+    fontFamily: "Open Sans-Bold",
   },
   backgroundButton: {
     paddingHorizontal: 70,
@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
   titleButton: {
     fontSize: 20,
     color: "#fff",
-    fontWeight: "500",
   },
 });
 export default styles;

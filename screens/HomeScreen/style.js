@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   text: {
-    fontFamily: "Hammersmith One",
+    fontFamily: "Open Sans-Bold",
   },
   container: {
     flex: 1,
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   footer: {
     flex: 1,
     marginHorizontal: 50,
-    marginTop: 50,
+    marginVertical: 50,
   },
 });
 
