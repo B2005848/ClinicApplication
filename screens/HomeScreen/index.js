@@ -1,32 +1,57 @@
 import { StatusBar } from "expo-status-bar";
-import { Text, View, Image } from "react-native";
-import React from "react";
+import { Text, View, Image, Animated, Easing } from "react-native";
+import React, { useRef, useEffect } from "react";
 import styles from "./style";
 
 // Import components
 import ButtonSignUp from "../../components/ButtonSignUp/index";
 import ButtonLogin from "../../components/ButtonLogin";
 // Import FontAwesomeIcon
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-import { fab } from "@fortawesome/free-brands-svg-icons";
-import { far } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
-// Add FontAwesomeIcon into lib
-library.add(fas, fab, far);
-
 export default function HomeScreen() {
+  // create Animation
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const translateAnim = useRef(new Animated.Value(-100)).current;
+  useEffect(() => {
+    // excute all animation by parallel
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+      Animated.timing(translateAnim, {
+        toValue: 0,
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [fadeAnim, translateAnim]);
   return (
-    <View style={styles.container}>
+    <Animated.View
+      style={[
+        styles.container,
+        {
+          opacity: fadeAnim,
+          transform: [
+            {
+              translateX: translateAnim,
+            },
+          ],
+        },
+      ]}
+    >
+      <View style={styles.header}>
+        <FontAwesomeIcon icon="home" size={32} color="#5486c4" />
+      </View>
       {/* example for using FontAwesomeIcon */}
       {/* <FontAwesomeIcon icon="coffee" size={32} color="#900" /> */}
       {/* <FontAwesomeIcon icon="square-check" size={32} color="#900" /> */}
 
       {/* --------------HEADER--------------------- */}
-      <View style={styles.header}>
-        <FontAwesomeIcon icon="home" size={32} color="#5486c4" />
-      </View>
       {/* ----------------BODY------------------ */}
       <View style={styles.body}>
         <Text style={[styles.title, styles.text]}>Welcome to</Text>
@@ -43,6 +68,6 @@ export default function HomeScreen() {
         {/* button login */}
         <ButtonLogin />
       </View>
-    </View>
+    </Animated.View>
   );
 }

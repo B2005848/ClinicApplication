@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as Font from "expo-font";
@@ -14,7 +14,15 @@ const Stack = createNativeStackNavigator();
 
 // Giữ màn hình splash cho đến khi font được tải
 SplashScreen.preventAutoHideAsync();
+// Import FontAwesomeIcon
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import { far } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
+// Add FontAwesomeIcon into lib
+library.add(fas, fab, far);
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
@@ -50,12 +58,26 @@ export default function App() {
         <Stack.Screen
           name="HomeScreen"
           component={HomeScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, title: "" }}
         />
         <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}
-          options={{ headerShown: true, title: "Đăng Nhập" }}
+          options={{
+            title: "SHINE ON YOU",
+            headerStyle: {
+              backgroundColor: "#5486c4",
+              fontFamily: "Open Sans-Bold",
+            },
+            headerTintColor: "#fff",
+            headerRight: () => (
+              <FontAwesomeIcon
+                icon="fas fa-house-user"
+                size={32}
+                color="#fff"
+              />
+            ),
+          }}
         />
         <Stack.Screen
           name="SignUpScreen"

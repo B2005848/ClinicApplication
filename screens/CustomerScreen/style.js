@@ -2,7 +2,6 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   text: {
     fontFamily: "Open Sans-Bold",
-    fontSize: 10,
   },
   container: {
     flex: 1,

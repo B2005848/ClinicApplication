@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Text,
   Alert,
+  Image,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
@@ -15,6 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 import styles from "./style";
 
 export default function LoginScreen() {
+  // -----------------------------------------------------SCRIPT SETUP---------------------------------
   const navigation = useNavigation();
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
@@ -64,12 +66,19 @@ export default function LoginScreen() {
     }
   };
 
+  // -----------------------------------------------------TEMPLATE---------------------------------------
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 128 : 0}
     >
+      <View>
+        <Image
+          source={require("../../assets/HealthFirst.png")}
+          style={{ width: 300, height: 300 }}
+        />
+      </View>
       <TextInput
         style={[styles.textInput, styles.text]}
         placeholder="Nhập số điện thoại của bạn"
