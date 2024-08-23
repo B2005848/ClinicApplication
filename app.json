@@ -7,7 +7,7 @@
     "icon": "./assets/HealthFirst.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/HealthFirst.png",
+      "image": "./assets/StartImage.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

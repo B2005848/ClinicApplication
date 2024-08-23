@@ -1,5 +1,12 @@
 import { StatusBar } from "expo-status-bar";
-import { Text, View, Image, Animated, Easing } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  Animated,
+  Easing,
+  ImageBackground,
+} from "react-native";
 import React, { useRef, useEffect } from "react";
 import styles from "./style";
 
@@ -44,30 +51,31 @@ export default function HomeScreen() {
         },
       ]}
     >
-      <View style={styles.header}>
-        <FontAwesomeIcon icon="home" size={32} color="#5486c4" />
-      </View>
-      {/* example for using FontAwesomeIcon */}
-      {/* <FontAwesomeIcon icon="coffee" size={32} color="#900" /> */}
-      {/* <FontAwesomeIcon icon="square-check" size={32} color="#900" /> */}
+      <ImageBackground
+        source={require("../../assets/StartImage.png")}
+        style={styles.backgroundImage}
+        resizeMode="cover"
+      >
+        <View style={styles.header}>
+          <FontAwesomeIcon icon="question-circle" size={20} color="#4e4b4e" />
+        </View>
+        {/* example for using FontAwesomeIcon */}
+        {/* <FontAwesomeIcon icon="coffee" size={32} color="#900" /> */}
+        {/* <FontAwesomeIcon icon="square-check" size={32} color="#900" /> */}
 
-      {/* --------------HEADER--------------------- */}
-      {/* ----------------BODY------------------ */}
-      <View style={styles.body}>
-        <Text style={[styles.title, styles.text]}>Welcome to</Text>
-        <Image
-          source={require("../../assets/HealthFirst.png")}
-          style={{ width: 300, height: 300 }}
-        />
-        <StatusBar style="auto" />
-      </View>
-      <View style={styles.footer}>
-        {/* button sign up */}
-        <ButtonSignUp />
+        {/* --------------HEADER--------------------- */}
+        {/* ----------------BODY------------------ */}
+        <View style={styles.body}></View>
 
-        {/* button login */}
-        <ButtonLogin />
-      </View>
+        {/* ----------------FOOTER------------------ */}
+        <View style={styles.footer}>
+          {/* button sign up */}
+          <ButtonSignUp />
+
+          {/* button login */}
+          <ButtonLogin />
+        </View>
+      </ImageBackground>
     </Animated.View>
   );
 }

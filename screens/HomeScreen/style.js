@@ -6,25 +6,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    flexDirection: "column",
+  },
+
+  backgroundImage: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   header: {
     flex: 1,
+    flexDirection: "row",
     marginTop: 50,
-    alignItems: "flex-end",
-    marginRight: 20,
+    justifyContent: "flex-start",
+    width: "100%",
+    marginLeft: 20,
   },
 
   body: {
     flex: 4,
     alignItems: "center",
     justifyContent: "center",
-  },
-
-  title: {
-    fontSize: 70,
-    color: "#48bbc6",
   },
 
   footer: {
