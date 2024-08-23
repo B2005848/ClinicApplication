@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "MyApp",
+    "name": "HealthFirst App",
     "slug": "MyApp",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -23,8 +23,6 @@
     "web": {
       "favicon": "./assets/HealthFirst.png"
     },
-    "plugins": [
-      "expo-font"
-    ]
+    "plugins": ["expo-font"]
   }
 }

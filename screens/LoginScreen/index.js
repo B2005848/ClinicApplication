@@ -47,8 +47,8 @@ export default function LoginScreen() {
       if (response.status === 200) {
         // Save username into AsyncStorage
         await AsyncStorage.setItem("username", phone);
-
-        navigation.navigate("CustomerScreen");
+        // Save username into params
+        navigation.navigate("CustomerScreen", { username: phone });
         console.log(response.data);
         Alert.alert("Đăng nhập thành công");
       }
