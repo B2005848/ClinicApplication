@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./screens/HomeScreen/index";
 import LoginScreen from "./screens/LoginScreen/index";
 import SignUpScreen from "./screens/SignUpScreen";
+import CustomerScreen from "./screens/CustomerScreen";
 // Import font expo
 import * as Font from "expo-font";
 const Stack = createNativeStackNavigator();
@@ -35,6 +36,12 @@ export default function App() {
           name="SignUpScreen"
           // name'component is part export component
           component={SignUpScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="CustomerScreen"
+          // name'component is part export component
+          component={CustomerScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
