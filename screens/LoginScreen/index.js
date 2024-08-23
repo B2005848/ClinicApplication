@@ -45,7 +45,7 @@ export default function LoginScreen() {
         }
       );
       if (response.status === 200) {
-        // Lưu tên đăng nhập vào AsyncStorage
+        // Save username into AsyncStorage
         await AsyncStorage.setItem("username", phone);
 
         navigation.navigate("CustomerScreen");
