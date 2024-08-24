@@ -13,6 +13,8 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 
+// import API_URL from "../../apiConfig";
+
 import styles from "./style";
 
 export default function LoginScreen() {
@@ -35,6 +37,7 @@ export default function LoginScreen() {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
+        // `${API_URL}/api/patient/account/login`,
         "http://192.168.1.249:3000/api/patient/account/login",
         {
           username: phone,
