@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
     fontFamily: "Open Sans-Bold",
   },
   backgroundButton: {
-    paddingHorizontal: 70,
+    paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 15,
     backgroundColor: "#48bbc6",
