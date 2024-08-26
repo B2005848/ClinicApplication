@@ -12,8 +12,8 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-
-// import API_URL from "../../apiConfig";
+import { isTokenValid } from "../../stores/auth-token";
+import API_URL from "../../apiConfig";
 
 import styles from "./style";
 
@@ -24,21 +24,28 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    // Load the stored username when the component mounts
-    const loadUsername = async () => {
-      const savedPhone = await AsyncStorage.getItem("username");
-      if (savedPhone) {
-        setPhone(savedPhone);
+    // Load the stored token when the component mounts to add value information when login
+    const checkToken = async () => {
+      const token = await AsyncStorage.getItem("token");
+      if (token && isTokenValid(token)) {
+        setPhone(await AsyncStorage.getItem("username"));
+        setPassword(await AsyncStorage.getItem("password"));
+        // token is true, navigate to customerScreen
+        // navigation.navigate("CustomerScreen");
+      } else {
+        // Token không còn hạn hoặc không có token
+        await AsyncStorage.removeItem("token"); // Delete old token
+        await AsyncStorage.removeItem("username"); // Delete old username
       }
     };
-    loadUsername();
+    checkToken();
   }, []);
 
   const handleLogin = async () => {
     try {
       const response = await axios.post(
         // `${API_URL}/api/patient/account/login`,
-        "http://192.168.1.249:3000/api/patient/account/login",
+        `${API_URL}/api/patient/account/login`,
         {
           username: phone,
           password: password,
@@ -47,28 +54,45 @@ export default function LoginScreen() {
           headers: {
             "Content-Type": "application/json",
           },
+          timeout: 10000,
         }
       );
       if (response.status === 200) {
-        // Save username into AsyncStorage
-        await AsyncStorage.setItem("username", phone);
-        // Save username into params
-        navigation.navigate("CustomerScreen", { username: phone });
-        console.log(response.data);
-        Alert.alert("Đăng nhập thành công");
+        const token = response.data.token;
+        console.log("Token nhận được từ server:", token);
+        if (token && isTokenValid(token)) {
+          await AsyncStorage.setItem("token", token);
+          // Save username into AsyncStorage
+          await AsyncStorage.setItem("username", phone);
+          // Save password into AsyncStorage
+          await AsyncStorage.setItem("password", password);
+          // Save username into params
+          navigation.navigate("CustomerScreen", { username: phone });
+          console.log(response.data);
+          Alert.alert("Đăng nhập thành công");
+        } else {
+          Alert.alert("Lỗi", "Token không hợp lệ. Vui lòng thử lại.");
+        }
       }
     } catch (error) {
-      console.error(
-        "Đăng nhập không thành công:",
-        error.response ? error.response.data : error.message
-      );
-      Alert.alert(
-        "Lỗi",
-        "Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin của bạn."
-      );
+      if (error.response) {
+        console.error("Đăng nhập không thành công:", error.response.data);
+        Alert.alert(
+          "Lỗi",
+          "Đăng nhập không thành công: " + error.response.data.message
+        );
+      } else if (error.request) {
+        console.error("Không nhận được phản hồi từ server:", error.request);
+        Alert.alert(
+          "Lỗi",
+          "Không thể kết nối đến server. Vui lòng kiểm tra lại kết nối mạng của bạn."
+        );
+      } else {
+        console.error("Lỗi:", error.message);
+        Alert.alert("Lỗi", "Có lỗi xảy ra. Vui lòng thử lại sau.");
+      }
     }
   };
-
   // -----------------------------------------------------TEMPLATE---------------------------------------
   return (
     <KeyboardAvoidingView
