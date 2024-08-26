@@ -31,11 +31,14 @@ export default function LoginScreen() {
         setPhone(await AsyncStorage.getItem("username"));
         setPassword(await AsyncStorage.getItem("password"));
         // token is true, navigate to customerScreen
-        // navigation.navigate("CustomerScreen");
+        navigation.navigate("CustomerScreen");
       } else {
-        // Token không còn hạn hoặc không có token
+        // Token out of date or not exits
         await AsyncStorage.removeItem("token"); // Delete old token
         await AsyncStorage.removeItem("username"); // Delete old username
+        await AsyncStorage.removeItem("password");
+        // No token, navigate to loginScreen
+        navigation.navigate("LoginScreen");
       }
     };
     checkToken();
