@@ -64,7 +64,8 @@ export default function App() {
           name="LoginScreen"
           component={LoginScreen}
           options={{
-            title: "SHINE ON YOU",
+            headerShown: true,
+            title: "CTU",
             headerStyle: {
               backgroundColor: "#5486c4",
               fontFamily: "Open Sans-Bold",
@@ -82,7 +83,22 @@ export default function App() {
         <Stack.Screen
           name="SignUpScreen"
           component={SignUpScreen}
-          options={{ headerShown: true, title: "Đăng Ký" }}
+          options={{
+            headerShown: true,
+            title: "Đăng Ký",
+            headerStyle: {
+              backgroundColor: "#5486c4",
+              fontFamily: "Open Sans-Bold",
+            },
+            headerTintColor: "#fff",
+            headerRight: () => (
+              <FontAwesomeIcon
+                icon="fas fa-house-user"
+                size={32}
+                color="#fff"
+              />
+            ),
+          }}
         />
         <Stack.Screen
           name="CustomerScreen"

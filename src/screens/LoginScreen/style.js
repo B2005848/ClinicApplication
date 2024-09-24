@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   textInput: {
+    top: 20,
     height: 40,
     width: 300,
     paddingHorizontal: 30,

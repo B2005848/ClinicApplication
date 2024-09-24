@@ -13,7 +13,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { isTokenValid } from "../../stores/auth-token";
-import API_URL from "../../apiConfig";
+import API_URL from "../../../apiConfig";
 
 import styles from "./style";
 
@@ -105,8 +105,8 @@ export default function LoginScreen() {
     >
       <View>
         <Image
-          source={require("../../assets/HealthFirst.png")}
-          style={{ width: 300, height: 300 }}
+          source={require("../../assets/CTU_logo.png")}
+          style={{ width: 250, height: 250 }}
         />
       </View>
       <TextInput
@@ -124,7 +124,7 @@ export default function LoginScreen() {
         onChangeText={setPassword}
       />
 
-      <TouchableOpacity onPress={handleLogin}>
+      <TouchableOpacity style={{ top: 20 }} onPress={handleLogin}>
         <View style={styles.bgrButton}>
           <Text style={styles.titleButton}>ĐĂNG NHẬP</Text>
         </View>

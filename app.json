@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "HealthFirst App",
+    "name": "LUANVANTOTNGHIEP App",
     "slug": "MyApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/HealthFirst.png",
+    "icon": "./assets/CTU_logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/StartImage.png",
@@ -16,12 +16,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/HealthFirst.png",
+        "foregroundImage": "./assets/StartImage.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "./assets/HealthFirst.png"
+      "favicon": "./assets/StartImage.png"
     },
     "plugins": ["expo-font"]
   }
