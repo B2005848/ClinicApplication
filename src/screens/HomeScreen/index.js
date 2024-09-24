@@ -52,7 +52,7 @@ export default function HomeScreen() {
       ]}
     >
       <ImageBackground
-        source={require("../../assets/StartImage.png")}
+        source={require("@assets/StartImage.png")}
         style={styles.backgroundImage}
         resizeMode="cover"
       >

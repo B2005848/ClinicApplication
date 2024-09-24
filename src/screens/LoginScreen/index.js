@@ -13,8 +13,8 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { isTokenValid } from "../../stores/auth-token";
-import API_URL from "../../../apiConfig";
-
+import { API_URL } from "@env";
+console.log(API_URL);
 import styles from "./style";
 
 export default function LoginScreen() {
@@ -105,7 +105,7 @@ export default function LoginScreen() {
     >
       <View>
         <Image
-          source={require("../../assets/CTU_logo.png")}
+          source={require("@assets/CTU_logo.png")}
           style={{ width: 250, height: 250 }}
         />
       </View>

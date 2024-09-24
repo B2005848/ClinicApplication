@@ -29,11 +29,11 @@ export default function App() {
   useEffect(() => {
     const loadFonts = async () => {
       await Font.loadAsync({
-        "Open Sans-Bold": require("./assets/fonts/OpenSans-Bold.ttf"),
-        "Open Sans-Bold-Italic": require("./assets/fonts/OpenSans_Condensed-BoldItalic.ttf"),
-        "Open Sans-Italic": require("./assets/fonts/OpenSans-Italic.ttf"),
-        "Open Sans-Light": require("./assets/fonts/OpenSans-Light.ttf"),
-        "Open Sans-Medium": require("./assets/fonts/OpenSans-Medium.ttf"),
+        "Open Sans-Bold": require("@assets/fonts/OpenSans-Bold.ttf"),
+        "Open Sans-Bold-Italic": require("@assets/fonts/OpenSans_Condensed-BoldItalic.ttf"),
+        "Open Sans-Italic": require("@assets/fonts/OpenSans-Italic.ttf"),
+        "Open Sans-Light": require("@assets/fonts/OpenSans-Light.ttf"),
+        "Open Sans-Medium": require("@assets/fonts/OpenSans-Medium.ttf"),
       });
 
       setFontsLoaded(true); // Font đã tải xong
