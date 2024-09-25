@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -25,7 +26,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 library.add(fas, fab, far);
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
-
+  const [isLogged, setIsLogged] = useState(false);
   useEffect(() => {
     const loadFonts = async () => {
       await Font.loadAsync({
@@ -40,7 +41,22 @@ export default function App() {
       SplashScreen.hideAsync(); // Ẩn splash screen
     };
 
+    const checkLogin = async () => {
+      const refreshTokenExpiry = await AsyncStorage.getItem(
+        "refreshTokenExpiresAt"
+      );
+
+      const now = Math.floor(Date.now() / 1000); // get now day
+
+      if (refreshTokenExpiry && now < parseInt(refreshTokenExpiry)) {
+        setIsLogged(true);
+      } else {
+        setIsLogged(false);
+      }
+    };
+
     loadFonts();
+    checkLogin();
   }, []);
 
   if (!fontsLoaded) {
@@ -54,7 +70,9 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator
+        initialRouteName={isLogged ? "CustomerScreen" : "HomeScreen"}
+      >
         <Stack.Screen
           name="HomeScreen"
           component={HomeScreen}

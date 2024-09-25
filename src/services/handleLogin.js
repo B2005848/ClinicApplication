@@ -1,8 +1,9 @@
 // services/authService.js
 import axios from "axios";
+import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "@env";
-import { isTokenValid } from "../stores/auth-token";
+import { useAuthStore } from "../stores/authLogin";
 
 export const loginService = async (phone, password) => {
   try {
@@ -13,28 +14,44 @@ export const loginService = async (phone, password) => {
         headers: {
           "Content-Type": "application/json",
         },
-        timeout: 10000,
       }
     );
 
     if (response.status === 200) {
-      const token = response.data.token;
-      if (token && isTokenValid(token)) {
-        await AsyncStorage.setItem("token", token);
-        await AsyncStorage.setItem("username", phone);
-        await AsyncStorage.setItem("password", password);
-        return { success: true, token };
-      }
+      const {
+        accessToken,
+        refreshToken,
+        accessTokenExpiry,
+        refreshTokenExpiry,
+      } = response.data;
+
+      // save into store hookstate
+      const store = useAuthStore();
+      store.login(
+        phone,
+        accessToken,
+        accessTokenExpiry,
+        refreshToken,
+        refreshTokenExpiry
+      );
+      return { success: true, message: "Đăng nhập thành công" }; // Sửa lại thông báo
     }
-    return { success: false, message: "Token không hợp lệ. Vui lòng thử lại." };
   } catch (error) {
     if (error.response) {
-      return { success: false, message: error.response.data.message };
+      console.error("Đăng nhập không thành công:", error.response.data);
+      Alert.alert(
+        "Lỗi",
+        "Đăng nhập không thành công: " + error.response.data.message
+      );
+    } else if (error.request) {
+      console.error("Không nhận được phản hồi từ server:", error.request);
+      Alert.alert(
+        "Lỗi",
+        "Không thể kết nối đến server. Vui lòng kiểm tra lại kết nối mạng của bạn."
+      );
     } else {
-      return {
-        success: false,
-        message: "Có lỗi xảy ra. Vui lòng thử lại sau.",
-      };
+      console.error("Lỗi:", error.message);
+      Alert.alert("Lỗi", "Có lỗi xảy ra. Vui lòng thử lại sau.");
     }
   }
 };

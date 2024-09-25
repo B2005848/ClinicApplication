@@ -1,21 +1,16 @@
-// authStore.js
-import { createState, useState } from "@hookstate/core";
+import { hookstate } from "@hookstate/core"; // Cập nhật import
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
-import { API_URL } from "@env";
-import { refreshAccessToken } from "../../../MyWeb/SERVER/src/Services/account.staff.service";
 
-const State = {
+// Khởi tạo state
+const authState = hookstate({
   patientId: null,
   accessToken: null,
   refreshToken: null,
   isLogged: false,
-};
-
-const authState = createState(State);
+});
 
 export const useAuthStore = () => {
-  const state = useState(authState);
+  const state = authState; // Sử dụng hookstate
 
   const login = async (
     patientId,
@@ -31,35 +26,35 @@ export const useAuthStore = () => {
       isLogged: true,
     });
 
-    //Lưu vào AsyncStorage
-    await AsyncStorage.setItem("patientId", patientId, {
-      expiresIn: accessTokenExpiry,
-    });
-    await AsyncStorage.setItem("accessToken", accessToken, {
-      expiresIn: accessTokenExpiry,
-    });
-    await AsyncStorage.setItem("refreshToken", refreshToken, {
-      expiresIn: refreshTokenExpiry,
-    });
-    await AsyncStorage.setItem("isLogged", true, {
-      expiresIn: accessTokenExpiry,
-    });
+    // Lưu vào AsyncStorage
+    await AsyncStorage.setItem("patientId", patientId);
+    await AsyncStorage.setItem("accessToken", accessToken);
+    await AsyncStorage.setItem("refreshToken", refreshToken);
+    await AsyncStorage.setItem(
+      "accessTokenExpiresAt",
+      JSON.stringify(accessTokenExpiry)
+    ); // Lưu thời gian hết hạn
+    await AsyncStorage.setItem(
+      "refreshTokenExpiresAt",
+      JSON.stringify(refreshTokenExpiry)
+    ); // Lưu thời gian hết hạn
+    await AsyncStorage.setItem("isLogged", "true");
   };
 
   const logout = async () => {
-    state.merge(State);
+    state.merge({
+      patientId: null,
+      accessToken: null,
+      refreshToken: null,
+      isLogged: false,
+    });
 
-    // Remove khỏi AsyncStorage
+    // Xóa AsyncStorage
     await AsyncStorage.removeItem("patientId");
     await AsyncStorage.removeItem("accessToken");
     await AsyncStorage.removeItem("refreshToken");
-    await AsyncStorage.setItem("isLogged", false);
+    await AsyncStorage.setItem("isLogged", "false");
   };
 
-  const isAccessTokenExpired = async () => {
-    try {
-      const response = await axios.post(`${API_URL}/api/`);
-    } catch (e) {}
-  };
-  return { state, login, logout };
+  return { state, login, logout }; // Đảm bảo trả về state và các phương thức
 };
