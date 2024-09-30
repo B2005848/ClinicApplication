@@ -9,6 +9,7 @@ import {
   Text,
   Alert,
   Image,
+  StatusBar,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { loginService } from "../../services/handleLogin";
@@ -31,15 +32,14 @@ export default function LoginScreen() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
       keyboardVerticalOffset={Platform.OS === "ios" ? 128 : 0}
+      style={styles.container}
     >
-      <View>
-        <Image
-          source={require("@assets/CTU_logo.png")}
-          style={{ width: 250, height: 250 }}
-        />
-      </View>
+      <StatusBar barStyle="light-content" backgroundColor="#5486c4" />
+      <Image
+        source={require("@assets/CTU_logo.png")}
+        style={{ width: 250, height: 250 }}
+      />
       <TextInput
         style={[styles.textInput, styles.text]}
         placeholder="Nhập số điện thoại của bạn"

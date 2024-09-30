@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
-    backgroundColor: "#fff",
+    backgroundColor: "#e9e7ec",
   },
   textInput: {
     top: 20,

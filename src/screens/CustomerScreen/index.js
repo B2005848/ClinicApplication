@@ -1,5 +1,5 @@
 // ---------------------------------------------------------IMPORT LIBRARY NECESSARY----------------------------
-import { Text, View, TouchableOpacity, Alert } from "react-native";
+import { Text, View, TouchableOpacity, Alert, StatusBar } from "react-native";
 import React, { useEffect, useState } from "react";
 import styles from "./style";
 import { useNavigation } from "@react-navigation/native";
@@ -32,13 +32,17 @@ export default function CustomerScreen({ route }) {
   const handleLogout = async () => {
     const result = await logoutService();
     if (result.success) {
-      navigation.navigate("LoginScreen");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "LoginScreen" }], // Chuyển đến màn hình đăng nhập
+      });
     }
   };
 
   // ---------------------------------------------TEMPLATE------------------------------------------------
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="dark-content" />
       <Text style={[styles.text]}>Customer Screen</Text>
       {userInfo ? ( // Kiểm tra xem userInfo đã có dữ liệu hay chưa
         <>

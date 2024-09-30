@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Text, Image } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import { View, Text, StatusBar, TouchableOpacity } from "react-native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useAuthStore } from "./stores/authLogin";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
+// Import Component
+import HeaderCustomer from "./components/HeaderCustomer";
 import HomeScreen from "./screens/HomeScreen/index";
 import LoginScreen from "./screens/LoginScreen/index";
 import SignUpScreen from "./screens/SignUpScreen";
@@ -29,7 +32,6 @@ library.add(fas, fab, far);
 export default function App() {
   const { state } = useAuthStore();
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [isLogged, setIsLogged] = useState(false);
   useEffect(() => {
     const loadFonts = async () => {
       await Font.loadAsync({
@@ -82,74 +84,78 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName={
-          // get value of isLogged
-          state.isLogged.get() ? "CustomerScreen" : "HomeScreen"
-        }
-      >
-        <Stack.Screen
-          name="HomeScreen"
-          component={HomeScreen}
-          options={{ headerShown: false, title: "" }}
-        />
-        <Stack.Screen
-          name="LoginScreen"
-          component={LoginScreen}
-          options={{
-            headerShown: true,
-            title: "Đăng nhập",
-            headerStyle: {
-              backgroundColor: "#5486c4",
-              fontFamily: "Open Sans-Bold",
-            },
-            headerTintColor: "#fff",
-            headerRight: () => (
-              <FontAwesomeIcon
-                icon="fas fa-house-user"
-                size={32}
-                color="#fff"
-              />
-            ),
-          }}
-        />
-        <Stack.Screen
-          name="SignUpScreen"
-          component={SignUpScreen}
-          options={{
-            headerShown: true,
-            title: "Đăng Ký",
-            headerStyle: {
-              backgroundColor: "#5486c4",
-              fontFamily: "Open Sans-Bold",
-            },
-            headerTintColor: "#fff",
-            headerRight: () => (
-              <FontAwesomeIcon
-                icon="fas fa-house-user"
-                size={32}
-                color="#fff"
-              />
-            ),
-          }}
-        />
-        <Stack.Screen
-          name="CustomerScreen"
-          component={CustomerScreen}
-          options={{
-            headerShown: true,
-            title: "CTU",
-            headerStyle: {
-              backgroundColor: "#5486c4",
-              fontFamily: "Open Sans-Bold",
-            },
-            headerTintColor: "#fff",
-            // Hide button come back
-            headerBackVisible: false,
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <>
+      <StatusBar barStyle="dark-content" backgroundColor="#5486c4" />
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName={
+            // get value of isLogged
+            state.isLogged.get() ? "CustomerScreen" : "HomeScreen"
+          }
+        >
+          <Stack.Screen
+            name="HomeScreen"
+            component={HomeScreen}
+            options={{ headerShown: false, title: "" }}
+          />
+          <Stack.Screen
+            name="LoginScreen"
+            component={LoginScreen}
+            options={({ navigation }) => ({
+              headerShown: true,
+              title: "Đăng nhập",
+              headerStyle: {
+                backgroundColor: "#5486c4",
+                fontFamily: "Open Sans-Bold",
+              },
+              headerTintColor: "#fff",
+              headerRight: () => (
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("HomeScreen")}
+                >
+                  <FontAwesomeIcon
+                    icon={["fas", "house-user"]}
+                    size={25}
+                    color="#fff"
+                  />
+                </TouchableOpacity>
+              ),
+            })}
+          />
+          <Stack.Screen
+            name="SignUpScreen"
+            component={SignUpScreen}
+            options={({ navigation }) => ({
+              headerShown: true,
+              title: "Đăng Ký",
+              headerStyle: {
+                backgroundColor: "#5486c4",
+                fontFamily: "Open Sans-Bold",
+              },
+              headerTintColor: "#fff",
+              headerRight: () => (
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("HomeScreen")}
+                >
+                  <FontAwesomeIcon
+                    icon="fas fa-house-user"
+                    size={25}
+                    color="#fff"
+                  />
+                </TouchableOpacity>
+              ),
+            })}
+          />
+          <Stack.Screen
+            name="CustomerScreen"
+            component={CustomerScreen}
+            options={{
+              headerShown: true,
+              header: () => <HeaderCustomer />,
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </>
   );
 }
