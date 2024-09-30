@@ -53,8 +53,9 @@ export const useAuthStore = () => {
     await AsyncStorage.removeItem("patientId");
     await AsyncStorage.removeItem("accessToken");
     await AsyncStorage.removeItem("refreshToken");
+    await AsyncStorage.removeItem("userInfo");
     await AsyncStorage.setItem("isLogged", "false");
   };
 
-  return { state, login, logout }; // Đảm bảo trả về state và các phương thức
+  return { state, login, logout };
 };

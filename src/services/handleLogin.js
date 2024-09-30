@@ -14,6 +14,7 @@ export const loginService = async (phone, password) => {
         headers: {
           "Content-Type": "application/json",
         },
+        timeout: 10000,
       }
     );
 
@@ -27,6 +28,7 @@ export const loginService = async (phone, password) => {
 
       // save into store hookstate
       const store = useAuthStore();
+
       store.login(
         phone,
         accessToken,
@@ -34,7 +36,7 @@ export const loginService = async (phone, password) => {
         refreshToken,
         refreshTokenExpiry
       );
-      return { success: true, message: "Đăng nhập thành công" }; // Sửa lại thông báo
+      return { success: true, message: "Đăng nhập thành công" };
     }
   } catch (error) {
     if (error.response) {
@@ -57,7 +59,8 @@ export const loginService = async (phone, password) => {
 };
 
 export const logoutService = async () => {
-  await AsyncStorage.removeItem("token");
-  await AsyncStorage.removeItem("username");
-  await AsyncStorage.removeItem("password");
+  const store = useAuthStore();
+  store.logout();
+  console.log("Đăng xuất thành công");
+  return { success: true };
 };

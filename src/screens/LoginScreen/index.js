@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { loginService } from "../../services/handleLogin";
-import { useAuthStore } from "../../stores/authLogin";
 import styles from "./style";
 
 export default function LoginScreen() {
@@ -20,11 +19,10 @@ export default function LoginScreen() {
   const navigation = useNavigation();
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const store = useAuthStore();
   const handleLogin = async () => {
-    const result = await loginService(phone, password, store);
+    const result = await loginService(phone, password);
     if (result.success) {
-      navigation.navigate("CustomerScreen");
+      navigation.navigate("CustomerScreen", { phone });
     } else {
       Alert.alert("Lỗi", result.message);
     }
