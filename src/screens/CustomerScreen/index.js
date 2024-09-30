@@ -6,6 +6,9 @@ import { useNavigation } from "@react-navigation/native";
 import { logoutService } from "../../services/handleLogin";
 import { getDataInfo } from "../../services/handleGetInfo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import HeaderCustomer from "../../components/HeaderCustomer/index"; // Import HeaderCustomer component
+
 export default function CustomerScreen({ route }) {
   // ------------------------------------------------------SCRIPT SETUP----------------------------------------------
   const [userInfo, setUserInfo] = useState(null);
@@ -16,10 +19,27 @@ export default function CustomerScreen({ route }) {
       const storedUserInfo = await AsyncStorage.getItem("userInfo");
       if (storedUserInfo) {
         setUserInfo(JSON.parse(storedUserInfo));
+        const parsedInfo = JSON.parse(storedUserInfo);
+        navigation.setOptions({
+          header: () => (
+            <HeaderCustomer
+              first_name={parsedInfo.first_name}
+              last_name={parsedInfo.last_name}
+            />
+          ),
+        });
       } else if (route.params && route.params.phone) {
         const response = await getDataInfo(route.params.phone);
         if (response.success) {
           setUserInfo(response.data);
+          navigation.setOptions({
+            header: () => (
+              <HeaderCustomer
+                first_name={response.data.first_name}
+                last_name={response.data.last_name}
+              />
+            ),
+          });
         } else {
           Alert.alert("Lỗi", response.message);
         }

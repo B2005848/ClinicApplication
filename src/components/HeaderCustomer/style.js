@@ -8,11 +8,12 @@ export default StyleSheet.create({
   headerContainer: {
     backgroundColor: "transparent",
     borderBottomWidth: 0,
+    justifyContent: "space-between",
     // nền trong suốt và hiển thị hình nền
   },
   headerText: {
-    color: "#5486c4",
-    fontSize: 20,
+    top: 15,
+    color: "black",
     fontWeight: "bold",
   },
 });
