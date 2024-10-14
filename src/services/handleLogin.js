@@ -1,7 +1,6 @@
 // services/authService.js
 import axios from "axios";
 import { Alert } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "@env";
 import { useAuthStore } from "../stores/authLogin";
 
@@ -14,7 +13,7 @@ export const loginService = async (phone, password) => {
         headers: {
           "Content-Type": "application/json",
         },
-        timeout: 10000,
+        timeout: 30000,
       }
     );
 
@@ -55,6 +54,7 @@ export const loginService = async (phone, password) => {
       console.error("Lỗi:", error.message);
       Alert.alert("Lỗi", "Có lỗi xảy ra. Vui lòng thử lại sau.");
     }
+    return { success: false, message: "Đăng nhập không thành công" };
   }
 };
 

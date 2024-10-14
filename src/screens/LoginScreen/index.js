@@ -10,6 +10,7 @@ import {
   Alert,
   Image,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { loginService } from "../../services/handleLogin";
@@ -20,14 +21,34 @@ export default function LoginScreen() {
   const navigation = useNavigation();
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleLogin = async () => {
-    const result = await loginService(phone, password);
-    if (result.success) {
-      navigation.navigate("CustomerScreen", { phone });
-    } else {
-      Alert.alert("Lỗi", result.message);
+    if (!phone || !password) {
+      Alert.alert("Lỗi", "Vui lòng nhập số điện thoại và mật khẩu.");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const result = await loginService(phone, password);
+      if (result.success) {
+        navigation.navigate("CustomerScreen", { phone });
+      } else {
+        Alert.alert("Lỗi", result.message);
+      }
+    } catch (error) {
+      Alert.alert(
+        "Lỗi",
+        "Không thể kết nối tới máy chủ, vui lòng thử lại sau."
+      );
+      console.error("Login error: ", error);
+    } finally {
+      setIsLoading(false);
     }
   };
+
   // -----------------------------------------------------TEMPLATE---------------------------------------
   return (
     <KeyboardAvoidingView
@@ -55,11 +76,15 @@ export default function LoginScreen() {
         onChangeText={setPassword}
       />
 
-      <TouchableOpacity style={{ top: 20 }} onPress={handleLogin}>
-        <View style={styles.bgrButton}>
-          <Text style={styles.titleButton}>ĐĂNG NHẬP</Text>
-        </View>
-      </TouchableOpacity>
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <TouchableOpacity style={{ top: 20 }} onPress={handleLogin}>
+          <View style={styles.bgrButton}>
+            <Text style={styles.titleButton}>ĐĂNG NHẬP</Text>
+          </View>
+        </TouchableOpacity>
+      )}
     </KeyboardAvoidingView>
   );
 }

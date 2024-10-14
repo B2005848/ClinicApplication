@@ -3,7 +3,10 @@ import { Header, Text, Avatar, Icon } from "react-native-elements";
 import { ImageBackground } from "react-native";
 import styles from "./style";
 
-export default function HeaderCustomer({ first_name, last_name }) {
+export default function HeaderCustomer({
+  first_name = "Guest",
+  last_name = "",
+}) {
   return (
     <ImageBackground
       resizeMode="cover"
