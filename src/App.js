@@ -150,7 +150,7 @@ export default function App() {
             name="CustomerScreen"
             component={CustomerScreen}
             options={{
-              headerShown: true,
+              headerShown: false,
             }}
           />
         </Stack.Navigator>

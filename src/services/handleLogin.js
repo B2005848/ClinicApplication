@@ -1,9 +1,10 @@
 // services/authService.js
 import axios from "axios";
 import { Alert } from "react-native";
-import { API_URL } from "@env";
 import { useAuthStore } from "../stores/authLogin";
+import Constants from "expo-constants";
 
+const { API_URL } = Constants.expoConfig.extra;
 export const loginService = async (phone, password) => {
   try {
     const response = await axios.post(

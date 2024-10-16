@@ -1,8 +1,10 @@
 // services/authService.js
 import axios from "axios";
 import { Alert } from "react-native";
-import { API_URL } from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Constants from "expo-constants";
+
+const { API_URL } = Constants.expoConfig.extra;
 export const getDataInfo = async (phone) => {
   try {
     console.log(`Fetching data for phone: ${phone}`);
