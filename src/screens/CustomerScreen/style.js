@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
 
   overlay: {
     ...StyleSheet.absoluteFillObject, // Lớp phủ toàn bộ màn hình
-    backgroundColor: "rgba(0, 0, 15, 0.5)", // Màu đen với độ trong suốt 50%
+    backgroundColor: "rgba(0, 0, 20, 0.75)", // Màu đen với độ trong suốt 50%
   },
 
   text: {

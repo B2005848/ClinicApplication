@@ -52,14 +52,15 @@ export default function CustomerScreen({ route }) {
   // ---------------------------------------------TEMPLATE------------------------------------------------
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="default" />
       <ImageBackground
         resizeMode="cover"
-        source={require("@assets/StartImage.png")}
+        source={require("@assets/backgroundHome.png")}
         style={styles.image}
       >
         <View style={styles.overlay} />
         <HeaderCustomer patient_id={userInfo ? userInfo.patient_id : null} />
-        <StatusBar barStyle="default" />
+
         <Text style={[styles.text]}>Customer Screen</Text>
         {userInfo ? ( // Kiểm tra xem userInfo đã có dữ liệu hay chưa
           <>

@@ -5,7 +5,7 @@ export default StyleSheet.create({
     backgroundColor: "transparent", // Đảm bảo không có nền riêng
   },
   headerText: {
-    color: "#427AA1",
+    color: "#F9FAFB",
     fontWeight: "bold",
     alignItems: "center",
     justifyContent: "center",

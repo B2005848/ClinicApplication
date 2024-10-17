@@ -2,7 +2,7 @@ import React from "react";
 import { Header, Text, Avatar, Icon } from "react-native-elements";
 import styles from "./style";
 
-export default function HeaderCustomer({ patient_id }) {
+export default function BannerCustomer() {
   return (
     <Header
       containerStyle={[
@@ -21,9 +21,7 @@ export default function HeaderCustomer({ patient_id }) {
           uri: "https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg",
         }}
       />
-      <Text style={styles.headerText} h4>
-        {patient_id ? ` ${patient_id}` : "No ID Available"}
-      </Text>
+
       <Icon name="bars" type="font-awesome" color="#F9FAFB" />
     </Header>
   );

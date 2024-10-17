@@ -34,6 +34,7 @@ export default function LoginScreen() {
     try {
       const result = await loginService(phone, password);
       if (result.success) {
+        console.log(result.message);
         navigation.navigate("CustomerScreen", { phone });
       } else {
         Alert.alert("Lỗi", result.message);
