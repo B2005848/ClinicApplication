@@ -15,7 +15,7 @@ import { getDataInfo } from "../../services/handleGetInfo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import HeaderCustomer from "../../components/HeaderCustomer/index"; // Import HeaderCustomer component
-
+import BannerCustomer from "../../components/BannerCustomer";
 export default function CustomerScreen({ route }) {
   // ------------------------------------------------------SCRIPT SETUP----------------------------------------------
   const [userInfo, setUserInfo] = useState(null);
@@ -60,7 +60,7 @@ export default function CustomerScreen({ route }) {
       >
         <View style={styles.overlay} />
         <HeaderCustomer patient_id={userInfo ? userInfo.patient_id : null} />
-
+        <BannerCustomer />
         <Text style={[styles.text]}>Customer Screen</Text>
         {userInfo ? ( // Kiểm tra xem userInfo đã có dữ liệu hay chưa
           <>
