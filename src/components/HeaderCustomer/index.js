@@ -2,7 +2,7 @@ import React from "react";
 import { Header, Text, Avatar, Icon } from "react-native-elements";
 import styles from "./style";
 
-export default function HeaderCustomer({ patient_id }) {
+const HeaderCustomer = ({ patient_id }) => {
   return (
     <Header
       containerStyle={[
@@ -27,4 +27,5 @@ export default function HeaderCustomer({ patient_id }) {
       <Icon name="bars" type="font-awesome" color="#F9FAFB" />
     </Header>
   );
-}
+};
+export default HeaderCustomer;

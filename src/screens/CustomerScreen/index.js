@@ -7,6 +7,7 @@ import {
   StatusBar,
   ImageBackground,
 } from "react-native";
+import { Image } from "react-native-elements";
 import React, { useEffect, useState } from "react";
 import styles from "./style";
 import { useNavigation } from "@react-navigation/native";
@@ -16,7 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import HeaderCustomer from "../../components/HeaderCustomer/index"; // Import HeaderCustomer component
 import BannerCustomer from "../../components/BannerCustomer";
-export default function CustomerScreen({ route }) {
+const CustomerScreen = ({ route }) => {
   // ------------------------------------------------------SCRIPT SETUP----------------------------------------------
   const [userInfo, setUserInfo] = useState(null);
   const navigation = useNavigation();
@@ -59,34 +60,105 @@ export default function CustomerScreen({ route }) {
         style={styles.image}
       >
         <View style={styles.overlay} />
-        <HeaderCustomer patient_id={userInfo ? userInfo.patient_id : null} />
+        <HeaderCustomer
+          patient_id={userInfo ? userInfo.patient_id : "Đang tải thông tin..."}
+        />
+
         <BannerCustomer />
-        <Text style={[styles.text]}>Customer Screen</Text>
-        {userInfo ? ( // Kiểm tra xem userInfo đã có dữ liệu hay chưa
-          <>
-            <Text style={[styles.title, styles.text]}>
-              Hello, {userInfo.first_name} {userInfo.last_name}
-            </Text>
-            <Text style={[styles.title, styles.text]}>
-              Phone: {userInfo.phone_number}
-            </Text>
-            <Text style={[styles.title, styles.text]}>
-              Email: {userInfo.email}
-            </Text>
-            <Text style={[styles.title, styles.text]}>
-              Major: {userInfo.major}
-            </Text>
-            <Text style={[styles.title, styles.text]}>
-              Address: {userInfo.address_contact}
-            </Text>
-          </>
-        ) : (
-          <Text style={styles.title}>Đang tải thông tin...</Text>
-        )}
-        <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
-          <Text style={styles.logoutButtonText}>Log Out</Text>
-        </TouchableOpacity>
+
+        <View>
+          <Text style={[styles.text, styles.title]}>
+            <Image
+              source={require("@assets/icons/iconCanlendar.png")}
+              style={styles.icon}
+            />
+            ĐẶT LỊCH KHÁM
+          </Text>
+
+          <Text style={[styles.text, styles.note]}>
+            "Vui lòng chọn cách thức đặt lịch khám bệnh"
+          </Text>
+
+          <View style={[styles.itemBookings]}>
+            <View>
+              <TouchableOpacity style={styles.wapperButtonBooking}>
+                <Text style={[styles.text, styles.itemBookingText]}>
+                  TÁI KHÁM
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <View>
+              <TouchableOpacity style={styles.wapperButtonBooking}>
+                <Text style={[styles.text, styles.itemBookingText]}>
+                  CHƯA TỪNG KHÁM
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.hr} />
+
+        <View style={styles.containerMenu}>
+          <View style={styles.menu}>
+            <TouchableOpacity style={styles.menuItem}>
+              <Image
+                source={require("@assets/medicalRecord.png")}
+                style={{ width: 100, height: 100 }}
+              />
+              <Text style={[styles.menuText, styles.text]}>Hồ sơ bệnh án</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.menuItem}>
+              <Image
+                source={require("@assets/booking.png")}
+                style={{ width: 100, height: 100 }}
+              />
+              <Text style={[styles.menuText, styles.text]}>
+                Quản lí lịch hẹn
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.menuItem}>
+              <Image
+                source={require("@assets/tutorial.png")}
+                style={{ width: 100, height: 100 }}
+              />
+              <Text style={[styles.menuText, styles.text]}>
+                Hướng dẫn đặt lịch
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.menuItem}>
+              <Image
+                source={require("@assets/paymentHistory.png")}
+                style={{ width: 100, height: 100 }}
+              />
+              <Text style={[styles.menuText, styles.text]}>
+                Lịch sử thanh toán
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.menuItem}>
+              <Image
+                source={require("@assets/news.png")}
+                style={{ width: 100, height: 100 }}
+              />
+              <Text style={[styles.menuText, styles.text]}>Tin tức</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.menuItem}>
+              <Image
+                source={require("@assets/aboutUs.gif")}
+                style={{ width: 100, height: 100 }}
+              />
+              <Text style={[styles.menuText, styles.text]}>Về chúng tôi</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </ImageBackground>
     </View>
   );
-}
+};
+export default CustomerScreen;

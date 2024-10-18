@@ -1,75 +1,51 @@
-import React, { useRef, useState, useEffect } from "react";
-import { ScrollView, View, Image, Animated, Dimensions } from "react-native";
+import React from "react";
+import { View, Image, Text } from "react-native";
+import { SwiperFlatList } from "react-native-swiper-flatlist";
 import styles from "./style";
 
+// Import các ảnh từ thư mục assets
+import image1 from "@assets/banner/1.png";
+import image2 from "@assets/banner/2.png";
+import image3 from "@assets/banner/3.png";
+
 const BannerCustomer = () => {
-  const [windowWidth, setWindowWidth] = useState(
-    Dimensions.get("window").width
-  ); // Khởi tạo với width từ Dimensions
-  const scrollViewRef = useRef(null);
-  const scrollX = useRef(new Animated.Value(0)).current;
+  const images = [image1, image2, image3];
 
-  // Lấy giá trị width từ Dimensions và cập nhật khi component mount
-  useEffect(() => {
-    const updateWindowWidth = () => {
-      const { width } = Dimensions.get("window");
-      setWindowWidth(width);
-    };
-
-    // Đăng ký lắng nghe sự thay đổi của kích thước màn hình
-    const dimensionChangeListener = Dimensions.addEventListener(
-      "change",
-      updateWindowWidth
+  // Component Pagination tùy chỉnh
+  const CustomPagination = ({ paginationIndex }) => {
+    return (
+      <View style={styles.paginationContainer}>
+        {images.map((_, index) => (
+          <Text
+            key={index}
+            style={[
+              styles.paginationDash,
+              paginationIndex === index && styles.paginationActiveDash,
+            ]}
+          >
+            {"-"}
+          </Text>
+        ))}
+      </View>
     );
+  };
 
-    let position = 0;
-    const intervalId = setInterval(() => {
-      // Chỉ cuộn nếu windowWidth hợp lệ
-      if (windowWidth > 0) {
-        position = (position + 1) % images.length;
-        scrollViewRef.current?.scrollTo({
-          x: position * windowWidth,
-          animated: true,
-        });
-      }
-    }, 3000); // Mỗi 3 giây chuyển sang hình ảnh tiếp theo
-
-    return () => {
-      clearInterval(intervalId);
-      dimensionChangeListener?.remove(); // Xoá listener khi component bị huỷ
-    };
-  }, [windowWidth]); // Chỉ chạy lại khi windowWidth thay đổi
-
-  const images = [
-    require("../../../assets/banner/1.png"), // Đường dẫn tương đối
-    require("../../../assets/banner/2.png"),
-    require("../../../assets/banner/3.png"),
-  ];
-
-  // Chỉ render ScrollView nếu windowWidth đã được thiết lập
   return (
     <View style={styles.container}>
-      {windowWidth > 0 && (
-        <Animated.ScrollView
-          ref={scrollViewRef}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          scrollEventThrottle={16}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-            { useNativeDriver: false }
-          )}
-        >
-          {images.map((image, index) => (
-            <Image
-              key={index}
-              source={image}
-              style={[styles.image, { width: windowWidth }]} // Sử dụng windowWidth
-            />
-          ))}
-        </Animated.ScrollView>
-      )}
+      <SwiperFlatList
+        autoplay
+        autoplayDelay={3}
+        autoplayLoop
+        index={0}
+        showPagination
+        PaginationComponent={CustomPagination} // Sử dụng pagination tùy chỉnh với dấu gạch
+        data={images}
+        renderItem={({ item }) => (
+          <View style={styles.child}>
+            <Image source={item} style={styles.image} />
+          </View>
+        )}
+      />
     </View>
   );
 };

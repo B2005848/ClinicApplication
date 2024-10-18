@@ -43,7 +43,7 @@ Before you begin, ensure you have met the following requirements:
 - AsyncStorage
 - Axios
 - Node.js
-- React Native
+- React Native(https://www.npmjs.com/package/react-native-swiper-flatlist...)
 - Hookstate
 
 # Copyright (c) 2024 LeThanhNamCTUB2005848. All rights reserved.
