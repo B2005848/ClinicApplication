@@ -1,4 +1,3 @@
-// ---------------------------------------------------------IMPORT LIBRARY NECESSARY----------------------------
 import {
   Text,
   TouchableOpacity,
@@ -6,6 +5,7 @@ import {
   View,
   StatusBar,
   ImageBackground,
+  ActivityIndicator,
 } from "react-native";
 import { Image } from "react-native-elements";
 import React, { useEffect, useState } from "react";
@@ -15,11 +15,13 @@ import { logoutService } from "../../services/handleLogin";
 import { getDataInfo } from "../../services/handleGetInfo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import HeaderCustomer from "../../components/HeaderCustomer/index"; // Import HeaderCustomer component
+import HeaderCustomer from "../../components/HeaderCustomer";
 import BannerCustomer from "../../components/BannerCustomer";
+import MenuAccount from "../../components/MenuAccount";
 const CustomerScreen = ({ route }) => {
-  // ------------------------------------------------------SCRIPT SETUP----------------------------------------------
   const [userInfo, setUserInfo] = useState(null);
+  const [isMenuVisiable, setIsMenuVisible] = useState(false); // Trạng thái menu account
+  const [loading, setLoading] = useState(true); // Thêm trạng thái loading
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -35,6 +37,7 @@ const CustomerScreen = ({ route }) => {
           Alert.alert("Lỗi", response.message);
         }
       }
+      setLoading(false); // Tắt trạng thái loading sau khi dữ liệu đã tải
     };
 
     fetchData();
@@ -45,12 +48,29 @@ const CustomerScreen = ({ route }) => {
     if (result.success) {
       navigation.reset({
         index: 0,
-        routes: [{ name: "LoginScreen" }], // Chuyển đến màn hình đăng nhập
+        routes: [{ name: "LoginScreen" }],
       });
     }
   };
 
-  // ---------------------------------------------TEMPLATE------------------------------------------------
+  const toggleMenu = () => {
+    setIsMenuVisible(!isMenuVisiable);
+  };
+
+  if (loading) {
+    // Hiển thị vòng quay tải dữ liệu khi đang chờ dữ liệu
+    return (
+      <View
+        style={[
+          styles.container,
+          { justifyContent: "center", alignItems: "center" },
+        ]}
+      >
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="default" />
@@ -60,12 +80,14 @@ const CustomerScreen = ({ route }) => {
         style={styles.image}
       >
         <View style={styles.overlay} />
+
+        {/* kiểm tra menu account có được ấn chưa */}
+        {isMenuVisiable && <MenuAccount onClose={toggleMenu} />}
         <HeaderCustomer
           patient_id={userInfo ? userInfo.patient_id : "Đang tải thông tin..."}
+          onMenuPress={toggleMenu}
         />
-
         <BannerCustomer />
-
         <View>
           <Text style={[styles.text, styles.title]}>
             <Image
@@ -97,7 +119,6 @@ const CustomerScreen = ({ route }) => {
             </View>
           </View>
         </View>
-
         <View style={styles.hr} />
 
         <View style={styles.containerMenu}>
@@ -161,4 +182,5 @@ const CustomerScreen = ({ route }) => {
     </View>
   );
 };
+
 export default CustomerScreen;
