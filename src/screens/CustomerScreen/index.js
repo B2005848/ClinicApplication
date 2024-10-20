@@ -82,7 +82,16 @@ const CustomerScreen = ({ route }) => {
         <View style={styles.overlay} />
 
         {/* kiểm tra menu account có được ấn chưa */}
-        {isMenuVisiable && <MenuAccount onClose={toggleMenu} />}
+        {isMenuVisiable && (
+          <MenuAccount
+            full_name={
+              userInfo
+                ? userInfo.first_name + " " + userInfo.last_name
+                : "Đang tải thông tin..."
+            }
+            onClose={toggleMenu}
+          />
+        )}
         <HeaderCustomer
           patient_id={userInfo ? userInfo.patient_id : "Đang tải thông tin..."}
           onMenuPress={toggleMenu}
