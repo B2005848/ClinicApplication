@@ -1,4 +1,9 @@
-import { Text, View, Image } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+} from "react-native";
 import { Input, Icon } from "react-native-elements";
 import React, { useState } from "react";
 import styles from "./style";
@@ -7,25 +12,35 @@ export default function SignUpScreen() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <Input
         style={[styles.text]}
-        placeholder="Họ"
+        placeholder="Họ và tên đệm"
         // inputContainerStyle={{ borderBottomWidth: 0 }}
+        rightIcon={<Text style={[styles.text, styles.noteText]}>(*)</Text>}
       />
       <Input
         style={[styles.text]}
         placeholder="Tên"
         // inputContainerStyle={{ borderBottomWidth: 0 }}
+        rightIcon={<Text style={[styles.text, styles.noteText]}>(*)</Text>}
+      />
+      <Input
+        style={[styles.text]}
+        placeholder="Ngày sinh của bạn"
+        // inputContainerStyle={{ borderBottomWidth: 0 }}
+        rightIcon={<Text style={[styles.text, styles.noteText]}>(*)</Text>}
+        keyboardType="default"
       />
       <Input
         style={[styles.text]}
         placeholder="Nhập số điện thoại bạn muốn đăng kí"
         // inputContainerStyle={{ borderBottomWidth: 0 }}
+        rightIcon={<Text style={[styles.text, styles.noteText]}>(*)</Text>}
         keyboardType="number-pad"
       />
       <Input
-        style={[styles.text, styles.textInput]}
+        style={[styles.text]}
         placeholder="Nhập email của bạn (nếu có)"
         keyboardType="email-address"
 
@@ -50,6 +65,10 @@ export default function SignUpScreen() {
         placeholder="Nhập lại mật khẩu"
         // inputContainerStyle={{ borderBottomWidth: 0 }}
       />
-    </View>
+
+      <TouchableOpacity style={styles.bgrButton}>
+        <Text style={[styles.text, styles.titleButton]}>ĐĂNG KÍ</Text>
+      </TouchableOpacity>
+    </KeyboardAvoidingView>
   );
 }

@@ -129,7 +129,7 @@ export default function App() {
               headerShown: true,
               title: "Đăng Kí Tài Khoản",
               headerStyle: {
-                backgroundColor: "#5486c4",
+                backgroundColor: "#48bbc6",
                 fontFamily: "Open Sans-Bold",
               },
               headerTintColor: "#fff",
