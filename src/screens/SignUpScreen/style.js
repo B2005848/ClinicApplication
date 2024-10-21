@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   bgrButton: {
     height: 40,
     width: 250,
-    backgroundColor: "#5486c4",
+    backgroundColor: "#48bbc6",
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
