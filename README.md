@@ -44,6 +44,7 @@ Before you begin, ensure you have met the following requirements:
 - Axios
 - Node.js
 - React Native(https://www.npmjs.com/package/react-native-swiper-flatlist, https://www.npmjs.com/package/react-native-ui-datepicker)
+- Expo (https://docs.expo.dev/versions/latest/sdk/date-time-picker/)
 - Hookstate
 
 # Copyright (c) 2024 LeThanhNamCTUB2005848. All rights reserved.

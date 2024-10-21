@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
-    top: 30,
   },
 
   bgrButton: {
