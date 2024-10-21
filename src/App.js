@@ -96,7 +96,7 @@ export default function App() {
           <Stack.Screen
             name="HomeScreen"
             component={HomeScreen}
-            options={{ headerShown: false, gestureEnabled: false }}
+            options={{ headerShown: false, title: "", gestureEnabled: false }}
           />
           <Stack.Screen
             name="LoginScreen"
