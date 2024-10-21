@@ -127,7 +127,7 @@ export default function App() {
             component={SignUpScreen}
             options={({ navigation }) => ({
               headerShown: true,
-              title: "Đăng Ký",
+              title: "Đăng Kí Tài Khoản",
               headerStyle: {
                 backgroundColor: "#5486c4",
                 fontFamily: "Open Sans-Bold",
