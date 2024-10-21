@@ -1,11 +1,21 @@
 import React from "react";
-import { View, Text, TouchableOpacity, ImageBackground } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
 import { Avatar } from "react-native-elements";
+import { logoutService } from "../../services/handleLogin";
 
 import Icon from "react-native-vector-icons/FontAwesome"; // Sử dụng FontAwesome icons
 import styles from "./style";
 
 const MenuAccount = ({ full_name, onClose }) => {
+  const navigation = useNavigation();
+  const handleLogout = async () => {
+    const result = await logoutService();
+    if (result.success) {
+      navigation.navigate("HomeScreen");
+    }
+  };
   return (
     <View style={styles.menuContainer}>
       <View style={styles.headerMenu}>
@@ -115,7 +125,10 @@ const MenuAccount = ({ full_name, onClose }) => {
         </View>
 
         <View style={styles.menuContent3}>
-          <TouchableOpacity style={styles.wapperbtnLogout}>
+          <TouchableOpacity
+            style={styles.wapperbtnLogout}
+            onPress={handleLogout}
+          >
             <Text style={[styles.textbtnLogout, styles.text]}>ĐĂNG XUẤT</Text>
           </TouchableOpacity>
         </View>
