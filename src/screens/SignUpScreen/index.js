@@ -22,10 +22,13 @@ export default function SignUpScreen() {
         style={[styles.text]}
         placeholder="Nhập số điện thoại bạn muốn đăng kí"
         // inputContainerStyle={{ borderBottomWidth: 0 }}
+        keyboardType="number-pad"
       />
       <Input
         style={[styles.text, styles.textInput]}
         placeholder="Nhập email của bạn (nếu có)"
+        keyboardType="email-address"
+
         // inputContainerStyle={{ borderBottomWidth: 0 }}
       />
       <Input
