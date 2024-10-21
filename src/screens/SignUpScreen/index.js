@@ -9,30 +9,30 @@ export default function SignUpScreen() {
   return (
     <View style={styles.container}>
       <Input
-        style={[styles.text, styles.textInput]}
+        style={[styles.text]}
         placeholder="Họ"
-        inputContainerStyle={{ borderBottomWidth: 0 }}
+        // inputContainerStyle={{ borderBottomWidth: 0 }}
       />
       <Input
-        style={[styles.text, styles.textInput]}
+        style={[styles.text]}
         placeholder="Tên"
-        inputContainerStyle={{ borderBottomWidth: 0 }}
+        // inputContainerStyle={{ borderBottomWidth: 0 }}
       />
       <Input
-        style={[styles.text, styles.textInput]}
+        style={[styles.text]}
         placeholder="Nhập số điện thoại bạn muốn đăng kí"
-        inputContainerStyle={{ borderBottomWidth: 0 }}
+        // inputContainerStyle={{ borderBottomWidth: 0 }}
       />
       <Input
         style={[styles.text, styles.textInput]}
         placeholder="Nhập email của bạn (nếu có)"
-        inputContainerStyle={{ borderBottomWidth: 0 }}
+        // inputContainerStyle={{ borderBottomWidth: 0 }}
       />
       <Input
-        style={[styles.text, styles.textInput]}
+        style={[styles.text]}
         secureTextEntry={!showPassword}
         placeholder="Mật khẩu"
-        inputContainerStyle={{ borderBottomWidth: 0 }}
+        // inputContainerStyle={{ borderBottomWidth: 0 }}
         rightIcon={
           <Icon
             name={showPassword ? "eye" : "eye-slash"}
@@ -42,10 +42,10 @@ export default function SignUpScreen() {
         }
       />
       <Input
-        style={[styles.text, styles.textInput]}
-        secureTextEntry={true}
+        style={[styles.text]}
+        secureTextEntry={!showPassword}
         placeholder="Nhập lại mật khẩu"
-        inputContainerStyle={{ borderBottomWidth: 0 }}
+        // inputContainerStyle={{ borderBottomWidth: 0 }}
       />
     </View>
   );

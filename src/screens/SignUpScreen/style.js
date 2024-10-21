@@ -9,13 +9,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     top: 30,
   },
-  textInput: {
-    paddingHorizontal: 30,
-    borderRadius: 15,
-    borderColor: "#5486c4",
-    borderWidth: 1,
-    fontSize: 18,
-  },
 
   bgrButton: {
     height: 40,
