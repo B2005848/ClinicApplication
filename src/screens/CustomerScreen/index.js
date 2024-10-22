@@ -115,7 +115,10 @@ const CustomerScreen = ({ route }) => {
               </View>
 
               <View>
-                <TouchableOpacity style={styles.wapperButtonBooking}>
+                <TouchableOpacity
+                  style={styles.wapperButtonBooking}
+                  onPress={() => navigation.navigate("BookingNewScreen")}
+                >
                   <Text style={[styles.text, styles.itemBookingText]}>
                     CHƯA TỪNG KHÁM
                   </Text>

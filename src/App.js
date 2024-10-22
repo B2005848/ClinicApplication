@@ -9,12 +9,11 @@ import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
 // Import Component
-import HeaderCustomer from "./components/HeaderCustomer";
 import HomeScreen from "./screens/HomeScreen/index";
 import LoginScreen from "./screens/LoginScreen/index";
 import SignUpScreen from "./screens/SignUpScreen";
 import CustomerScreen from "./screens/CustomerScreen";
-
+import BookingScreenNew from "./screens/BookingScreenNew";
 // Import FontAwesomeIcon
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -156,6 +155,15 @@ export default function App() {
           <Stack.Screen
             name="CustomerScreen"
             component={CustomerScreen}
+            options={{
+              headerShown: false,
+              gestureEnabled: false,
+            }}
+          />
+
+          <Stack.Screen
+            name="BookingNewScreen"
+            component={BookingScreenNew}
             options={{
               headerShown: false,
               gestureEnabled: false,
