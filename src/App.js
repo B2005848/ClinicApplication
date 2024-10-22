@@ -14,6 +14,7 @@ import HomeScreen from "./screens/HomeScreen/index";
 import LoginScreen from "./screens/LoginScreen/index";
 import SignUpScreen from "./screens/SignUpScreen";
 import CustomerScreen from "./screens/CustomerScreen";
+import BookingScreenNew from "./screens/BookingScreenNew";
 
 // Import FontAwesomeIcon
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -93,11 +94,14 @@ export default function App() {
             state.isLogged.get() ? "CustomerScreen" : "HomeScreen"
           }
         >
+          {/* START SCREEN */}
           <Stack.Screen
             name="HomeScreen"
             component={HomeScreen}
             options={{ headerShown: false, title: "", gestureEnabled: false }}
           />
+
+          {/* LOGIN SCREEN */}
           <Stack.Screen
             name="LoginScreen"
             component={LoginScreen}
@@ -122,6 +126,8 @@ export default function App() {
               ),
             })}
           />
+
+          {/* SIGN UP SCREEN */}
           <Stack.Screen
             name="SignUpScreen"
             component={SignUpScreen}
@@ -146,6 +152,8 @@ export default function App() {
               ),
             })}
           />
+
+          {/* HOME SCREEN */}
           <Stack.Screen
             name="CustomerScreen"
             component={CustomerScreen}
@@ -154,6 +162,12 @@ export default function App() {
               gestureEnabled: false,
             }}
           />
+
+          {/* BOOKING NEW SCREEN */}
+          <Stack.Screen
+            name="BookingNewScreen"
+            component={BookingScreenNew}
+          ></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
     </>

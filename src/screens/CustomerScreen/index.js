@@ -6,6 +6,7 @@ import {
   StatusBar,
   ImageBackground,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 import { Image } from "react-native-elements";
 import React, { useEffect, useState } from "react";
@@ -18,6 +19,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import HeaderCustomer from "../../components/HeaderCustomer";
 import BannerCustomer from "../../components/BannerCustomer";
 import MenuAccount from "../../components/MenuAccount";
+
 const CustomerScreen = ({ route }) => {
   const [userInfo, setUserInfo] = useState(null);
   const [isMenuVisiable, setIsMenuVisible] = useState(false); // Trạng thái menu account
@@ -43,16 +45,6 @@ const CustomerScreen = ({ route }) => {
     fetchData();
   }, [route.params]);
 
-  const handleLogout = async () => {
-    const result = await logoutService();
-    if (result.success) {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "LoginScreen" }],
-      });
-    }
-  };
-
   const toggleMenu = () => {
     setIsMenuVisible(!isMenuVisiable);
   };
@@ -72,123 +64,132 @@ const CustomerScreen = ({ route }) => {
   }
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="default" />
-      <ImageBackground
-        resizeMode="cover"
-        source={require("@assets/backgroundHome.png")}
-        style={styles.image}
-      >
-        <View style={styles.overlay} />
+    <ScrollView>
+      <View style={styles.container}>
+        <StatusBar barStyle="default" />
+        <ImageBackground
+          resizeMode="cover"
+          source={require("@assets/backgroundHome.png")}
+          style={styles.image}
+        >
+          <View style={styles.overlay} />
 
-        {/* kiểm tra menu account có được ấn chưa */}
-        {isMenuVisiable && (
-          <MenuAccount
-            full_name={
-              userInfo
-                ? userInfo.first_name + " " + userInfo.last_name
-                : "Đang tải thông tin..."
-            }
-            onClose={toggleMenu}
-          />
-        )}
-        <HeaderCustomer
-          patient_id={userInfo ? userInfo.patient_id : "Đang tải thông tin..."}
-          onMenuPress={toggleMenu}
-        />
-        <BannerCustomer />
-        <View>
-          <Text style={[styles.text, styles.title]}>
-            <Image
-              source={require("@assets/icons/iconCanlendar.png")}
-              style={styles.icon}
+          {/* kiểm tra menu account có được ấn chưa */}
+          {isMenuVisiable && (
+            <MenuAccount
+              full_name={
+                userInfo
+                  ? userInfo.first_name + " " + userInfo.last_name
+                  : "Đang tải thông tin..."
+              }
+              onClose={toggleMenu}
             />
-            ĐẶT LỊCH KHÁM
-          </Text>
+          )}
+          <HeaderCustomer
+            patient_id={
+              userInfo ? userInfo.patient_id : "Đang tải thông tin..."
+            }
+            onMenuPress={toggleMenu}
+          />
+          <BannerCustomer />
+          <View>
+            <Text style={[styles.text, styles.title]}>
+              <Image
+                source={require("@assets/icons/iconCanlendar.png")}
+                style={styles.icon}
+              />
+              ĐẶT LỊCH KHÁM
+            </Text>
 
-          <Text style={[styles.text, styles.note]}>
-            "Vui lòng chọn cách thức đặt lịch khám bệnh"
-          </Text>
+            <Text style={[styles.text, styles.note]}>
+              "Vui lòng chọn cách thức đặt lịch khám bệnh"
+            </Text>
 
-          <View style={[styles.itemBookings]}>
-            <View>
-              <TouchableOpacity style={styles.wapperButtonBooking}>
-                <Text style={[styles.text, styles.itemBookingText]}>
-                  TÁI KHÁM
+            <View style={[styles.itemBookings]}>
+              <View>
+                <TouchableOpacity
+                  style={styles.wapperButtonBooking}
+                  onPress={navigation.navigate("BookingNewScreen")}
+                >
+                  <Text style={[styles.text, styles.itemBookingText]}>
+                    TÁI KHÁM
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
+              <View>
+                <TouchableOpacity style={styles.wapperButtonBooking}>
+                  <Text style={[styles.text, styles.itemBookingText]}>
+                    CHƯA TỪNG KHÁM
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+          <View style={styles.hr} />
+
+          <View style={styles.containerMenu}>
+            <View style={styles.menu}>
+              <TouchableOpacity style={styles.menuItem}>
+                <Image
+                  source={require("@assets/medicalRecord.png")}
+                  style={{ width: 100, height: 100 }}
+                />
+                <Text style={[styles.menuText, styles.text]}>
+                  Hồ sơ bệnh án
                 </Text>
               </TouchableOpacity>
-            </View>
 
-            <View>
-              <TouchableOpacity style={styles.wapperButtonBooking}>
-                <Text style={[styles.text, styles.itemBookingText]}>
-                  CHƯA TỪNG KHÁM
+              <TouchableOpacity style={styles.menuItem}>
+                <Image
+                  source={require("@assets/booking.png")}
+                  style={{ width: 100, height: 100 }}
+                />
+                <Text style={[styles.menuText, styles.text]}>
+                  Quản lí lịch hẹn
                 </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.menuItem}>
+                <Image
+                  source={require("@assets/tutorial.png")}
+                  style={{ width: 100, height: 100 }}
+                />
+                <Text style={[styles.menuText, styles.text]}>
+                  Hướng dẫn đặt lịch
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.menuItem}>
+                <Image
+                  source={require("@assets/paymentHistory.png")}
+                  style={{ width: 100, height: 100 }}
+                />
+                <Text style={[styles.menuText, styles.text]}>
+                  Lịch sử thanh toán
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.menuItem}>
+                <Image
+                  source={require("@assets/news.png")}
+                  style={{ width: 100, height: 100 }}
+                />
+                <Text style={[styles.menuText, styles.text]}>Tin tức</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.menuItem}>
+                <Image
+                  source={require("@assets/aboutUs.gif")}
+                  style={{ width: 100, height: 100 }}
+                />
+                <Text style={[styles.menuText, styles.text]}>Về chúng tôi</Text>
               </TouchableOpacity>
             </View>
           </View>
-        </View>
-        <View style={styles.hr} />
-
-        <View style={styles.containerMenu}>
-          <View style={styles.menu}>
-            <TouchableOpacity style={styles.menuItem}>
-              <Image
-                source={require("@assets/medicalRecord.png")}
-                style={{ width: 100, height: 100 }}
-              />
-              <Text style={[styles.menuText, styles.text]}>Hồ sơ bệnh án</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.menuItem}>
-              <Image
-                source={require("@assets/booking.png")}
-                style={{ width: 100, height: 100 }}
-              />
-              <Text style={[styles.menuText, styles.text]}>
-                Quản lí lịch hẹn
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.menuItem}>
-              <Image
-                source={require("@assets/tutorial.png")}
-                style={{ width: 100, height: 100 }}
-              />
-              <Text style={[styles.menuText, styles.text]}>
-                Hướng dẫn đặt lịch
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.menuItem}>
-              <Image
-                source={require("@assets/paymentHistory.png")}
-                style={{ width: 100, height: 100 }}
-              />
-              <Text style={[styles.menuText, styles.text]}>
-                Lịch sử thanh toán
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.menuItem}>
-              <Image
-                source={require("@assets/news.png")}
-                style={{ width: 100, height: 100 }}
-              />
-              <Text style={[styles.menuText, styles.text]}>Tin tức</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.menuItem}>
-              <Image
-                source={require("@assets/aboutUs.gif")}
-                style={{ width: 100, height: 100 }}
-              />
-              <Text style={[styles.menuText, styles.text]}>Về chúng tôi</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </ImageBackground>
-    </View>
+        </ImageBackground>
+      </View>
+    </ScrollView>
   );
 };
 
