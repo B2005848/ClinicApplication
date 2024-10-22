@@ -19,10 +19,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import HeaderCustomer from "../../components/HeaderCustomer";
 import BannerCustomer from "../../components/BannerCustomer";
 import MenuAccount from "../../components/MenuAccount";
-
 const CustomerScreen = ({ route }) => {
   const [userInfo, setUserInfo] = useState(null);
-  const [isMenuVisiable, setIsMenuVisible] = useState(false); // Trạng thái menu account
+  const [isMenuVisiable, setIsMenuVisible] = useState(false); // Trạng thái menu
   const [loading, setLoading] = useState(true); // Thêm trạng thái loading
   const navigation = useNavigation();
 
@@ -85,6 +84,7 @@ const CustomerScreen = ({ route }) => {
               onClose={toggleMenu}
             />
           )}
+
           <HeaderCustomer
             patient_id={
               userInfo ? userInfo.patient_id : "Đang tải thông tin..."
@@ -107,10 +107,7 @@ const CustomerScreen = ({ route }) => {
 
             <View style={[styles.itemBookings]}>
               <View>
-                <TouchableOpacity
-                  style={styles.wapperButtonBooking}
-                  onPress={navigation.navigate("BookingNewScreen")}
-                >
+                <TouchableOpacity style={styles.wapperButtonBooking}>
                   <Text style={[styles.text, styles.itemBookingText]}>
                     TÁI KHÁM
                   </Text>

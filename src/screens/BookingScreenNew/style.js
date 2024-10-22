@@ -5,23 +5,10 @@ const styles = StyleSheet.create({
     fontFamily: "Open Sans-Medium",
   },
   container: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  bgrButton: {
-    height: 40,
-    width: 250,
-    backgroundColor: "#48bbc6",
-    borderRadius: 15,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  titleButton: {
-    fontSize: 18,
-    color: "#fff",
-    fontFamily: "Open Sans-Bold",
+    position: "absolute",
+    width: "100%",
+    backgroundColor: "#fffffe",
+    zIndex: 10, // Đảm bảo menu nằm trên cùng
   },
 });
 

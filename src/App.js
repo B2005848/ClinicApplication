@@ -14,7 +14,6 @@ import HomeScreen from "./screens/HomeScreen/index";
 import LoginScreen from "./screens/LoginScreen/index";
 import SignUpScreen from "./screens/SignUpScreen";
 import CustomerScreen from "./screens/CustomerScreen";
-import BookingScreenNew from "./screens/BookingScreenNew";
 
 // Import FontAwesomeIcon
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -162,12 +161,6 @@ export default function App() {
               gestureEnabled: false,
             }}
           />
-
-          {/* BOOKING NEW SCREEN */}
-          <Stack.Screen
-            name="BookingNewScreen"
-            component={BookingScreenNew}
-          ></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
     </>

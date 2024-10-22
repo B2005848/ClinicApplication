@@ -18,15 +18,12 @@ export default function BookingScreenNew() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={Platform.OS === "ios" ? 128 : 0}
     >
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
-        style={{ flex: 1 }}
-        keyboardShouldPersistTaps="handled"
-      >
-        <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        >
-          <ListDepartment></ListDepartment>
+      <ScrollView keyboardShouldPersistTaps="handled">
+        <View style={styles.container}>
+          <View style={styles.menuContent}>
+            <Text>OKOK</Text>
+            <ListDepartment></ListDepartment>
+          </View>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
