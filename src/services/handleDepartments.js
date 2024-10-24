@@ -10,7 +10,7 @@ export const handleGetlistDepartments = async (page) => {
 
     // Gọi API bằng axios
     const response = await axios.get(
-      `${API_URL}/api/departments/getList/?page=${page}`,
+      `${API_URL}/api/departments/getListForPatient/?page=${page}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -19,7 +19,7 @@ export const handleGetlistDepartments = async (page) => {
     );
 
     if (response.status === 200) {
-      console.log("Departments data:", response.data);
+      console.log("Departments data:", JSON.stringify(response.data, null, 2));
 
       return { success: true, data: response.data };
     } else {

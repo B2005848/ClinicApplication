@@ -19,7 +19,7 @@ export const getDataInfo = async (phone) => {
     );
 
     if (response.status === 200) {
-      console.log([response.data]);
+      console.log(JSON.stringify(response.data, null, 2));
       await AsyncStorage.setItem(
         "userInfo",
         JSON.stringify(response.data.dataInfo)
