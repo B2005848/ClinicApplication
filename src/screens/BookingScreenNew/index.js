@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Button,
+  StatusBar,
 } from "react-native";
 import styles from "./style";
 
@@ -40,6 +41,7 @@ export default function BookingScreenNew() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={Platform.OS === "ios" ? 128 : 0}
     >
+      <StatusBar barStyle="default" backgroundColor="#5486c4" />
       <View style={styles.menuContent}>
         <Text style={styles.title}>ĐẶT LỊCH - CHƯA TỪNG KHÁM</Text>
 

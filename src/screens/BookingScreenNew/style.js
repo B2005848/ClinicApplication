@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
     fontFamily: "Open Sans-Medium",
   },
   container: {
+    top: 25,
     flex: 1,
     backgroundColor: "#f7f7f7", // Nền nhạt tạo cảm giác sạch sẽ
   },
