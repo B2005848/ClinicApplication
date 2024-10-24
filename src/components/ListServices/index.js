@@ -39,6 +39,12 @@ const ListService = ({ dep_id, services, onServiceSelect, setServices }) => {
   const handleSelectService = (serviceId) => {
     const selected = services.find((srv) => srv.service_id === serviceId); // Tìm dịch vụ đã chọn
     setSelectedService(selected); // Lưu dịch vụ đã chọn
+
+    // Gọi onServiceSelect với dịch vụ đã chọn và specialty_id
+    onServiceSelect({
+      ...selected,
+      specialty_id: selected.specialty_id, // Thêm specialty_id vào đối tượng
+    });
   };
 
   // Xử lý sự kiện "Chọn lại" để quay lại danh sách đầy đủ

@@ -1,28 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { View, ActivityIndicator, FlatList, Button } from "react-native";
-import { ListItem } from "react-native-elements";
+import { View, ActivityIndicator, FlatList, Button, Text } from "react-native";
+import { ListItem, Avatar } from "react-native-elements";
 import { RadioButton } from "react-native-paper";
 import { handleGetListDoctorBySpecialtyId } from "../../services/handleGetListDoctorBySpecialtyId"; // Import API để lấy danh sách bác sĩ
 import styles from "./style";
+import Constants from "expo-constants";
 
 const ListDoctorAppointment = ({ specialty_id, onDoctorSelect }) => {
+  const { API_URL } = Constants.expoConfig.extra;
+
   const [doctors, setDoctors] = useState([]); // Lưu danh sách bác sĩ
   const [selectedDoctor, setSelectedDoctor] = useState(null); // Bác sĩ đã chọn
   const [loading, setLoading] = useState(true); // Trạng thái tải dữ liệu ban đầu
+  const [error, setError] = useState(false); // Trạng thái khi không có bác sĩ hoặc lỗi API
 
   // Gọi API để lấy danh sách bác sĩ theo chuyên khoa
   const fetchDoctors = async (specialty_id) => {
     try {
       const result = await handleGetListDoctorBySpecialtyId(specialty_id); // Gọi API
-      if (result && result.success && result.data) {
-        setDoctors(result.data); // Cập nhật danh sách bác sĩ
+      if (result && result.success && result.data && result.data.length > 0) {
+        setDoctors(result.data); // Cập nhật danh sách bác sĩ nếu có dữ liệu
+        setError(false); // Không có lỗi
       } else {
-        console.error("Invalid response from API:", result);
+        setDoctors([]); // Reset danh sách bác sĩ
+        setError(true); // Đặt trạng thái lỗi nếu không có bác sĩ
       }
     } catch (error) {
       console.error("Error fetching doctors by specialty_id:", error);
+      setDoctors([]); // Reset danh sách bác sĩ khi có lỗi
+      setError(true); // Đặt trạng thái lỗi
     }
-    setLoading(false);
+    setLoading(false); // Dừng trạng thái loading
   };
 
   // Lấy dữ liệu khi component mount lần đầu
@@ -46,6 +54,18 @@ const ListDoctorAppointment = ({ specialty_id, onDoctorSelect }) => {
     return <ActivityIndicator size="large" color="#0000ff" />;
   }
 
+  // Hiển thị thông báo khi không có bác sĩ hoặc API trả về lỗi
+  if (error) {
+    return (
+      <View style={styles.noDoctorContainer}>
+        <Text style={styles.noDoctorText}>
+          Không có bác sĩ nào cho chuyên khoa này. Phòng khám sẽ cập nhật sớm
+          nhất. Vui lòng quay lại sau.
+        </Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -61,6 +81,17 @@ const ListDoctorAppointment = ({ specialty_id, onDoctorSelect }) => {
             bottomDivider
             onPress={() => handleSelectDoctor(item.doctor_id)}
           >
+            <Avatar
+              rounded
+              size={100}
+              source={{
+                uri: `${API_URL}${item.image_avt}`,
+              }}
+              onError={
+                () => console.log("Error loading avatar") // Log hoặc xử lý khi ảnh không load
+              }
+            />
+
             <RadioButton
               value={item.doctor_id}
               status={

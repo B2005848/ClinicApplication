@@ -22,5 +22,12 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "bold",
   },
+
+  noDoctorText: {
+    textAlign: "center",
+    fontSize: 15,
+    color: "red",
+    fontWeight: "bold",
+  },
 });
 export default styles;

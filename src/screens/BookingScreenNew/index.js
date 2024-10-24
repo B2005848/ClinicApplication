@@ -10,20 +10,18 @@ import styles from "./style";
 
 import ListDepartment from "../../components/ListDepartment";
 import ListService from "../../components/ListServices"; // Import ListService
-import ListDoctorAppointment from "../../components/ListDoctor"; // Import ListDoctorAppointment
+import ListDoctorAppointment from "../../components/ListDoctor";
 
 export default function BookingScreenNew() {
   const [selectedDepartmentId, setSelectedDepartmentId] = useState(null); // Khởi tạo state cho department_id đã chọn
   const [selectedService, setSelectedService] = useState(null); // Khởi tạo state cho dịch vụ đã chọn
   const [services, setServices] = useState([]); // Khởi tạo state cho danh sách dịch vụ
-  const [selectedDoctor, setSelectedDoctor] = useState(null); // Khởi tạo state cho bác sĩ đã chọn
   const [resetDepartments, setResetDepartments] = useState(false);
 
   // Hàm xử lý khi chọn phòng ban từ ListDepartment
   const handleDepartmentSelect = (departmentId) => {
     setSelectedDepartmentId(departmentId); // Cập nhật ID của phòng ban đã chọn
     setSelectedService(null); // Reset lại dịch vụ đã chọn
-    setSelectedDoctor(null); // Reset bác sĩ đã chọn
     setServices([]); // Reset danh sách dịch vụ thành rỗng khi chọn lại department
     setResetDepartments(false); // Dừng việc reset danh sách phòng ban sau khi chọn
   };
@@ -32,20 +30,8 @@ export default function BookingScreenNew() {
   const handleResetDepartmentSelection = () => {
     setSelectedDepartmentId(null); // Reset phòng ban đã chọn
     setSelectedService(null); // Reset dịch vụ đã chọn
-    setSelectedDoctor(null); // Reset bác sĩ đã chọn
     setServices([]); // Xóa danh sách dịch vụ
     setResetDepartments(true); // Bật trạng thái reset phòng ban
-  };
-
-  // Hàm xử lý khi người dùng nhấn "Chọn lại dịch vụ"
-  const handleResetServiceSelection = () => {
-    setSelectedService(null); // Reset dịch vụ đã chọn
-    setSelectedDoctor(null); // Reset bác sĩ đã chọn
-  };
-
-  // Hàm xử lý khi chọn bác sĩ
-  const handleDoctorSelect = (doctor) => {
-    setSelectedDoctor(doctor); // Cập nhật bác sĩ đã chọn
   };
 
   return (
@@ -92,14 +78,6 @@ export default function BookingScreenNew() {
           )}
         </View>
 
-        {/* Nút chọn lại dịch vụ */}
-        {selectedService && (
-          <Button
-            title="Chọn lại dịch vụ"
-            onPress={handleResetServiceSelection}
-          />
-        )}
-
         {/* --------------------------------------------------------------------------Chọn bác sĩ */}
         <Text style={styles.titleStep}>
           Vui lòng chọn bác sĩ <Text style={{ color: "red" }}>(*)</Text>
@@ -108,18 +86,12 @@ export default function BookingScreenNew() {
           {selectedService && (
             <ListDoctorAppointment
               specialty_id={selectedService.specialty_id} // Truyền specialty_id từ dịch vụ đã chọn
-              onDoctorSelect={handleDoctorSelect} // Hàm để chọn bác sĩ
+              onDoctorSelect={(doctor) => {
+                console.log("Selected doctor:", doctor);
+              }}
             />
           )}
         </View>
-
-        {/* Nút chọn lại bác sĩ */}
-        {selectedDoctor && (
-          <Button
-            title="Chọn lại bác sĩ"
-            onPress={() => setSelectedDoctor(null)}
-          />
-        )}
       </View>
     </KeyboardAvoidingView>
   );

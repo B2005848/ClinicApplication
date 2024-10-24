@@ -42,9 +42,6 @@ export const handleGetListDoctorBySpecialtyId = async (specialty_id) => {
     // Bắt lỗi khi có sự cố với việc gọi API
     console.error("Lỗi:", error.message);
 
-    // Hiển thị cảnh báo lỗi cho người dùng
-    Alert.alert("Lỗi", "Có lỗi xảy ra. Vui lòng thử lại sau.");
-
     // Trả về kết quả thất bại kèm theo thông báo lỗi
     return { success: false, message: error.message || "Có lỗi xảy ra." };
   }
