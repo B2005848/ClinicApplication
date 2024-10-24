@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import ListService from "../../components/ListServices";
 
 const styles = StyleSheet.create({
   text: {
@@ -23,6 +24,18 @@ const styles = StyleSheet.create({
     textAlign: "center", // Canh giữa tiêu đề
   },
   listDepartment: {
+    width: "100%", // Chiếm toàn bộ chiều rộng
+    backgroundColor: "#fff", // Màu nền trắng cho danh sách
+    borderRadius: 10, // Làm tròn các góc
+    shadowColor: "#000", // Bóng đổ
+    shadowOffset: { width: 0, height: 2 }, // Tạo bóng phía dưới
+    shadowOpacity: 0.1, // Độ mờ của bóng
+    shadowRadius: 6,
+    elevation: 5, // Hiệu ứng bóng cho Android
+    padding: 10, // Khoảng cách trong danh sách
+  },
+
+  listService: {
     width: "100%", // Chiếm toàn bộ chiều rộng
     backgroundColor: "#fff", // Màu nền trắng cho danh sách
     borderRadius: 10, // Làm tròn các góc

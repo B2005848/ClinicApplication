@@ -5,7 +5,7 @@ import { RadioButton } from "react-native-paper";
 import { handleGetlistDepartments } from "../../services/handleDepartments";
 import styles from "./style";
 
-const ListDepartment = () => {
+const ListDepartment = ({ onDepartmentSelect, resetDepartments }) => {
   const [departments, setDepartments] = useState([]); // Lưu danh sách đầy đủ phòng ban
   const [displayDepartments, setDisplayDepartments] = useState([]); // Danh sách hiển thị
   const [selectedDepartment, setSelectedDepartment] = useState(null); // Phòng ban đã chọn
@@ -48,6 +48,18 @@ const ListDepartment = () => {
     initialFetch();
   }, []);
 
+  // Reset danh sách phòng ban khi resetDepartments thay đổi
+  useEffect(() => {
+    if (resetDepartments) {
+      setDepartments([]); // Xóa danh sách phòng ban
+      setDisplayDepartments([]); // Xóa danh sách hiển thị
+      setSelectedDepartment(null); // Xóa trạng thái chọn phòng ban
+      setCollapsed(false); // Mở rộng danh sách
+      setPage(1); // Reset về trang đầu tiên
+      fetchDepartments(1); // Tải lại danh sách phòng ban từ đầu
+    }
+  }, [resetDepartments]);
+
   // Xử lý sự kiện "Xem thêm" để lấy trang tiếp theo
   const handleLoadMore = async () => {
     if (page < totalPages && !loadingMore) {
@@ -68,19 +80,12 @@ const ListDepartment = () => {
 
   // Xử lý khi người dùng chọn một phòng ban
   const handleSelectDepartment = (departmentId) => {
+    onDepartmentSelect(departmentId); // Truyền department_id về component cha
     const selected = departments.find(
       (dep) => dep.department_id === departmentId
     ); // Tìm phòng ban đã chọn
     setSelectedDepartment(selected); // Lưu phòng ban đã chọn
     setCollapsed(true); // Thu gọn danh sách hiển thị chỉ phòng ban đã chọn
-  };
-
-  // Xử lý sự kiện "Chọn lại" để quay lại danh sách đầy đủ
-  const handleResetSelection = () => {
-    setSelectedDepartment(null); // Xóa trạng thái chọn phòng ban
-    setCollapsed(false); // Mở rộng danh sách
-    setDisplayDepartments(departments.slice(0, 10));
-    setPage(1); // Reset về 10 phòng ban đầu
   };
 
   // Hiển thị loading khi đang tải dữ liệu trang đầu tiên
@@ -128,20 +133,13 @@ const ListDepartment = () => {
         scrollEnabled={true} // Cho phép cuộn danh sách
         ListFooterComponent={
           <>
-            {/* Hiển thị nút "Chọn lại" nếu người dùng đã chọn một phòng ban */}
-            {collapsed && selectedDepartment ? (
-              <Button title="Chọn lại" onPress={handleResetSelection} />
-            ) : (
-              <>
-                {/* Hiển thị nút "Thu gọn" nếu người dùng nhấn "Xem thêm" và chưa chọn phòng ban */}
-                {!collapsed && page > 1 && (
-                  <Button title="Thu gọn" onPress={handleCollapse} />
-                )}
-                {/* Hiển thị nút "Xem thêm" nếu còn trang chưa tải */}
-                {page < totalPages && !collapsed && (
-                  <Button title="Xem thêm" onPress={handleLoadMore} />
-                )}
-              </>
+            {/* Hiển thị nút "Thu gọn" nếu người dùng nhấn "Xem thêm" và chưa chọn phòng ban */}
+            {!collapsed && page > 1 && (
+              <Button title="Thu gọn" onPress={handleCollapse} />
+            )}
+            {/* Hiển thị nút "Xem thêm" nếu còn trang chưa tải */}
+            {page < totalPages && !collapsed && (
+              <Button title="Xem thêm" onPress={handleLoadMore} />
             )}
           </>
         }
