@@ -43,7 +43,8 @@ Before you begin, ensure you have met the following requirements:
 - AsyncStorage
 - Axios
 - Node.js
-- React Native(https://www.npmjs.com/package/react-native-swiper-flatlist, https://www.npmjs.com/package/react-native-ui-datepicker)
+- React Native(https://www.npmjs.com/package/react-native-swiper-flatlist, https://www.npmjs.com/package/react-native-ui-datepicker, npm install react-native-paper
+  )
 - Expo (https://docs.expo.dev/versions/latest/sdk/date-time-picker/)
 - Hookstate
 
