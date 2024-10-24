@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
   },
   listDepartment: {
     width: "100%", // Chiếm toàn bộ chiều rộng
-    height: "40%", // Giới hạn chiều cao 40% của màn hình
     backgroundColor: "#fff", // Màu nền trắng cho danh sách
     borderRadius: 10, // Làm tròn các góc
     shadowColor: "#000", // Bóng đổ

@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
     elevation: 5, // Hiệu ứng bóng cho Android
     padding: 10,
   },
+
   flatList: {
     flexGrow: 0,
   },

@@ -91,7 +91,11 @@ const ListDepartment = () => {
   return (
     <View style={styles.container}>
       <FlatList
-        style={styles.flatList}
+        style={
+          collapsed && selectedDepartment
+            ? [styles.flatList, { height: 100 }] // Rút gọn chiều cao khi chỉ hiển thị một phòng ban
+            : [styles.flatList, { height: 350 }] // Chiều cao đầy đủ khi hiển thị toàn bộ danh sách
+        }
         data={
           collapsed && selectedDepartment
             ? [selectedDepartment]
@@ -114,7 +118,9 @@ const ListDepartment = () => {
               onPress={() => handleSelectDepartment(item.department_id)}
             />
             <ListItem.Content>
-              <ListItem.Title>{item.department_name}</ListItem.Title>
+              <ListItem.Title style={styles.title}>
+                {item.department_name}
+              </ListItem.Title>
               <ListItem.Subtitle>{item.description}</ListItem.Subtitle>
             </ListItem.Content>
           </ListItem>
