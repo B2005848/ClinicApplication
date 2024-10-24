@@ -3,22 +3,23 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: "Open Sans-Bold",
   },
+
   container: {
-    marginTop: 20,
+    backgroundColor: "#fff", // Nền trắng cho danh sách
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 5, // Hiệu ứng bóng cho Android
+    padding: 10,
   },
-  backgroundButton: {
-    paddingHorizontal: 70,
-    paddingVertical: 10,
-    borderRadius: 15,
-    borderColor: "#5486c4",
-    borderWidth: 1,
-    alignItems: "center",
-    justifyContent: "center",
+  flatList: {
+    flexGrow: 0,
   },
 
-  titleButton: {
-    fontSize: 20,
-    color: "#5486c4",
+  title: {
+    fontWeight: "bold",
   },
 });
 export default styles;

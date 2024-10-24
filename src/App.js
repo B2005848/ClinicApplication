@@ -166,7 +166,6 @@ export default function App() {
             component={BookingScreenNew}
             options={{
               headerShown: false,
-              gestureEnabled: false,
             }}
           />
         </Stack.Navigator>
