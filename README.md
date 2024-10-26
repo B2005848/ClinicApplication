@@ -12,6 +12,7 @@
 
 - **Node.js**: JavaScript runtime environment.
 - **React Native**: Application framework for Node.js.
+- **Moment**: Format date time
 - **Axios**: get api from Server Side.
 - **AsyncStorage**: Store value_tem management library.
 - **Hookstate**: management state.

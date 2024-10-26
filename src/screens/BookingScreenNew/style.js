@@ -1,66 +1,83 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  text: {
-    fontFamily: "Open Sans-Medium",
-  },
   container: {
-    top: 25,
     flex: 1,
-    backgroundColor: "#f7f7f7", // Nền nhạt tạo cảm giác sạch sẽ
+    backgroundColor: "#f5f5f5",
   },
   menuContent: {
-    flex: 1,
-    paddingHorizontal: 20, // Khoảng trống ngang
-    paddingVertical: 30, // Khoảng trống dọc
-    justifyContent: "center",
-    alignItems: "center", // Canh giữa nội dung
+    padding: 16,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
+    marginVertical: 8,
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold", // Làm nổi bật tiêu đề
-    color: "#333", // Màu chữ đậm
-    marginBottom: 20, // Khoảng cách dưới tiêu đề
-    textAlign: "center", // Canh giữa tiêu đề
-  },
-  listDepartment: {
-    width: "100%", // Chiếm toàn bộ chiều rộng
-    backgroundColor: "#fff", // Màu nền trắng cho danh sách
-    borderRadius: 10, // Làm tròn các góc
-    shadowColor: "#000", // Bóng đổ
-    shadowOffset: { width: 0, height: 2 }, // Tạo bóng phía dưới
-    shadowOpacity: 0.1, // Độ mờ của bóng
-    shadowRadius: 6,
-    elevation: 5, // Hiệu ứng bóng cho Android
-    padding: 10, // Khoảng cách trong danh sách
-  },
-
-  listService: {
-    width: "100%", // Chiếm toàn bộ chiều rộng
-    backgroundColor: "#fff", // Màu nền trắng cho danh sách
-    borderRadius: 10, // Làm tròn các góc
-    shadowColor: "#000", // Bóng đổ
-    shadowOffset: { width: 0, height: 2 }, // Tạo bóng phía dưới
-    shadowOpacity: 0.1, // Độ mờ của bóng
-    shadowRadius: 6,
-    elevation: 5, // Hiệu ứng bóng cho Android
-    padding: 10, // Khoảng cách trong danh sách
-  },
-
-  listDoctor: {
-    width: "100%", // Chiếm toàn bộ chiều rộng
-    backgroundColor: "#fff", // Màu nền trắng cho danh sách
-    borderRadius: 10, // Làm tròn các góc
-    shadowColor: "#000", // Bóng đổ
-    shadowOffset: { width: 0, height: 2 }, // Tạo bóng phía dưới
-    shadowOpacity: 0.1, // Độ mờ của bóng
-    shadowRadius: 6,
-    elevation: 5, // Hiệu ứng bóng cho Android
-    padding: 10, // Khoảng cách trong danh sách
+    top: 20,
+    fontSize: 22,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "#5486c4",
+    marginBottom: 16,
   },
   titleStep: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginVertical: 8,
+    color: "#333",
+  },
+  sectionContainer: {
+    padding: 12,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
+    marginBottom: 16,
+    overflow: "hidden",
+  },
+  listDepartment: {
+    marginBottom: 16,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: "#e8f0fe",
+    borderRadius: 6,
+  },
+  listService: {
+    marginBottom: 16,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: "#e0f7fa",
+    borderRadius: 6,
+  },
+  listDoctor: {
+    marginBottom: 16,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: "#fce4ec",
+    borderRadius: 6,
+  },
+  listDate: {
+    marginBottom: 16,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: "#fff3e0",
+    borderRadius: 6,
+  },
+  resetButton: {
+    backgroundColor: "#e57373",
+    paddingVertical: 10,
+    borderRadius: 6,
     marginVertical: 10,
-    alignSelf: "flex-start",
+  },
+  resetButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
 

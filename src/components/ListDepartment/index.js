@@ -1,34 +1,39 @@
 import React, { useEffect, useState } from "react";
-import { View, ActivityIndicator, FlatList, Button } from "react-native";
+import {
+  View,
+  ActivityIndicator,
+  FlatList,
+  Button,
+  ScrollView,
+} from "react-native";
 import { ListItem } from "react-native-elements";
 import { RadioButton } from "react-native-paper";
 import { handleGetlistDepartments } from "../../services/handleDepartments";
 import styles from "./style";
 
 const ListDepartment = ({ onDepartmentSelect, resetDepartments }) => {
-  const [departments, setDepartments] = useState([]); // Lưu danh sách đầy đủ phòng ban
-  const [displayDepartments, setDisplayDepartments] = useState([]); // Danh sách hiển thị
-  const [selectedDepartment, setSelectedDepartment] = useState(null); // Phòng ban đã chọn
-  const [page, setPage] = useState(1); // Trang hiện tại của API
-  const [totalPages, setTotalPages] = useState(1); // Tổng số trang
-  const [loading, setLoading] = useState(true); // Trạng thái tải dữ liệu ban đầu
-  const [loadingMore, setLoadingMore] = useState(false); // Trạng thái khi tải thêm dữ liệu
-  const [collapsed, setCollapsed] = useState(false); // Trạng thái thu gọn
+  const [departments, setDepartments] = useState([]);
+  const [displayDepartments, setDisplayDepartments] = useState([]);
+  const [selectedDepartment, setSelectedDepartment] = useState(null);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
 
-  // Gọi API để lấy danh sách phòng ban
   const fetchDepartments = async (page) => {
     try {
-      const result = await handleGetlistDepartments(page); // Gọi API với tham số page
+      const result = await handleGetlistDepartments(page);
       if (result && result.success && result.data) {
         const { totalPages, listDepartments } = result.data;
         setDepartments((prevDepartments) => [
           ...prevDepartments,
-          ...listDepartments, // Gộp dữ liệu từ trang mới với dữ liệu hiện có
+          ...listDepartments,
         ]);
-        setTotalPages(totalPages || 1); // Cập nhật tổng số trang
+        setTotalPages(totalPages || 1);
         setDisplayDepartments((prevDisplay) => [
           ...prevDisplay,
-          ...listDepartments, // Cập nhật danh sách hiển thị
+          ...listDepartments,
         ]);
       } else {
         console.error("Invalid response from API:", result);
@@ -38,114 +43,106 @@ const ListDepartment = ({ onDepartmentSelect, resetDepartments }) => {
     }
   };
 
-  // Lấy dữ liệu khi component mount lần đầu
   useEffect(() => {
     const initialFetch = async () => {
       setLoading(true);
-      await fetchDepartments(1); // Gọi API lần đầu với page = 1
+      await fetchDepartments(1);
       setLoading(false);
     };
     initialFetch();
   }, []);
 
-  // Reset danh sách phòng ban khi resetDepartments thay đổi
   useEffect(() => {
     if (resetDepartments) {
-      setDepartments([]); // Xóa danh sách phòng ban
-      setDisplayDepartments([]); // Xóa danh sách hiển thị
-      setSelectedDepartment(null); // Xóa trạng thái chọn phòng ban
-      setCollapsed(false); // Mở rộng danh sách
-      setPage(1); // Reset về trang đầu tiên
-      fetchDepartments(1); // Tải lại danh sách phòng ban từ đầu
+      setDepartments([]);
+      setDisplayDepartments([]);
+      setSelectedDepartment(null);
+      setCollapsed(false);
+      setPage(1);
+      fetchDepartments(1);
     }
   }, [resetDepartments]);
 
-  // Xử lý sự kiện "Xem thêm" để lấy trang tiếp theo
   const handleLoadMore = async () => {
     if (page < totalPages && !loadingMore) {
       setLoadingMore(true);
-      const nextPage = page + 1; // Tăng page lên 1 để lấy trang tiếp theo
-      await fetchDepartments(nextPage); // Gọi API với trang tiếp theo
-      setPage(nextPage); // Cập nhật page
+      const nextPage = page + 1;
+      await fetchDepartments(nextPage);
+      setPage(nextPage);
       setLoadingMore(false);
     }
   };
 
-  // Xử lý sự kiện "Thu gọn" để quay lại hiển thị 10 mục đầu tiên
   const handleCollapse = () => {
-    setCollapsed(true); // Đặt trạng thái thu gọn
-    setDisplayDepartments(departments.slice(0, 10)); // Hiển thị lại 10 phòng ban đầu
-    setPage(1); // Reset lại page về 1 khi thu gọn
+    setCollapsed(true);
+    setDisplayDepartments(departments.slice(0, 10));
+    setPage(1);
   };
 
-  // Xử lý khi người dùng chọn một phòng ban
   const handleSelectDepartment = (departmentId) => {
-    onDepartmentSelect(departmentId); // Truyền department_id về component cha
+    onDepartmentSelect(departmentId);
     const selected = departments.find(
       (dep) => dep.department_id === departmentId
-    ); // Tìm phòng ban đã chọn
-    setSelectedDepartment(selected); // Lưu phòng ban đã chọn
-    setCollapsed(true); // Thu gọn danh sách hiển thị chỉ phòng ban đã chọn
+    );
+    setSelectedDepartment(selected);
+    setCollapsed(true);
   };
 
-  // Hiển thị loading khi đang tải dữ liệu trang đầu tiên
   if (loading) {
     return <ActivityIndicator size="large" color="#0000ff" />;
   }
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        style={
-          collapsed && selectedDepartment
-            ? [styles.flatList, { height: 100 }] // Rút gọn chiều cao khi chỉ hiển thị một phòng ban
-            : [styles.flatList, { height: 350 }] // Chiều cao đầy đủ khi hiển thị toàn bộ danh sách
-        }
-        data={
-          collapsed && selectedDepartment
-            ? [selectedDepartment]
-            : displayDepartments
-        } // Hiển thị phòng ban đã chọn hoặc toàn bộ danh sách
-        keyExtractor={(item) => item.department_id} // Sử dụng ID phòng ban làm key
-        renderItem={({ item }) => (
-          <ListItem
-            bottomDivider
-            onPress={() => handleSelectDepartment(item.department_id)}
-          >
-            <RadioButton
-              value={item.department_id}
-              status={
-                selectedDepartment &&
-                selectedDepartment.department_id === item.department_id
-                  ? "checked"
-                  : "unchecked"
-              }
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.scrollContainer}
+    >
+      <View style={styles.flatListContainer}>
+        <FlatList
+          data={
+            collapsed && selectedDepartment
+              ? [selectedDepartment]
+              : displayDepartments
+          }
+          keyExtractor={(item) => item.department_id}
+          renderItem={({ item }) => (
+            <ListItem
+              bottomDivider
               onPress={() => handleSelectDepartment(item.department_id)}
-            />
-            <ListItem.Content>
-              <ListItem.Title style={styles.title}>
-                {item.department_name}
-              </ListItem.Title>
-              <ListItem.Subtitle>{item.description}</ListItem.Subtitle>
-            </ListItem.Content>
-          </ListItem>
-        )}
-        scrollEnabled={true} // Cho phép cuộn danh sách
-        ListFooterComponent={
-          <>
-            {/* Hiển thị nút "Thu gọn" nếu người dùng nhấn "Xem thêm" và chưa chọn phòng ban */}
-            {!collapsed && page > 1 && (
-              <Button title="Thu gọn" onPress={handleCollapse} />
-            )}
-            {/* Hiển thị nút "Xem thêm" nếu còn trang chưa tải */}
-            {page < totalPages && !collapsed && (
-              <Button title="Xem thêm" onPress={handleLoadMore} />
-            )}
-          </>
-        }
-      />
+            >
+              <RadioButton
+                value={item.department_id}
+                status={
+                  selectedDepartment &&
+                  selectedDepartment.department_id === item.department_id
+                    ? "checked"
+                    : "unchecked"
+                }
+                onPress={() => handleSelectDepartment(item.department_id)}
+              />
+              <ListItem.Content>
+                <ListItem.Title style={styles.title}>
+                  {item.department_name}
+                </ListItem.Title>
+                <ListItem.Subtitle>{item.description}</ListItem.Subtitle>
+              </ListItem.Content>
+            </ListItem>
+          )}
+          ListFooterComponent={
+            <>
+              {!collapsed && page > 1 && (
+                <Button title="Thu gọn" onPress={handleCollapse} />
+              )}
+              {page < totalPages && !collapsed && (
+                <Button title="Xem thêm" onPress={handleLoadMore} />
+              )}
+            </>
+          }
+          scrollEnabled={false} // Để FlatList không tự cuộn, dùng ScrollView bên ngoài
+        />
+      </View>
       {loadingMore && <ActivityIndicator size="small" color="#0000ff" />}
-    </View>
+    </ScrollView>
   );
 };
 
