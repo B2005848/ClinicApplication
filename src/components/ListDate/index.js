@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Button, FlatList, Alert, ScrollView } from "react-native";
+import { View, Text, Button, ScrollView, Alert } from "react-native";
 import moment from "moment";
 import "moment/locale/vi"; // Import tiếng Việt cho moment
 import { Calendar } from "react-native-calendars";
 import { getDoctorShifts } from "../../services/shiftService";
-
+import formatDate from "../../helpers/format-datetime";
 moment.locale("vi"); // Thiết lập ngôn ngữ mặc định cho moment
 
 const ListDate = ({ departmentId, specialtyId, doctorId }) => {
   const [shifts, setShifts] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [availableTimes, setAvailableTimes] = useState([]);
+  const [availableShifts, setAvailableShifts] = useState([]); // Buổi làm việc sẵn có cho ngày chọn
   const [currentMonth, setCurrentMonth] = useState(moment().format("YYYY-MM"));
 
   useEffect(() => {
@@ -28,28 +28,31 @@ const ListDate = ({ departmentId, specialtyId, doctorId }) => {
     }
   }, [departmentId, specialtyId, doctorId]);
 
-  const generateTimes = (start, end) => {
-    const startTime = moment(start, "HH:mm");
-    const endTime = moment(end, "HH:mm");
-    const times = [];
-
-    while (startTime.isBefore(endTime)) {
-      times.push(startTime.format("HH:mm"));
-      startTime.add(30, "minutes");
-    }
-    setAvailableTimes(times);
-  };
-
   const onDateSelect = (day) => {
-    setSelectedDate(day.dateString);
-    const selectedShift = shifts.find((shift) =>
-      moment(shift.shift_date).isSame(day.dateString, "day")
+    const selectedDateFormatted = moment(day.dateString, "YYYY-MM-DD").format(
+      "YYYY-MM-DD"
     );
-    if (selectedShift) {
-      generateTimes(selectedShift.start_time, selectedShift.end_time);
-    } else {
-      setAvailableTimes([]);
-    }
+    setSelectedDate(selectedDateFormatted);
+
+    // Lọc ca làm việc khớp với ngày chọn hoặc ngày trong tuần
+    const matchingShifts = shifts.filter((shift) => {
+      const shiftStartDate = moment(shift.shift_date).format("YYYY-MM-DD");
+      const isWeekdayShift =
+        shift.shift_id.trim() === "NT-S" || shift.shift_id.trim() === "NT-C";
+      const isSundayShift =
+        shift.shift_id.trim() === "CN-S" || shift.shift_id.trim() === "CN-C";
+      const selectedDateMoment = moment(selectedDateFormatted);
+
+      return (
+        ((isWeekdayShift &&
+          selectedDateMoment.isoWeekday() >= 1 &&
+          selectedDateMoment.isoWeekday() <= 6) ||
+          (isSundayShift && selectedDateMoment.isoWeekday() === 7)) &&
+        selectedDateMoment.isSameOrAfter(shiftStartDate)
+      );
+    });
+
+    setAvailableShifts(matchingShifts);
   };
 
   const onMonthChange = (month) => {
@@ -61,24 +64,6 @@ const ListDate = ({ departmentId, specialtyId, doctorId }) => {
   return (
     <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
       <Text>Chọn ngày khám:</Text>
-
-      {/* Hiển thị tên các ngày trong tuần bằng tiếng Việt */}
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-around",
-          padding: 10,
-        }}
-      >
-        {["CN", "T2", "T3", "T4", "T5", "T6", "T7"].map((day, index) => (
-          <Text
-            key={index}
-            style={{ width: 30, textAlign: "center", fontWeight: "bold" }}
-          >
-            {day}
-          </Text>
-        ))}
-      </View>
 
       <Calendar
         onDayPress={onDateSelect}
@@ -104,7 +89,7 @@ const ListDate = ({ departmentId, specialtyId, doctorId }) => {
           textDayFontWeight: "500",
           textMonthFontWeight: "bold",
           textDayHeaderFontWeight: "500",
-          textDayHeaderFontSize: 14,
+          textDayFontSize: 16,
         }}
         firstDay={1}
       />
@@ -112,24 +97,23 @@ const ListDate = ({ departmentId, specialtyId, doctorId }) => {
       {selectedDate && (
         <>
           <Text style={{ marginTop: 20 }}>
-            Chọn giờ khám cho ngày {moment(selectedDate).format("DD/MM/YYYY")}:
+            Chọn buổi khám cho ngày {moment(selectedDate).format("DD/MM/YYYY")}:
           </Text>
-          {availableTimes.length > 0 ? (
-            <FlatList
-              data={availableTimes}
-              keyExtractor={(item) => item}
-              renderItem={({ item }) => (
-                <Button
-                  title={item}
-                  onPress={() =>
-                    Alert.alert("Đặt lịch lúc:", `${selectedDate} - ${item}`)
-                  }
-                />
-              )}
-              scrollEnabled={false} // Để FlatList không tự cuộn
-            />
+          {availableShifts.length > 0 ? (
+            availableShifts.map((shift) => (
+              <Button
+                key={shift.shift_id}
+                title={`${shift.shift_name} (${shift.start_time} - ${shift.end_time})`}
+                onPress={() =>
+                  Alert.alert(
+                    "Chọn buổi",
+                    `Bạn đã chọn buổi: ${shift.shift_name}`
+                  )
+                }
+              />
+            ))
           ) : (
-            <Text>Không có giờ nào có sẵn cho ngày này.</Text>
+            <Text>Không có buổi nào có sẵn cho ngày này.</Text>
           )}
         </>
       )}

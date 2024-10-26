@@ -75,6 +75,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
+
+  unavailableDateContainer: {
+    flexDirection: "row", // Hiển thị theo chiều ngang
+    alignItems: "center", // Căn giữa theo chiều dọc
+    justifyContent: "center", // Căn giữa theo chiều ngang
+    paddingVertical: 10, // Khoảng cách trên và dưới
+  },
+  unavailableDateText: {
+    fontSize: 16, // Kích thước chữ cho phần mô tả
+    color: "#333", // Màu chữ
+  },
 });
 
 export default styles;

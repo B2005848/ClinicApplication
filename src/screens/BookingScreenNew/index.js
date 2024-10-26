@@ -8,6 +8,8 @@ import {
   ScrollView,
   StatusBar,
 } from "react-native";
+
+import { Icon } from "react-native-elements";
 import styles from "./style";
 
 import ListDepartment from "../../components/ListDepartment";
@@ -104,6 +106,17 @@ export default function BookingScreenNew() {
             Vui lòng chọn ngày và giờ khám{" "}
             <Text style={{ color: "red" }}>(*)</Text>
           </Text>
+          <View style={styles.unavailableDateContainer}>
+            <Icon name="square" type="font-awesome" color="#d3d3d3" />
+            <Text style={styles.unavailableDateText}>
+              {"  :  "} Ngày không thể chọn {"   "}
+            </Text>
+            <Icon name="square" type="font-awesome" color="black" />
+            <Text style={styles.unavailableDateText}>
+              {"  :  "} Ngày có thể chọn
+            </Text>
+          </View>
+
           <View style={styles.listDate}>
             {selectedDoctor && (
               <ListDate
