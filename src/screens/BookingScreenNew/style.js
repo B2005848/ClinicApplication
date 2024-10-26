@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-import ListService from "../../components/ListServices";
 
 const styles = StyleSheet.create({
   text: {

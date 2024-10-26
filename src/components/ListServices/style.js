@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   text: {
-    fontFamily: "Open Sans-Bold",
+    fontFamily: "Open Sans",
   },
 
   container: {
@@ -21,6 +21,10 @@ const styles = StyleSheet.create({
 
   title: {
     fontWeight: "bold",
+  },
+
+  price: {
+    color: "red",
   },
 });
 export default styles;

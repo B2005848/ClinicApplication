@@ -160,7 +160,6 @@ export default function App() {
               gestureEnabled: false,
             }}
           />
-
           <Stack.Screen
             name="BookingNewScreen"
             component={BookingScreenNew}

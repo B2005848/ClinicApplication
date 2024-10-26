@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { View, ActivityIndicator, FlatList, Button, Text } from "react-native";
-import { ListItem } from "react-native-elements";
+import { ListItem, Icon } from "react-native-elements";
 import { RadioButton } from "react-native-paper";
 import { handleGetlistServiceByDepId } from "../../services/handleServices"; // Import API để lấy danh sách dịch vụ
+import { formatCurrency } from "../../helpers/currencyFormatter";
 import styles from "./style";
 
 const ListService = ({ dep_id, services, onServiceSelect, setServices }) => {
@@ -82,11 +83,26 @@ const ListService = ({ dep_id, services, onServiceSelect, setServices }) => {
               }
               onPress={() => handleSelectService(item.service_id)}
             />
-            <ListItem.Content>
+            <ListItem.Content style={styles.text}>
               <ListItem.Title style={styles.title}>
-                {item.service_name} - {item.service_fee} VND
+                {item.service_name}
               </ListItem.Title>
-              <ListItem.Subtitle>{item.description}</ListItem.Subtitle>
+              <ListItem.Subtitle>
+                <Text style={{ fontStyle: "italic" }}>
+                  ({item.description})
+                </Text>
+              </ListItem.Subtitle>
+              <ListItem.Subtitle>
+                <Text>
+                  <Text style={[styles.text, styles.title]}>Phí khám: </Text>
+                  <Text style={[styles.text, styles.price]}>
+                    {formatCurrency(item.service_fee)}
+                  </Text>
+                </Text>
+              </ListItem.Subtitle>
+              <ListItem.Subtitle>
+                <Text>Thời gian khám ~ {item.duration} phút</Text>
+              </ListItem.Subtitle>
             </ListItem.Content>
           </ListItem>
         )}

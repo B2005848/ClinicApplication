@@ -81,17 +81,6 @@ const ListDoctorAppointment = ({ specialty_id, onDoctorSelect }) => {
             bottomDivider
             onPress={() => handleSelectDoctor(item.doctor_id)}
           >
-            <Avatar
-              rounded
-              size={100}
-              source={{
-                uri: `${API_URL}${item.image_avt}`,
-              }}
-              onError={
-                () => console.log("Error loading avatar") // Log hoặc xử lý khi ảnh không load
-              }
-            />
-
             <RadioButton
               value={item.doctor_id}
               status={
@@ -101,15 +90,24 @@ const ListDoctorAppointment = ({ specialty_id, onDoctorSelect }) => {
               }
               onPress={() => handleSelectDoctor(item.doctor_id)}
             />
+            <Avatar
+              size={100}
+              source={{
+                uri: `${API_URL}${item.image_avt}`,
+              }}
+              onError={
+                () => console.log("Error loading avatar") // Log hoặc xử lý khi ảnh không load
+              }
+            />
             <ListItem.Content>
               <ListItem.Title style={styles.title}>
                 Bác sĩ: {item.first_name} {item.last_name}
               </ListItem.Title>
               <ListItem.Subtitle>
-                Ca làm việc: {item.shifts.join(", ")}
+                Ca làm việc: {item.shifts.join(", ")}.
               </ListItem.Subtitle>
               <ListItem.Subtitle>
-                Chuyên khoa: {item.specialty.join(", ")}
+                Chuyên khoa: {item.specialty.join(", ")}.
               </ListItem.Subtitle>
             </ListItem.Content>
           </ListItem>

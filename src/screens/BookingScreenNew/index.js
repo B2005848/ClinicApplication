@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Button,
+  ScrollView,
   StatusBar,
 } from "react-native";
 import styles from "./style";
@@ -74,7 +75,7 @@ export default function BookingScreenNew() {
             <ListService
               dep_id={selectedDepartmentId}
               services={services} // Truyền danh sách dịch vụ vào ListService
-              onServiceSelect={setSelectedService} // Hàm để chọn dịch vụ
+              onServiceSelect={setSelectedService} // Hàm để chọn dịch vụ và gán giá trị specialty_id để truyền vào list doctor
               setServices={setServices} // Truyền hàm để cập nhật danh sách dịch vụ
             />
           )}
