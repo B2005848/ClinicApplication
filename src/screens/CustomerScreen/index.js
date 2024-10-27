@@ -109,10 +109,12 @@ const CustomerScreen = ({ route }) => {
               <View>
                 <TouchableOpacity style={styles.wapperButtonBooking}>
                   <Text style={[styles.text, styles.itemBookingText]}>
-                    TÁI KHÁM
+                    THEO BÁC SĨ
                   </Text>
                 </TouchableOpacity>
               </View>
+
+              <Text>--</Text>
 
               <View>
                 <TouchableOpacity
@@ -120,7 +122,7 @@ const CustomerScreen = ({ route }) => {
                   onPress={() => navigation.navigate("BookingNewScreen")}
                 >
                   <Text style={[styles.text, styles.itemBookingText]}>
-                    CHƯA TỪNG KHÁM
+                    THEO PHÒNG KHÁM
                   </Text>
                 </TouchableOpacity>
               </View>

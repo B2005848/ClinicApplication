@@ -13,7 +13,7 @@ import HomeScreen from "./screens/HomeScreen/index";
 import LoginScreen from "./screens/LoginScreen/index";
 import SignUpScreen from "./screens/SignUpScreen";
 import CustomerScreen from "./screens/CustomerScreen";
-import BookingScreenNew from "./screens/BookingScreenNew";
+import BookingScreenByDepartment from "./screens/BookingScreenByDepartment";
 // Import FontAwesomeIcon
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -162,7 +162,7 @@ export default function App() {
           />
           <Stack.Screen
             name="BookingNewScreen"
-            component={BookingScreenNew}
+            component={BookingScreenByDepartment}
             options={{
               headerShown: false,
             }}

@@ -48,7 +48,7 @@ export default function BookingScreenNew() {
       <StatusBar barStyle="default" backgroundColor="#5486c4" />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.menuContent}>
-          <Text style={styles.title}>ĐẶT LỊCH - CHƯA TỪNG KHÁM</Text>
+          <Text style={styles.title}>ĐẶT LỊCH - THEO PHÒNG KHÁM</Text>
 
           {/* Chọn phòng khám */}
           <Text style={styles.titleStep}>
