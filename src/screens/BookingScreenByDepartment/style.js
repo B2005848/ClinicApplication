@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
     color: "#5486c4",
     marginBottom: 16,
   },
+
+  note: { textAlign: "center", marginTop: 16, fontSize: 22, marginBottom: 16 },
+
   titleStep: {
     fontSize: 16,
     fontWeight: "600",

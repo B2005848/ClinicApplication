@@ -11,7 +11,7 @@ import {
 
 import { Icon } from "react-native-elements";
 import styles from "./style";
-
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import ListDepartment from "../../components/ListDepartment";
 import ListService from "../../components/ListServices";
 import ListDoctorAppointment from "../../components/ListDoctor";
@@ -49,7 +49,13 @@ export default function BookingScreenNew() {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.menuContent}>
           <Text style={styles.title}>ĐẶT LỊCH - THEO PHÒNG KHÁM</Text>
-
+          <Text style={(styles.titleStep, styles.note)}>
+            Chọn thông tin khám{" "}
+            <FontAwesomeIcon
+              icon="fa-solid fa-file-waveform"
+              style={{ color: "#74C0FC" }}
+            />
+          </Text>
           {/* Chọn phòng khám */}
           <Text style={styles.titleStep}>
             Vui lòng chọn phòng khám chuyên khoa{" "}

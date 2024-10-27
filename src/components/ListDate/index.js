@@ -162,8 +162,9 @@ const ListDate = ({ departmentId, specialtyId, doctorId }) => {
         />
       ) : (
         <View>
-          <Text style={[{ textAlign: "center", fontSize: 20 }, styles.text]}>
-            --- {moment(selectedDate).format("DD/MM/YYYY")} ----
+          <Text style={[{ fontSize: 20 }, styles.text]}>
+            Bạn đã chọn ngày: {"   "}
+            {moment(selectedDate).format("DD/MM/YYYY")}
           </Text>
           <Button title="Chọn lại ngày" onPress={handleReSelectDate} />
           <Text style={[{ marginTop: 5, fontWeight: "bold" }, styles.text]}>
@@ -183,7 +184,10 @@ const ListDate = ({ departmentId, specialtyId, doctorId }) => {
               ))
             : selectedShift && (
                 <View>
-                  <Text>Buổi đã chọn: {selectedShift.shift_name}</Text>
+                  <Text style={[{ fontSize: 20 }, styles.text]}>
+                    Bạn đã chọn: {"   "}
+                    {selectedShift.shift_name}
+                  </Text>
                   <Button title="Chọn lại buổi" onPress={handleReSelectShift} />
                 </View>
               )}
@@ -207,18 +211,29 @@ const ListDate = ({ departmentId, specialtyId, doctorId }) => {
 
       {selectedTime && (
         <View style={{ marginTop: 20 }}>
-          <Text>Thời gian đã chọn: {selectedTime}</Text>
+          <Text style={[{ fontSize: 20 }, styles.text]}>
+            Thời gian khám đã chọn: {"   "} {selectedTime}
+          </Text>
           <Button
             title="Chọn lại giờ"
             onPress={() => setShowTimePicker(true)}
           />
+
+          <View
+            style={{
+              marginTop: 20,
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {/* Nút tiếp tục lấy thông tin khám */}
+            <TouchableOpacity style={styles.wrapperBtnContinute}>
+              <Text style={styles.titleBtnContinute}>TIẾP TỤC</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       )}
-      <View style={{ marginTop: 20 }}>
-        <TouchableOpacity>
-          <Text>TIẾP THEO</Text>
-        </TouchableOpacity>
-      </View>
     </ScrollView>
   );
 };
