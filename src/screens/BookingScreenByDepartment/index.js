@@ -129,6 +129,7 @@ export default function BookingScreenNew() {
                 departmentId={selectedDepartmentId}
                 specialtyId={selectedService.specialty_id}
                 doctorId={selectedDoctor.doctor_id}
+                serviceId={selectedService.service_id}
               />
             )}
           </View>

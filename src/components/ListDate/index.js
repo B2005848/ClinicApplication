@@ -11,12 +11,13 @@ import moment from "moment-timezone";
 import "moment/locale/vi"; // Import tiếng Việt cho moment
 import { Calendar } from "react-native-calendars";
 import { getDoctorShifts } from "../../services/shiftService";
+import { checkAvailableTime } from "../../services/checkAvailableTime";
 import formatDate from "../../helpers/format-datetime";
 import styles from "./style";
 
 moment.locale("vi");
 
-const ListDate = ({ departmentId, specialtyId, doctorId }) => {
+const ListDate = ({ departmentId, specialtyId, doctorId, serviceId }) => {
   const [shifts, setShifts] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [availableShifts, setAvailableShifts] = useState([]);
@@ -25,7 +26,7 @@ const ListDate = ({ departmentId, specialtyId, doctorId }) => {
   const [selectedShift, setSelectedShift] = useState(null); // Ca làm việc đã chọn
   const [timeOptions, setTimeOptions] = useState([]); // Danh sách giờ
   const [selectedTime, setSelectedTime] = useState(null); // Lưu thời gian đã chọn
-
+  const [bookedTimes, setBookedTimes] = useState([]); // Danh sách các giờ đã đặt
   useEffect(() => {
     const fetchShifts = async () => {
       const result = await getDoctorShifts(departmentId, specialtyId, doctorId);
@@ -107,9 +108,29 @@ const ListDate = ({ departmentId, specialtyId, doctorId }) => {
     setShowTimePicker(true); // Hiển thị danh sách giờ
   };
 
-  const selectTime = (time) => {
+  const selectTime = async (time) => {
     setSelectedTime(time); // Lưu thời gian đã chọn
-    Alert.alert("Thời gian khám", `Bạn đã chọn: ${time}`);
+    // Tạo đối tượng chi tiết cuộc hẹn
+
+    const appointmentDetails = {
+      doctor_id: doctorId,
+      department_id: departmentId,
+      service_id: serviceId,
+      appointment_date: moment(selectedDate).format("YYYY-MM-DD"), // Định dạng ngày
+      start_time: time, // Thời gian bắt đầu
+      shift_id: selectedShift.shift_id, // ID của ca làm việc đã chọn
+    };
+
+    console.log("Appointment Details:", appointmentDetails); // Ghi log để kiểm tra dữ liệu
+
+    // Gọi API để kiểm tra khung giờ
+    const isAvailable = await checkAvailableTime(appointmentDetails);
+    if (isAvailable && isAvailable.success) {
+      Alert.alert("Thành công", "Bạn đã chọn thời gian thành công!");
+    } else {
+      setSelectedTime(null);
+    }
+
     setShowTimePicker(false); // Ẩn danh sách sau khi chọn
   };
 
