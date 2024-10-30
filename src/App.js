@@ -14,6 +14,7 @@ import LoginScreen from "./screens/LoginScreen/index";
 import SignUpScreen from "./screens/SignUpScreen";
 import CustomerScreen from "./screens/CustomerScreen";
 import BookingScreenByDepartment from "./screens/BookingScreenByDepartment";
+import PaymentMethodScreen from "./screens/PaymentMethodScreen";
 // Import FontAwesomeIcon
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -163,6 +164,15 @@ export default function App() {
           <Stack.Screen
             name="BookingNewScreen"
             component={BookingScreenByDepartment}
+            options={{
+              headerShown: false,
+            }}
+          />
+
+          {/* PAYMENT METHOD SCREEN */}
+          <Stack.Screen
+            name="PaymentMethodScreen"
+            component={PaymentMethodScreen}
             options={{
               headerShown: false,
             }}

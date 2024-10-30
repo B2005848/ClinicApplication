@@ -12,12 +12,14 @@ import "moment/locale/vi"; // Import tiếng Việt cho moment
 import { Calendar } from "react-native-calendars";
 import { getDoctorShifts } from "../../services/shiftService";
 import { checkAvailableTime } from "../../services/checkAvailableTime";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import formatDate from "../../helpers/format-datetime";
 import styles from "./style";
 
 moment.locale("vi");
 
 const ListDate = ({ departmentId, specialtyId, doctorId, serviceId }) => {
+  const navigation = useNavigation();
   const [shifts, setShifts] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [availableShifts, setAvailableShifts] = useState([]);
@@ -146,6 +148,18 @@ const ListDate = ({ departmentId, specialtyId, doctorId, serviceId }) => {
     setShowTimePicker(false); // Ẩn danh sách giờ
   };
 
+  const handleGoToPayment = () => {
+    // Truyền thông tin khám đến màn hình phương thức thanh toán
+    navigation.navigate("PaymentMethodScreen", {
+      doctor_id: doctorId,
+      department_id: departmentId,
+      service_id: serviceId,
+      appointment_date: selectedDate, // Ngày khám đã chọn
+      start_time: selectedTime, // Thời gian khám đã chọn
+      shift_id: selectedShift.shift_id, // ID ca làm việc
+    });
+  };
+
   return (
     <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
       <Text style={[{ marginTop: 5, fontWeight: "bold" }, styles.text]}>
@@ -249,8 +263,13 @@ const ListDate = ({ departmentId, specialtyId, doctorId, serviceId }) => {
             }}
           >
             {/* Nút tiếp tục lấy thông tin khám */}
-            <TouchableOpacity style={styles.wrapperBtnContinute}>
-              <Text style={styles.titleBtnContinute}>TIẾP TỤC</Text>
+            <TouchableOpacity
+              style={styles.wrapperBtnContinute}
+              onPress={handleGoToPayment}
+            >
+              <Text style={styles.titleBtnContinute}>
+                ĐẾN VỚI PHƯƠNG THỨC THANH TOÁN
+              </Text>
             </TouchableOpacity>
           </View>
         </View>

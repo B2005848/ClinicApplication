@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   titleBtnContinute: {
     textAlign: "center",
     color: "#FFFFFF",
-    fontSize: 25,
+    fontSize: 15,
     fontWeight: "bold",
   },
 });
