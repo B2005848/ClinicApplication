@@ -169,7 +169,7 @@ const ListDate = ({
       end_time: endTime,
       shift_id: selectedShift.shift_id, // ID ca làm việc
       service_fee: serviceFee,
-      resason: symptoms, // Triệu chứng của bệnh nhân / lí do khám
+      reason: symptoms, // Triệu chứng của bệnh nhân / lí do khám
     });
   };
 
