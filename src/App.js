@@ -18,7 +18,7 @@ import PaymentMethodScreen from "./screens/PaymentMethodScreen";
 import PaymentWebView from "./components/PaymentWebView";
 import SuccessPaymentScreen from "./screens/SuccessPaymentScreen";
 import FailurePaymentScreen from "./screens/FailurePaymentScreen";
-
+import AppointmentTabScreen from "./screens/AppointmentTabScreen";
 // Import FontAwesomeIcon
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -103,7 +103,6 @@ export default function App() {
             component={HomeScreen}
             options={{ headerShown: false, title: "", gestureEnabled: false }}
           />
-
           {/* LOGIN SCREEN */}
           <Stack.Screen
             name="LoginScreen"
@@ -129,7 +128,6 @@ export default function App() {
               ),
             })}
           />
-
           {/* SIGN UP SCREEN */}
           <Stack.Screen
             name="SignUpScreen"
@@ -155,22 +153,37 @@ export default function App() {
               ),
             })}
           />
-
           {/* HOME SCREEN */}
           <Stack.Screen
             name="CustomerScreen"
             component={CustomerScreen}
             options={{
+              title: "",
               headerShown: false,
               gestureEnabled: false,
             }}
           />
+          {/* BOOKING SCREEN */}
           <Stack.Screen
             name="BookingNewScreen"
             component={BookingScreenByDepartment}
             options={{
               headerShown: false,
             }}
+          />
+          {/* TAB APPOINTMENT */}
+          <Stack.Screen
+            name="AppointmentTabScreen"
+            component={AppointmentTabScreen}
+            options={() => ({
+              headerShown: true,
+              title: "LỊCH HẸN CỦA BẠN",
+              headerStyle: {
+                backgroundColor: "#5486c4",
+                fontFamily: "Open Sans-Bold",
+              },
+              headerTintColor: "#fff",
+            })}
           />
 
           {/* PAYMENT METHOD SCREEN */}
@@ -181,14 +194,12 @@ export default function App() {
               headerShown: false,
             }}
           />
-
           {/* PAYMENT WEBVIEW SCREEN */}
           <Stack.Screen
             name="PaymentWebView"
             component={PaymentWebView}
             options={{ headerShown: false }}
           />
-
           <Stack.Screen
             name="SuccessPaymentScreen"
             component={SuccessPaymentScreen}

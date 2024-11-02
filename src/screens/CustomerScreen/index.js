@@ -136,6 +136,7 @@ const CustomerScreen = ({ route }) => {
 
           <View style={styles.containerMenu}>
             <View style={styles.menu}>
+              {/* -----------------NÚT CHUYỂN ĐẾN TRANG HỒ SƠ BỆNH ÁN------------------- */}
               <TouchableOpacity style={styles.menuItem}>
                 <Image
                   source={require("@assets/medicalRecord.png")}
@@ -146,7 +147,15 @@ const CustomerScreen = ({ route }) => {
                 </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.menuItem}>
+              {/* ---------------NÚT CHUYỂN ĐẾN TRANG QUẢN LÍ LỊCH HẸN ĐÃ ĐẶT ---------------*/}
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() =>
+                  navigation.navigate("AppointmentTabScreen", {
+                    patientId: userInfo?.patient_id,
+                  })
+                }
+              >
                 <Image
                   source={require("@assets/booking.png")}
                   style={{ width: 100, height: 100 }}
