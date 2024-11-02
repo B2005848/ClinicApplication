@@ -17,7 +17,8 @@ import ListService from "../../components/ListServices";
 import ListDoctorAppointment from "../../components/ListDoctor";
 import ListDate from "../../components/ListDate";
 
-export default function BookingScreenNew() {
+export default function BookingScreenNew({ route }) {
+  const { patient_id } = route.params;
   const [selectedDepartmentId, setSelectedDepartmentId] = useState(null);
   const [selectedService, setSelectedService] = useState(null);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
@@ -43,7 +44,7 @@ export default function BookingScreenNew() {
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 128 : 0}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 32 : 0}
     >
       <StatusBar barStyle="default" backgroundColor="#5486c4" />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -130,6 +131,8 @@ export default function BookingScreenNew() {
                 specialtyId={selectedService.specialty_id}
                 doctorId={selectedDoctor.doctor_id}
                 serviceId={selectedService.service_id}
+                patientId={patient_id}
+                serviceFee={selectedService.service_fee}
               />
             )}
           </View>

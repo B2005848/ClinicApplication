@@ -119,7 +119,11 @@ const CustomerScreen = ({ route }) => {
               <View>
                 <TouchableOpacity
                   style={styles.wapperButtonBooking}
-                  onPress={() => navigation.navigate("BookingNewScreen")}
+                  onPress={() =>
+                    navigation.navigate("BookingNewScreen", {
+                      patient_id: userInfo?.patient_id,
+                    })
+                  }
                 >
                   <Text style={[styles.text, styles.itemBookingText]}>
                     THEO PHÒNG KHÁM

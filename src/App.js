@@ -15,6 +15,10 @@ import SignUpScreen from "./screens/SignUpScreen";
 import CustomerScreen from "./screens/CustomerScreen";
 import BookingScreenByDepartment from "./screens/BookingScreenByDepartment";
 import PaymentMethodScreen from "./screens/PaymentMethodScreen";
+import PaymentWebView from "./components/PaymentWebView";
+import SuccessPaymentScreen from "./screens/SuccessPaymentScreen";
+import FailurePaymentScreen from "./screens/FailurePaymentScreen";
+
 // Import FontAwesomeIcon
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -176,6 +180,24 @@ export default function App() {
             options={{
               headerShown: false,
             }}
+          />
+
+          {/* PAYMENT WEBVIEW SCREEN */}
+          <Stack.Screen
+            name="PaymentWebView"
+            component={PaymentWebView}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name="SuccessPaymentScreen"
+            component={SuccessPaymentScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="FailurePaymentScreen"
+            component={FailurePaymentScreen}
+            options={{ headerShown: false }}
           />
         </Stack.Navigator>
       </NavigationContainer>

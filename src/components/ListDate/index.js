@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
+  TextInput,
   Button,
   ScrollView,
   Alert,
@@ -18,7 +19,14 @@ import styles from "./style";
 
 moment.locale("vi");
 
-const ListDate = ({ departmentId, specialtyId, doctorId, serviceId }) => {
+const ListDate = ({
+  departmentId,
+  specialtyId,
+  doctorId,
+  patientId,
+  serviceId,
+  serviceFee,
+}) => {
   const navigation = useNavigation();
   const [shifts, setShifts] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -28,7 +36,7 @@ const ListDate = ({ departmentId, specialtyId, doctorId, serviceId }) => {
   const [selectedShift, setSelectedShift] = useState(null); // Ca làm việc đã chọn
   const [timeOptions, setTimeOptions] = useState([]); // Danh sách giờ
   const [selectedTime, setSelectedTime] = useState(null); // Lưu thời gian đã chọn
-  const [bookedTimes, setBookedTimes] = useState([]); // Danh sách các giờ đã đặt
+  const [symptoms, setSymptoms] = useState("");
   useEffect(() => {
     const fetchShifts = async () => {
       const result = await getDoctorShifts(departmentId, specialtyId, doctorId);
@@ -123,8 +131,6 @@ const ListDate = ({ departmentId, specialtyId, doctorId, serviceId }) => {
       shift_id: selectedShift.shift_id, // ID của ca làm việc đã chọn
     };
 
-    console.log("Appointment Details:", appointmentDetails); // Ghi log để kiểm tra dữ liệu
-
     // Gọi API để kiểm tra khung giờ
     const isAvailable = await checkAvailableTime(appointmentDetails);
     if (isAvailable && isAvailable.success) {
@@ -149,14 +155,21 @@ const ListDate = ({ departmentId, specialtyId, doctorId, serviceId }) => {
   };
 
   const handleGoToPayment = () => {
+    const endTime = moment(selectedTime, "HH:mm")
+      .add(30, "minutes")
+      .format("HH:mm");
     // Truyền thông tin khám đến màn hình phương thức thanh toán
     navigation.navigate("PaymentMethodScreen", {
       doctor_id: doctorId,
+      patient_id: patientId,
       department_id: departmentId,
       service_id: serviceId,
       appointment_date: selectedDate, // Ngày khám đã chọn
       start_time: selectedTime, // Thời gian khám đã chọn
+      end_time: endTime,
       shift_id: selectedShift.shift_id, // ID ca làm việc
+      service_fee: serviceFee,
+      resason: symptoms, // Triệu chứng của bệnh nhân / lí do khám
     });
   };
 
@@ -254,6 +267,23 @@ const ListDate = ({ departmentId, specialtyId, doctorId, serviceId }) => {
             onPress={() => setShowTimePicker(true)}
           />
 
+          <Text style={[{ fontSize: 20 }, styles.text]}>
+            Mô tả triệu chứng của bạn
+          </Text>
+          <TextInput
+            style={{
+              borderWidth: 1,
+              borderColor: "#ccc",
+              padding: 10,
+              height: 100,
+              textAlignVertical: "top",
+              marginTop: 10,
+            }}
+            placeholder="Nhập triệu chứng của bạn..."
+            multiline
+            value={symptoms}
+            onChangeText={(text) => setSymptoms(text)}
+          />
           <View
             style={{
               marginTop: 20,
