@@ -15,6 +15,7 @@ const PaymentWebView = ({ route, navigation }) => {
 
     // Kiểm tra nếu URL chứa "vnpay-return" và đảm bảo rằng callback chỉ được xử lý một lần
     if (
+      // Nhớ thay đổi giống server
       url.includes("http://172.16.5.244:3000/api/VNPay/payment/vnpay-return") &&
       !isCallbackHandled
     ) {
