@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   appointmentCard: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
     backgroundColor: "#f9f9f9",
     padding: 15,
     marginVertical: 8,
@@ -43,6 +46,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     fontFamily: "Open Sans-Italic",
+  },
+
+  fee: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+
+  status: {
+    color: "#059212",
   },
 });
 export default styles;

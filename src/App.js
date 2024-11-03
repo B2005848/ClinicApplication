@@ -19,6 +19,7 @@ import PaymentWebView from "./components/PaymentWebView";
 import SuccessPaymentScreen from "./screens/SuccessPaymentScreen";
 import FailurePaymentScreen from "./screens/FailurePaymentScreen";
 import AppointmentTabScreen from "./screens/AppointmentTabScreen";
+import AppointmentNewDetails from "./screens/AppointmentNewDetailsScreen";
 // Import FontAwesomeIcon
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -186,6 +187,20 @@ export default function App() {
             })}
           />
 
+          {/* CHI TIẾT LỊCH HẸN SẮP TỚI  */}
+          <Stack.Screen
+            name="AppointmentNewDetails"
+            component={AppointmentNewDetails}
+            options={() => ({
+              headerShown: true,
+              title: "",
+              headerTintColor: "#fff",
+              headerStyle: {
+                backgroundColor: "#5486c4",
+                fontFamily: "Open Sans-Bold",
+              },
+            })}
+          />
           {/* PAYMENT METHOD SCREEN */}
           <Stack.Screen
             name="PaymentMethodScreen"

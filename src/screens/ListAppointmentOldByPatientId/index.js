@@ -16,7 +16,7 @@ moment.locale("vi");
 
 const { API_URL } = Constants.expoConfig.extra;
 
-const AppointmentListOld = ({ patientId }) => {
+const AppointmentListOld = ({ patientId, onCountChange }) => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -27,8 +27,13 @@ const AppointmentListOld = ({ patientId }) => {
       );
       if (response.data.status) {
         setAppointments(response.data.data);
+        // Đếm số lượng lịch hẹn có trạng thái "C" và gửi lên AppTabScreen
+        const completedCount = response.data.data.filter(
+          (appointment) => appointment.status === "C"
+        ).length;
+        onCountChange(completedCount); // Gửi số lượng lịch hẹn cho tab
       } else {
-        Alert.alert("Thông báo", "Không thể lấy danh sách lịch hẹn.");
+        console.log("Thông báo", "Bạn chưa từng đặt hẹn tại phòng khám");
       }
     } catch (error) {
       console.error("Error fetching appointments:", error);
@@ -61,7 +66,9 @@ const AppointmentListOld = ({ patientId }) => {
       <StatusBar barStyle="default" backgroundColor="#5486c4" />
       <ScrollView contentContainerStyle={styles.container}>
         {scheduledAppointments.length === 0 ? (
-          <Text style={styles.emptyText}>Không có lịch hẹn nào.</Text>
+          <Text style={styles.emptyText}>
+            Bạn chưa từng đặt hẹn tại phòng khám.
+          </Text>
         ) : (
           scheduledAppointments.map((item) => (
             <View key={item.appointment_id} style={styles.appointmentCard}>
