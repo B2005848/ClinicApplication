@@ -3,7 +3,9 @@ import React, { useState } from "react";
 import { WebView } from "react-native-webview";
 import { View, ActivityIndicator, Alert } from "react-native";
 import axios from "axios";
+import Constants from "expo-constants";
 
+const { API_URL } = Constants.expoConfig.extra;
 const PaymentWebView = ({ route, navigation }) => {
   const { paymentUrl } = route.params;
   const [isCallbackHandled, setIsCallbackHandled] = useState(false);
@@ -16,7 +18,7 @@ const PaymentWebView = ({ route, navigation }) => {
     // Kiểm tra nếu URL chứa "vnpay-return" và đảm bảo rằng callback chỉ được xử lý một lần
     if (
       // Nhớ thay đổi giống server
-      url.includes("http://172.16.5.244:3000/api/VNPay/payment/vnpay-return") &&
+      url.includes(`${API_URL}/api/VNPay/payment/vnpay-return`) &&
       !isCallbackHandled
     ) {
       setIsCallbackHandled(true);
