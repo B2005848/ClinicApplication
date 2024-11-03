@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 20,
   },
   detailCard: {
     backgroundColor: "#f9f9f9",
@@ -22,12 +21,12 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
-    fontWeight: "600",
+    fontFamily: "Open Sans-Bold",
     marginTop: 10,
   },
   value: {
     fontSize: 16,
-    marginBottom: 5,
+    fontFamily: "Open Sans-Medium",
   },
 
   status: {

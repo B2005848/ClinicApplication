@@ -65,55 +65,104 @@ const AppointmentNewDetails = ({ route }) => {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.header}>Chi tiết Lịch Hẹn</Text>
-
+        <Text
+          style={{
+            fontFamily: "Open Sans-Italic",
+            marginVertical: 15,
+            textAlign: "center",
+          }}
+        >
+          "Vui lòng đưa thông tin này đến quầy lễ tân Phòng Khám để được tiếp
+          nhận khám bệnh"
+        </Text>
         <View style={styles.detailCard}>
-          <Text style={styles.label}>Mã Lịch Hẹn:</Text>
-          <Text style={styles.value}>{appointment.appointment_id}</Text>
-
-          <Text style={styles.label}>Bác Sĩ:</Text>
-          <Text style={styles.value}>
-            {appointment.first_name} {appointment.last_name} -{" "}
-            {appointment.staff_id}
+          <Text style={styles.label}>
+            Mã Lịch Hẹn:{" "}
+            <Text style={styles.value}>{appointment.appointment_id}</Text>
           </Text>
 
-          <Text style={styles.label}>Khám Tại:</Text>
-          <Text style={styles.value}>
-            {appointment.department_name} ({appointment.department_id})
+          <Text style={styles.label}>
+            Bác Sĩ:{" "}
+            <Text style={styles.value}>
+              {appointment.first_name} {appointment.last_name} -{" "}
+              {appointment.staff_id}
+            </Text>
           </Text>
 
-          <Text style={styles.label}>Dịch Vụ:</Text>
-          <Text style={styles.value}>
-            {appointment.service_name} - {appointment.service_id}
+          <Text style={styles.label}>
+            Khám Tại:{" "}
+            <Text style={styles.value}>
+              {appointment.department_name} ({appointment.department_id})
+            </Text>
           </Text>
 
-          <Text style={styles.label}>Ngày Hẹn:</Text>
-          <Text style={styles.value}>
-            {new Date(appointment.appointment_date).toLocaleDateString("vi-VN")}
+          <Text style={styles.label}>
+            Dịch Vụ:{" "}
+            <Text style={styles.value}>
+              {appointment.service_name} - {appointment.service_id}
+            </Text>
           </Text>
 
-          <Text style={styles.label}>Thời Gian Hẹn:</Text>
-          <Text style={styles.value}>
-            {moment.utc(appointment.start_time).format("HH:mm")} -{" "}
-            {moment.utc(appointment.end_time).format("HH:mm")}
+          <Text style={styles.label}>
+            Ngày Hẹn:{" "}
+            <Text style={styles.value}>
+              {new Date(appointment.appointment_date).toLocaleDateString(
+                "vi-VN"
+              )}
+            </Text>
           </Text>
 
-          <Text style={styles.label}>Đặt lịch hẹn lúc</Text>
-          <Text style={styles.value}>
-            {new Date(appointment.created_at).toLocaleDateString("vi-VN")}
+          <Text style={styles.label}>
+            Thời Gian Hẹn:{" "}
+            <Text style={styles.value}>
+              {moment.utc(appointment.start_time).format("HH:mm")} -{" "}
+              {moment.utc(appointment.end_time).format("HH:mm")}
+            </Text>{" "}
           </Text>
 
-          <Text style={styles.label}>Trạng Thái:</Text>
-          <Text style={[styles.value, styles.status]}>
-            {appointment.status === "S"
-              ? "Đặt hẹn thành công"
-              : "Đã hoàn thành"}
+          <Text style={styles.label}>
+            Đặt lịch hẹn lúc:{" "}
+            <Text style={styles.value}>
+              {moment.utc(appointment.end_time).format("HH:mm")} vào ngày{" "}
+              {new Date(appointment.created_at).toLocaleDateString("vi-VN")}
+            </Text>{" "}
           </Text>
 
-          <Text style={styles.label}>Phí Dịch Vụ:</Text>
-          <Text style={[styles.value, styles.fee]}>
-            {formatCurrency(appointment.service_fee)}
-          </Text>
+          <View>
+            <Text style={styles.label}>Trạng Thái:</Text>
+            <Text style={[styles.value, styles.status]}>
+              {appointment.status === "S"
+                ? "Đặt hẹn thành công"
+                : "Đã hoàn thành"}
+            </Text>
 
+            <Text style={styles.label}>
+              Phí Dịch Vụ:{" "}
+              <Text style={[styles.value, styles.fee]}>
+                {formatCurrency(appointment.service_fee)}
+              </Text>
+            </Text>
+
+            <Text style={styles.label}>
+              Phương thức:{" "}
+              <Text style={[styles.value]}>
+                {appointment.bankCode === "VNBANK" ||
+                appointment.bankCode === "VNPAY"
+                  ? "Thanh toán bằng ví điện tử VNPAY"
+                  : "Thanh toán tại phòng khám"}
+              </Text>
+            </Text>
+          </View>
+          <Text
+            style={{
+              fontFamily: "Open Sans-Italic",
+              marginVertical: 10,
+              textAlign: "center",
+            }}
+          >
+            "Lưu ý xin đến khám từ khung giờ mà bạn đã hẹn để được sắp xếp khám
+            nhanh chóng, cảm ơn bạn đã sử dụng dịch vụ của chúng tôi"
+          </Text>
           <TouchableOpacity
             style={styles.wrapperBtn}
             onPress={handleCancelAppointment}
