@@ -52,7 +52,7 @@ const AppointmentListCanceled = ({ patientId, onCountChange }) => {
   }, [appointments]);
 
   const handleViewDetails = (appointment) => {
-    navigation.navigate("AppointmentNewDetails", { appointment });
+    navigation.navigate("AppointmentCancelDetails", { appointment });
   };
 
   // Lọc danh sách lịch hẹn để chỉ hiển thị những lịch có trạng thái "S"
@@ -72,22 +72,9 @@ const AppointmentListCanceled = ({ patientId, onCountChange }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="default" backgroundColor="#5486c4" />
-      <Text style={styles.note}>
-        Xin lưu ý lịch hẹn của bạn có giá trị từ thời gian{" "}
-        <Text style={{ textDecorationLine: "underline" }}>
-          bắt đầu và kết thúc
-        </Text>
-        , nếu bạn đến phòng khám vào thời gian này thì lịch hẹn sẽ hợp lệ. Mọi
-        thắc mắc xin vui lòng liên hệ hotline:{" "}
-        <Text style={{ color: "red", fontFamily: "Open Sans-Bold" }}>
-          1800xxxx
-        </Text>
-      </Text>
       <ScrollView contentContainerStyle={styles.container}>
         {scheduledAppointments.length === 0 ? (
-          <Text style={styles.emptyText}>
-            Không có lịch hẹn nào sắp diễn ra.
-          </Text>
+          <Text style={styles.emptyText}>Không có lịch hẹn nào đã hủy.</Text>
         ) : (
           scheduledAppointments.map((item) => (
             <View key={item.appointment_id} style={styles.appointmentCard}>
@@ -101,7 +88,7 @@ const AppointmentListCanceled = ({ patientId, onCountChange }) => {
                 >
                   Mã lịch hẹn: {item.appointment_id}
                 </Text>
-                <Text>
+                <Text style={[styles.appointmentText, styles.text]}>
                   Tại {item.department_name} ({item.department_id})
                 </Text>
                 <Text style={[styles.appointmentText, styles.text]}>

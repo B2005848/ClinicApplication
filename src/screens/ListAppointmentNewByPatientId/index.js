@@ -100,14 +100,15 @@ const AppointmentListNew = ({ patientId, onCountChange }) => {
                 >
                   Mã lịch hẹn: {item.appointment_id}
                 </Text>
-                <Text>
+                <Text style={[styles.appointmentText, styles.text]}>
                   Tại {item.department_name} ({item.department_id})
                 </Text>
                 <Text style={[styles.appointmentText, styles.text]}>
+                  Vào ngày{" "}
                   {new Date(item.appointment_date).toLocaleDateString("vi-VN")}
                 </Text>
                 <Text style={[styles.appointmentText, styles.text]}>
-                  {moment.utc(item.start_time).format("HH:mm")} -{" "}
+                  Từ {moment.utc(item.start_time).format("HH:mm")} đến{" "}
                   {moment.utc(item.end_time).format("HH:mm")}
                 </Text>
                 <Text
