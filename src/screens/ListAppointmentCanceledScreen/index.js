@@ -19,7 +19,7 @@ moment.locale("vi");
 
 const { API_URL } = Constants.expoConfig.extra;
 
-const AppointmentListNew = ({ patientId, onCountChange }) => {
+const AppointmentListCanceled = ({ patientId, onCountChange }) => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
@@ -33,7 +33,7 @@ const AppointmentListNew = ({ patientId, onCountChange }) => {
 
         // Đếm số lượng lịch hẹn có trạng thái "S" và gửi lên AppTabScreen
         const scheduledCount = response.data.data.filter(
-          (appointment) => appointment.status === "S"
+          (appointment) => appointment.status === "H"
         ).length;
         onCountChange(scheduledCount); // Gửi số lượng lịch hẹn cho tab
       } else {
@@ -57,7 +57,7 @@ const AppointmentListNew = ({ patientId, onCountChange }) => {
 
   // Lọc danh sách lịch hẹn để chỉ hiển thị những lịch có trạng thái "S"
   const scheduledAppointments = appointments.filter(
-    (appointment) => appointment.status === "S"
+    (appointment) => appointment.status === "H"
   );
 
   if (loading) {
@@ -95,6 +95,7 @@ const AppointmentListNew = ({ patientId, onCountChange }) => {
                 <Text
                   style={[
                     styles.appointmentText,
+                    styles.strikethroughText,
                     { fontFamily: "Open Sans-Bold" },
                   ]}
                 >
@@ -113,7 +114,7 @@ const AppointmentListNew = ({ patientId, onCountChange }) => {
                 <Text
                   style={[styles.appointmentText, styles.text, styles.status]}
                 >
-                  {item.status === "S" ? "Đặt hẹn thành công" : "Đã hoàn thành"}
+                  {item.status === "H" ? "Đã hủy thành công" : "Đã hoàn thành"}
                 </Text>
               </View>
               <View
@@ -138,4 +139,4 @@ const AppointmentListNew = ({ patientId, onCountChange }) => {
   );
 };
 
-export default AppointmentListNew;
+export default AppointmentListCanceled;

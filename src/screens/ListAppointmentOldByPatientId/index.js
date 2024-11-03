@@ -45,7 +45,7 @@ const AppointmentListOld = ({ patientId, onCountChange }) => {
 
   useEffect(() => {
     fetchAppointments();
-  }, []);
+  }, [appointments]);
 
   if (loading) {
     return (
