@@ -108,6 +108,11 @@ const AppointmentNewDetails = ({ route }) => {
         </Text>
         <View style={styles.detailCard}>
           <Text style={styles.label}>
+            <FontAwesomeIcon
+              icon="fa-solid fa-qrcode"
+              style={{ color: "#262626" }}
+            />
+            {"  "}
             Mã Lịch Hẹn:{" "}
             <Text style={styles.value}>{appointment.appointment_id}</Text>
           </Text>
@@ -116,7 +121,8 @@ const AppointmentNewDetails = ({ route }) => {
             <FontAwesomeIcon
               icon="fa-solid fa-user-doctor"
               style={{ color: "#262626" }}
-            />{" "}
+            />
+            {"  "}
             Bác Sĩ:{" "}
             <Text style={styles.value}>
               {appointment.first_name} {appointment.last_name} -{" "}
@@ -128,7 +134,8 @@ const AppointmentNewDetails = ({ route }) => {
             <FontAwesomeIcon
               icon="fa-solid fa-door-open"
               style={{ color: "#262626" }}
-            />{" "}
+            />
+            {"  "}
             Khám Tại:{" "}
             <Text style={styles.value}>
               {appointment.department_name} ({appointment.department_id})
@@ -139,7 +146,8 @@ const AppointmentNewDetails = ({ route }) => {
             <FontAwesomeIcon
               icon="fa-solid fa-car-battery"
               style={{ color: "#262626" }}
-            />{" "}
+            />
+            {"  "}
             Dịch Vụ:{" "}
             <Text style={styles.value}>
               {appointment.service_name} - {appointment.service_id}
@@ -150,7 +158,8 @@ const AppointmentNewDetails = ({ route }) => {
             <FontAwesomeIcon
               icon="fa-solid fa-calendar-days"
               style={{ color: "#262626" }}
-            />{" "}
+            />
+            {"  "}
             Ngày Hẹn:{" "}
             <Text style={styles.value}>
               {new Date(appointment.appointment_date).toLocaleDateString(
@@ -163,7 +172,8 @@ const AppointmentNewDetails = ({ route }) => {
             <FontAwesomeIcon
               icon="fa-solid fa-clock"
               style={{ color: "#262626" }}
-            />{" "}
+            />
+            {"  "}
             Thời Gian Hẹn:{" "}
             <Text style={styles.value}>
               {moment.utc(appointment.start_time).format("HH:mm")} -{" "}
@@ -175,7 +185,8 @@ const AppointmentNewDetails = ({ route }) => {
             <FontAwesomeIcon
               icon="fa-solid fa-stopwatch"
               style={{ color: "#262626" }}
-            />{" "}
+            />
+            {"  "}
             Đặt lịch hẹn lúc:{" "}
             <Text style={styles.value}>
               {moment.utc(appointment.end_time).format("HH:mm")} vào ngày{" "}
@@ -188,20 +199,22 @@ const AppointmentNewDetails = ({ route }) => {
               <FontAwesomeIcon
                 icon="fa-solid fa-signal"
                 style={{ color: "#262626" }}
-              />{" "}
-              Trạng Thái:
-            </Text>
-            <Text style={[styles.value, styles.status]}>
-              {appointment.status === "S"
-                ? "Đặt hẹn thành công"
-                : "Đã hoàn thành"}
+              />
+              {"  "}
+              Trạng Thái:{" "}
+              <Text style={[styles.value, styles.status]}>
+                {appointment.status === "S"
+                  ? "Đặt hẹn thành công"
+                  : "Đã hoàn thành"}
+              </Text>
             </Text>
 
             <Text style={styles.label}>
               <FontAwesomeIcon
                 icon="fa-solid fa-coins"
                 style={{ color: "#262626" }}
-              />{" "}
+              />
+              {"  "}
               Phí Dịch Vụ:{" "}
               <Text style={[styles.value, styles.fee]}>
                 {formatCurrency(appointment.service_fee)}
