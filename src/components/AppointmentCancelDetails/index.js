@@ -38,11 +38,10 @@ const AppointmentCancelDetails = ({ route }) => {
             try {
               // Make the API call to cancel the appointment
               const response = await axios.delete(
-                `${API_URL}/api/appointment/delete/${appointment.appointment_id}`,
-                { status: "H" }
+                `${API_URL}/api/appointment/delete/${appointment.appointment_id}`
               );
 
-              if (response.data.status) {
+              if (response.status === 200) {
                 Alert.alert("Thông báo", "Lịch hẹn đã được xóa thành công.");
                 // Optionally navigate back or refresh the list of appointments
                 navigation.navigate("AppointmentTabScreen", {
@@ -104,9 +103,7 @@ const AppointmentCancelDetails = ({ route }) => {
 
           <Text style={styles.label}>Trạng Thái:</Text>
           <Text style={[styles.value, styles.status]}>
-            {appointment.status === "S"
-              ? "Đặt hẹn thành công"
-              : "Đã hoàn thành"}
+            {appointment.status === "H" ? "Đã hủy thành công" : "Đã hoàn thành"}
           </Text>
 
           <Text style={styles.label}>Phí Dịch Vụ:</Text>
