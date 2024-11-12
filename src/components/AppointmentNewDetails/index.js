@@ -203,9 +203,7 @@ const AppointmentNewDetails = ({ route }) => {
               {"  "}
               Trạng Thái:{" "}
               <Text style={[styles.value, styles.status]}>
-                {appointment.status === "S"
-                  ? "Đặt hẹn thành công"
-                  : "Đã hoàn thành"}
+                {appointment.status === "S" ? "Chờ xác nhận" : "Đã xác nhận"}
               </Text>
             </Text>
 
