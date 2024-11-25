@@ -4,9 +4,9 @@ import {
   Text,
   ActivityIndicator,
   Alert,
-  ScrollView,
   StatusBar,
   SafeAreaView,
+  FlatList, // Thêm FlatList,
   TouchableOpacity,
 } from "react-native";
 import axios from "axios";
@@ -31,11 +31,11 @@ const AppointmentListCanceled = ({ patientId, onCountChange }) => {
       if (response.data.status) {
         setAppointments(response.data.data);
 
-        // Đếm số lượng lịch hẹn có trạng thái "S" và gửi lên AppTabScreen
-        const scheduledCount = response.data.data.filter(
-          (appointment) => appointment.status === "H"
+        // Đếm số lượng lịch hẹn có trạng thái "CA" và gửi lên AppTabScreen
+        const canceledCount = response.data.data.filter(
+          (appointment) => appointment.status === "CA"
         ).length;
-        onCountChange(scheduledCount); // Gửi số lượng lịch hẹn cho tab
+        onCountChange(canceledCount); // Gửi số lượng lịch hẹn cho tab
       } else {
         console.log("Thông báo", "Không có lịch hẹn nào sắp diễn ra.");
       }
@@ -49,15 +49,15 @@ const AppointmentListCanceled = ({ patientId, onCountChange }) => {
 
   useEffect(() => {
     fetchAppointments();
-  }, [appointments]);
+  }, [patientId]); // Đảm bảo gọi lại mỗi khi patientId thay đổi
 
   const handleViewDetails = (appointment) => {
     navigation.navigate("AppointmentCancelDetails", { appointment });
   };
 
-  // Lọc danh sách lịch hẹn để chỉ hiển thị những lịch có trạng thái "S"
-  const scheduledAppointments = appointments.filter(
-    (appointment) => appointment.status === "H"
+  // Lọc danh sách lịch hẹn để chỉ hiển thị những lịch có trạng thái "CA"
+  const canceledAppointments = appointments.filter(
+    (appointment) => appointment.status === "CA"
   );
 
   if (loading) {
@@ -72,56 +72,57 @@ const AppointmentListCanceled = ({ patientId, onCountChange }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="default" backgroundColor="#5486c4" />
-      <ScrollView contentContainerStyle={styles.container}>
-        {scheduledAppointments.length === 0 ? (
-          <Text style={styles.emptyText}>Không có lịch hẹn nào đã hủy.</Text>
-        ) : (
-          scheduledAppointments.map((item) => (
-            <View key={item.appointment_id} style={styles.appointmentCard}>
-              <View style={{ flex: 2 }}>
-                <Text
-                  style={[
-                    styles.appointmentText,
-                    styles.strikethroughText,
-                    { fontFamily: "Open Sans-Bold" },
-                  ]}
-                >
-                  Mã lịch hẹn: {item.appointment_id}
-                </Text>
-                <Text style={[styles.appointmentText, styles.text]}>
-                  Tại {item.department_name} ({item.department_id})
-                </Text>
-                <Text style={[styles.appointmentText, styles.text]}>
-                  {new Date(item.appointment_date).toLocaleDateString("vi-VN")}
-                </Text>
-                <Text style={[styles.appointmentText, styles.text]}>
-                  {moment.utc(item.start_time).format("HH:mm")} -{" "}
-                  {moment.utc(item.end_time).format("HH:mm")}
-                </Text>
-                <Text
-                  style={[styles.appointmentText, styles.text, styles.status]}
-                >
-                  {item.status === "H" ? "Đã hủy thành công" : "Đã hoàn thành"}
-                </Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: "center",
-                  justifyContent: "flex-end",
-                }}
+      <FlatList
+        data={canceledAppointments}
+        keyExtractor={(item) => item.appointment_id.toString()} // Gán key cho mỗi item
+        renderItem={({ item }) => (
+          <View style={styles.appointmentCard}>
+            <View style={{ flex: 2 }}>
+              <Text
+                style={[
+                  styles.appointmentText,
+                  styles.strikethroughText,
+                  { fontFamily: "Open Sans-Bold" },
+                ]}
               >
-                <Text style={[styles.appointmentText, styles.fee]}>
-                  {formatCurrency(item.service_fee)}
-                </Text>
-                <TouchableOpacity onPress={() => handleViewDetails(item)}>
-                  <Text style={[styles.appointmentText]}>Xem chi tiết...</Text>
-                </TouchableOpacity>
-              </View>
+                Mã lịch hẹn: {item.appointment_id}
+              </Text>
+              <Text style={[styles.appointmentText, styles.text]}>
+                Tại {item.department_name} ({item.department_id})
+              </Text>
+              <Text style={[styles.appointmentText, styles.text]}>
+                {new Date(item.appointment_date).toLocaleDateString("vi-VN")}
+              </Text>
+              <Text style={[styles.appointmentText, styles.text]}>
+                {moment.utc(item.start_time).format("HH:mm")} -{" "}
+                {moment.utc(item.end_time).format("HH:mm")}
+              </Text>
+              <Text
+                style={[styles.appointmentText, styles.text, styles.status]}
+              >
+                {item.status === "CA" ? "Đã hủy thành công" : "Đã hoàn thành"}
+              </Text>
             </View>
-          ))
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "flex-end",
+              }}
+            >
+              <Text style={[styles.appointmentText, styles.fee]}>
+                {formatCurrency(item.service_fee)}
+              </Text>
+              <TouchableOpacity onPress={() => handleViewDetails(item)}>
+                <Text style={[styles.appointmentText]}>Xem chi tiết...</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         )}
-      </ScrollView>
+        ListEmptyComponent={
+          <Text style={styles.emptyText}>Không có lịch hẹn nào đã hủy.</Text>
+        }
+      />
     </SafeAreaView>
   );
 };

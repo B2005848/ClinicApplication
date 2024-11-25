@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  ActivityIndicator,
-  FlatList,
-  Button,
-  ScrollView,
-} from "react-native";
+import { View, ActivityIndicator, Button, FlatList } from "react-native";
 import { ListItem } from "react-native-elements";
 import { RadioButton } from "react-native-paper";
 import { handleGetlistDepartments } from "../../services/handleDepartments";
@@ -89,60 +83,55 @@ const ListDepartment = ({ onDepartmentSelect, resetDepartments }) => {
   };
 
   if (loading) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
+    return <ActivityIndicator size="36" color="#0000ff" />;
   }
 
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.scrollContainer}
-    >
-      <View style={styles.flatListContainer}>
-        <FlatList
-          data={
-            collapsed && selectedDepartment
-              ? [selectedDepartment]
-              : displayDepartments
-          }
-          keyExtractor={(item) => item.department_id}
-          renderItem={({ item }) => (
-            <ListItem
-              bottomDivider
+    <View style={styles.container}>
+      <FlatList
+        data={
+          collapsed && selectedDepartment
+            ? [selectedDepartment]
+            : displayDepartments
+        }
+        keyExtractor={(item) => item.department_id.toString()}
+        renderItem={({ item }) => (
+          <ListItem
+            key={item.department_id}
+            bottomDivider
+            onPress={() => handleSelectDepartment(item.department_id)}
+          >
+            <RadioButton
+              value={item.department_id}
+              status={
+                selectedDepartment &&
+                selectedDepartment.department_id === item.department_id
+                  ? "checked"
+                  : "unchecked"
+              }
               onPress={() => handleSelectDepartment(item.department_id)}
-            >
-              <RadioButton
-                value={item.department_id}
-                status={
-                  selectedDepartment &&
-                  selectedDepartment.department_id === item.department_id
-                    ? "checked"
-                    : "unchecked"
-                }
-                onPress={() => handleSelectDepartment(item.department_id)}
-              />
-              <ListItem.Content>
-                <ListItem.Title style={styles.title}>
-                  {item.department_name}
-                </ListItem.Title>
-                <ListItem.Subtitle>{item.description}</ListItem.Subtitle>
-              </ListItem.Content>
-            </ListItem>
-          )}
-          ListFooterComponent={
-            <>
-              {!collapsed && page > 1 && (
-                <Button title="Thu gọn" onPress={handleCollapse} />
-              )}
-              {page < totalPages && !collapsed && (
-                <Button title="Xem thêm" onPress={handleLoadMore} />
-              )}
-            </>
-          }
-          scrollEnabled={false} // Để FlatList không tự cuộn, dùng ScrollView bên ngoài
-        />
-      </View>
+            />
+            <ListItem.Content>
+              <ListItem.Title style={styles.title}>
+                {item.department_name}
+              </ListItem.Title>
+              <ListItem.Subtitle>{item.description}</ListItem.Subtitle>
+            </ListItem.Content>
+          </ListItem>
+        )}
+        ListFooterComponent={
+          <>
+            {!collapsed && page > 1 && (
+              <Button title="Thu gọn" onPress={handleCollapse} />
+            )}
+            {page < totalPages && !collapsed && (
+              <Button title="Xem thêm" onPress={handleLoadMore} />
+            )}
+          </>
+        }
+      />
       {loadingMore && <ActivityIndicator size="small" color="#0000ff" />}
-    </ScrollView>
+    </View>
   );
 };
 

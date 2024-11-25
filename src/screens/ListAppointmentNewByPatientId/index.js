@@ -4,9 +4,9 @@ import {
   Text,
   ActivityIndicator,
   Alert,
-  ScrollView,
   StatusBar,
   SafeAreaView,
+  FlatList,
   TouchableOpacity,
 } from "react-native";
 import axios from "axios";
@@ -23,6 +23,7 @@ const AppointmentListNew = ({ patientId, onCountChange }) => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
+
   const fetchAppointments = async () => {
     try {
       const response = await axios.get(
@@ -31,12 +32,11 @@ const AppointmentListNew = ({ patientId, onCountChange }) => {
       if (response.data.status) {
         setAppointments(response.data.data);
 
-        // Đếm số lượng lịch hẹn có trạng thái "S" và gửi lên AppTabScreen
         const scheduledCount = response.data.data.filter(
           (appointment) =>
             appointment.status === "CO-F" || appointment.status === "S"
         ).length;
-        onCountChange(scheduledCount); // Gửi số lượng lịch hẹn cho tab
+        onCountChange(scheduledCount);
       } else {
         console.log("Thông báo", "Không có lịch hẹn nào sắp diễn ra.");
       }
@@ -50,13 +50,12 @@ const AppointmentListNew = ({ patientId, onCountChange }) => {
 
   useEffect(() => {
     fetchAppointments();
-  }, [appointments]);
+  }, [patientId]);
 
   const handleViewDetails = (appointment) => {
     navigation.navigate("AppointmentNewDetails", { appointment });
   };
 
-  // Lọc danh sách lịch hẹn để chỉ hiển thị những lịch có trạng thái "S"
   const scheduledAppointments = appointments.filter(
     (appointment) => appointment.status === "CO-F" || appointment.status === "S"
   );
@@ -84,58 +83,59 @@ const AppointmentListNew = ({ patientId, onCountChange }) => {
           1800xxxx
         </Text>
       </Text>
-      <ScrollView contentContainerStyle={styles.container}>
-        {scheduledAppointments.length === 0 ? (
+      <FlatList
+        data={scheduledAppointments}
+        keyExtractor={(item) => item.appointment_id.toString()}
+        renderItem={({ item }) => (
+          <View style={styles.appointmentCard}>
+            <View style={{ flex: 2 }}>
+              <Text
+                style={[
+                  styles.appointmentText,
+                  { fontFamily: "Open Sans-Bold" },
+                ]}
+              >
+                Mã lịch hẹn: {item.appointment_id}
+              </Text>
+              <Text style={[styles.appointmentText, styles.text]}>
+                Tại {item.department_name} ({item.department_id})
+              </Text>
+              <Text style={[styles.appointmentText, styles.text]}>
+                Vào ngày{" "}
+                {new Date(item.appointment_date).toLocaleDateString("vi-VN")}
+              </Text>
+              <Text style={[styles.appointmentText, styles.text]}>
+                Từ {moment.utc(item.start_time).format("HH:mm")} đến{" "}
+                {moment.utc(item.end_time).format("HH:mm")}
+              </Text>
+              <Text
+                style={[styles.appointmentText, styles.text, styles.status]}
+              >
+                {item.status === "S" ? "Chờ xác nhận" : "Đã xác nhận"}
+              </Text>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "flex-end",
+              }}
+            >
+              <Text style={[styles.appointmentText, styles.fee]}>
+                {formatCurrency(item.service_fee)}
+              </Text>
+              <TouchableOpacity onPress={() => handleViewDetails(item)}>
+                <Text style={[styles.appointmentText]}>Xem chi tiết...</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+        ListEmptyComponent={
           <Text style={styles.emptyText}>
             Không có lịch hẹn nào sắp diễn ra.
           </Text>
-        ) : (
-          scheduledAppointments.map((item) => (
-            <View key={item.appointment_id} style={styles.appointmentCard}>
-              <View style={{ flex: 2 }}>
-                <Text
-                  style={[
-                    styles.appointmentText,
-                    { fontFamily: "Open Sans-Bold" },
-                  ]}
-                >
-                  Mã lịch hẹn: {item.appointment_id}
-                </Text>
-                <Text style={[styles.appointmentText, styles.text]}>
-                  Tại {item.department_name} ({item.department_id})
-                </Text>
-                <Text style={[styles.appointmentText, styles.text]}>
-                  Vào ngày{" "}
-                  {new Date(item.appointment_date).toLocaleDateString("vi-VN")}
-                </Text>
-                <Text style={[styles.appointmentText, styles.text]}>
-                  Từ {moment.utc(item.start_time).format("HH:mm")} đến{" "}
-                  {moment.utc(item.end_time).format("HH:mm")}
-                </Text>
-                <Text
-                  style={[styles.appointmentText, styles.text, styles.status]}
-                >
-                  {item.status === "S" ? "Chờ xác nhận" : "Đã xác nhận"}
-                </Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: "center",
-                  justifyContent: "flex-end",
-                }}
-              >
-                <Text style={[styles.appointmentText, styles.fee]}>
-                  {formatCurrency(item.service_fee)}
-                </Text>
-                <TouchableOpacity onPress={() => handleViewDetails(item)}>
-                  <Text style={[styles.appointmentText]}>Xem chi tiết...</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          ))
-        )}
-      </ScrollView>
+        }
+      />
     </SafeAreaView>
   );
 };

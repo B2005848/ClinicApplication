@@ -4,7 +4,7 @@ import {
   ActivityIndicator,
   Button,
   Text,
-  ScrollView,
+  FlatList, // Sử dụng FlatList thay vì ScrollView
 } from "react-native";
 import { ListItem } from "react-native-elements";
 import { RadioButton } from "react-native-paper";
@@ -53,100 +53,61 @@ const ListService = ({ dep_id, services, onServiceSelect, setServices }) => {
   };
 
   if (loading) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
+    return <ActivityIndicator size="36" color="#0000ff" />;
   }
 
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.scrollContainer}
-    >
-      <View
-        style={
-          selectedService
-            ? [styles.flatList, { height: 150 }]
-            : [styles.flatList, { height: 350 }]
-        }
-      >
-        {selectedService ? (
+    <View style={styles.container}>
+      <FlatList
+        data={selectedService ? [selectedService] : services}
+        keyExtractor={(item) => item.service_id.toString()}
+        renderItem={({ item }) => (
           <ListItem
+            key={item.service_id}
             bottomDivider
-            onPress={() => handleSelectService(selectedService.service_id)}
+            onPress={() => handleSelectService(item.service_id)}
           >
             <RadioButton
-              value={selectedService.service_id}
-              status="checked"
-              onPress={() => handleSelectService(selectedService.service_id)}
+              value={item.service_id}
+              status={
+                selectedService &&
+                selectedService.service_id === item.service_id
+                  ? "checked"
+                  : "unchecked"
+              }
+              onPress={() => handleSelectService(item.service_id)}
             />
             <ListItem.Content style={styles.text}>
               <ListItem.Title style={styles.title}>
-                {selectedService.service_name}
+                {item.service_name}
               </ListItem.Title>
               <ListItem.Subtitle>
                 <Text style={{ fontStyle: "italic" }}>
-                  ({selectedService.description})
+                  ({item.description})
                 </Text>
               </ListItem.Subtitle>
               <ListItem.Subtitle>
                 <Text>
                   <Text style={[styles.text, styles.title]}>Phí khám: </Text>
                   <Text style={[styles.text, styles.price]}>
-                    {formatCurrency(selectedService.service_fee)}
+                    {formatCurrency(item.service_fee)}
                   </Text>
                 </Text>
               </ListItem.Subtitle>
               <ListItem.Subtitle>
-                <Text>Thời gian khám ~ {selectedService.duration} phút</Text>
+                <Text>Thời gian khám ~ {item.duration} phút</Text>
               </ListItem.Subtitle>
             </ListItem.Content>
           </ListItem>
-        ) : (
-          services.map((item) => (
-            <ListItem
-              key={item.service_id}
-              bottomDivider
-              onPress={() => handleSelectService(item.service_id)}
-            >
-              <RadioButton
-                value={item.service_id}
-                status={
-                  selectedService &&
-                  selectedService.service_id === item.service_id
-                    ? "checked"
-                    : "unchecked"
-                }
-                onPress={() => handleSelectService(item.service_id)}
-              />
-              <ListItem.Content style={styles.text}>
-                <ListItem.Title style={styles.title}>
-                  {item.service_name}
-                </ListItem.Title>
-                <ListItem.Subtitle>
-                  <Text style={{ fontStyle: "italic" }}>
-                    ({item.description})
-                  </Text>
-                </ListItem.Subtitle>
-                <ListItem.Subtitle>
-                  <Text>
-                    <Text style={[styles.text, styles.title]}>Phí khám: </Text>
-                    <Text style={[styles.text, styles.price]}>
-                      {formatCurrency(item.service_fee)}
-                    </Text>
-                  </Text>
-                </ListItem.Subtitle>
-                <ListItem.Subtitle>
-                  <Text>Thời gian khám ~ {item.duration} phút</Text>
-                </ListItem.Subtitle>
-              </ListItem.Content>
-            </ListItem>
-          ))
         )}
-        {selectedService && (
-          <Button title="Chọn lại" onPress={handleResetSelection} />
-        )}
-      </View>
+        ListFooterComponent={
+          selectedService && (
+            <Button title="Chọn lại" onPress={handleResetSelection} />
+          )
+        }
+      />
       {loadingMore && <ActivityIndicator size="small" color="#0000ff" />}
-    </ScrollView>
+    </View>
   );
 };
 

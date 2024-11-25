@@ -3,6 +3,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import AppointmentListNew from "../ListAppointmentNewByPatientId";
 import AppointmentListOld from "../ListAppointmentOldByPatientId";
 import AppointmentListCanceled from "../ListAppointmentCanceledScreen";
+
 const Tab = createMaterialTopTabNavigator();
 
 const AppointmentTabScreen = ({ route }) => {
@@ -30,6 +31,7 @@ const AppointmentTabScreen = ({ route }) => {
           />
         )}
       </Tab.Screen>
+
       <Tab.Screen
         name="Lịch Đã Khám"
         options={{ title: `Lịch Đã Khám (${completedCount})` }}

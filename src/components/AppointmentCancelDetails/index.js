@@ -103,7 +103,9 @@ const AppointmentCancelDetails = ({ route }) => {
 
           <Text style={styles.label}>Trạng Thái:</Text>
           <Text style={[styles.value, styles.status]}>
-            {appointment.status === "H" ? "Đã hủy thành công" : "Đã hoàn thành"}
+            {appointment.status === "CA"
+              ? "Đã hủy thành công"
+              : "Đã hoàn thành"}
           </Text>
 
           <Text style={styles.label}>Phí Dịch Vụ:</Text>

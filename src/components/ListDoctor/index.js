@@ -4,7 +4,7 @@ import {
   ActivityIndicator,
   Button,
   Text,
-  ScrollView,
+  FlatList, // Thay ScrollView bằng FlatList
 } from "react-native";
 import { ListItem, Avatar } from "react-native-elements";
 import { RadioButton } from "react-native-paper";
@@ -52,7 +52,7 @@ const ListDoctorAppointment = ({ specialty_id, onDoctorSelect }) => {
   };
 
   if (loading) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
+    return <ActivityIndicator size="36" color="#0000ff" />;
   }
 
   if (error) {
@@ -67,87 +67,55 @@ const ListDoctorAppointment = ({ specialty_id, onDoctorSelect }) => {
   }
 
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={{ paddingVertical: 10 }}
-    >
-      <View
-        style={
-          selectedDoctor
-            ? [styles.flatList, { height: 120 }]
-            : [styles.flatList, { height: 350 }]
-        }
-      >
-        {selectedDoctor ? (
-          <ListItem
-            bottomDivider
-            onPress={() => handleSelectDoctor(selectedDoctor.doctor_id)}
-          >
-            <RadioButton
-              value={selectedDoctor.doctor_id}
-              status="checked"
-              onPress={() => handleSelectDoctor(selectedDoctor.doctor_id)}
-            />
-            <Avatar
-              size={100}
-              source={{ uri: `${API_URL}${selectedDoctor.image_avt}` }}
-              onError={() => console.log("Error loading avatar")}
-            />
-            <ListItem.Content>
-              <ListItem.Title style={styles.title}>
-                Bác sĩ: {selectedDoctor.first_name} {selectedDoctor.last_name}
-              </ListItem.Title>
-              <ListItem.Subtitle>
-                Ca làm việc: {selectedDoctor.shifts.join(", ")}.
-              </ListItem.Subtitle>
-              <ListItem.Subtitle>
-                Chuyên khoa: {selectedDoctor.specialty.join(", ")}.
-              </ListItem.Subtitle>
-            </ListItem.Content>
-          </ListItem>
-        ) : (
-          doctors.map((item) => (
-            <ListItem
-              key={item.doctor_id}
-              bottomDivider
-              onPress={() => handleSelectDoctor(item.doctor_id)}
-            >
-              <RadioButton
-                value={item.doctor_id}
-                status={
-                  selectedDoctor && selectedDoctor.doctor_id === item.doctor_id
-                    ? "checked"
-                    : "unchecked"
-                }
-                onPress={() => handleSelectDoctor(item.doctor_id)}
-              />
-              <Avatar
-                size={100}
-                source={{ uri: `${API_URL}${item.image_avt}` }}
-                onError={() => console.log("Error loading avatar")}
-              />
-              <ListItem.Content>
-                <ListItem.Title style={styles.title}>
-                  Bác sĩ: {item.first_name} {item.last_name}
-                </ListItem.Title>
-                <ListItem.Subtitle>
-                  Ca làm việc: {item.shifts.join(", ")}.
-                </ListItem.Subtitle>
-                <ListItem.Subtitle>
-                  Chuyên khoa: {item.specialty.join(", ")}.
-                </ListItem.Subtitle>
-              </ListItem.Content>
-            </ListItem>
-          ))
-        )}
-        {selectedDoctor && (
+    <FlatList
+      data={selectedDoctor ? [selectedDoctor] : doctors}
+      keyExtractor={(item) => item.doctor_id.toString()}
+      renderItem={({ item }) => (
+        <ListItem
+          key={item.doctor_id}
+          bottomDivider
+          onPress={() => handleSelectDoctor(item.doctor_id)}
+        >
+          <RadioButton
+            value={item.doctor_id}
+            status={
+              selectedDoctor && selectedDoctor.doctor_id === item.doctor_id
+                ? "checked"
+                : "unchecked"
+            }
+            onPress={() => handleSelectDoctor(item.doctor_id)}
+          />
+          <Avatar
+            size={100}
+            source={{
+              uri: item.image_avt
+                ? `${API_URL}${item.image_avt}`
+                : "http://192.168.1.162:3000/uploads/avtStaffs/CTU_logo.png",
+            }}
+            onError={() => console.log("Error loading avatar")}
+          />
+          <ListItem.Content>
+            <ListItem.Title style={styles.title}>
+              Bác sĩ: {item.first_name} {item.last_name}
+            </ListItem.Title>
+            <ListItem.Subtitle>
+              Ca làm việc: {item.shifts.join(", ")}.
+            </ListItem.Subtitle>
+            <ListItem.Subtitle>
+              Chuyên khoa: {item.specialty.join(", ")}.
+            </ListItem.Subtitle>
+          </ListItem.Content>
+        </ListItem>
+      )}
+      ListFooterComponent={
+        selectedDoctor && (
           <Button
             title="Chọn lại bác sĩ"
             onPress={() => setSelectedDoctor(null)}
           />
-        )}
-      </View>
-    </ScrollView>
+        )
+      }
+    />
   );
 };
 

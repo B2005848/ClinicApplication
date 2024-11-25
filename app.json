@@ -7,8 +7,9 @@
     "icon": "./assets/CTU_logo.png",
     "userInterfaceStyle": "light",
     "extra": {
-      "API_URL": "http://192.168.1.172:3000"
+      "API_URL": "http://192.168.1.162:3000"
     },
+    "newArchEnabled": true,
     "splash": {
       "image": "./assets/StartImage.png",
       "resizeMode": "contain",

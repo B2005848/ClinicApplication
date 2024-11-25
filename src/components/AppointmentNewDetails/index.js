@@ -70,7 +70,7 @@ const AppointmentNewDetails = ({ route }) => {
               // Make the API call to cancel the appointment
               const response = await axios.put(
                 `${API_URL}/api/appointment/modifyStatus/${appointment.appointment_id}`,
-                { status: "H" }
+                { status: "CA" }
               );
 
               if (response.data.status) {

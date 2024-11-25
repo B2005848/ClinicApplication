@@ -7,9 +7,10 @@ import {
   ScrollView,
   Alert,
   TouchableOpacity,
+  FlatList, // Đổi từ ScrollView sang FlatList cho các danh sách dài
 } from "react-native";
 import moment from "moment-timezone";
-import "moment/locale/vi"; // Import tiếng Việt cho moment
+import "moment/locale/vi";
 import { Calendar } from "react-native-calendars";
 import { getDoctorShifts } from "../../services/shiftService";
 import { checkAvailableTime } from "../../services/checkAvailableTime";
@@ -37,6 +38,7 @@ const ListDate = ({
   const [timeOptions, setTimeOptions] = useState([]); // Danh sách giờ
   const [selectedTime, setSelectedTime] = useState(null); // Lưu thời gian đã chọn
   const [symptoms, setSymptoms] = useState("");
+
   useEffect(() => {
     const fetchShifts = async () => {
       const result = await getDoctorShifts(departmentId, specialtyId, doctorId);
@@ -97,11 +99,9 @@ const ListDate = ({
   const onShiftSelect = (shift) => {
     setSelectedShift(shift);
 
-    // Chuyển đổi start_time và end_time từ UTC sang giờ cục bộ
     const startMoment = moment.utc(shift.start_time);
     const endMoment = moment.utc(shift.end_time);
 
-    // Tạo danh sách giờ cách nhau 30 phút
     const options = [];
     for (
       let m = startMoment.clone();
@@ -111,7 +111,6 @@ const ListDate = ({
       options.push(m.format("HH:mm"));
     }
 
-    // Thêm giờ kết thúc vào danh sách
     options.push(endMoment.format("HH:mm"));
 
     setTimeOptions(options);
@@ -120,8 +119,6 @@ const ListDate = ({
 
   const selectTime = async (time) => {
     setSelectedTime(time); // Lưu thời gian đã chọn
-    // Tạo đối tượng chi tiết cuộc hẹn
-
     const appointmentDetails = {
       doctor_id: doctorId,
       department_id: departmentId,
@@ -131,7 +128,6 @@ const ListDate = ({
       shift_id: selectedShift.shift_id, // ID của ca làm việc đã chọn
     };
 
-    // Gọi API để kiểm tra khung giờ
     const isAvailable = await checkAvailableTime(appointmentDetails);
     if (isAvailable && isAvailable.success) {
       Alert.alert("Thành công", "Bạn đã chọn thời gian thành công!");
@@ -158,7 +154,6 @@ const ListDate = ({
     const endTime = moment(selectedTime, "HH:mm")
       .add(30, "minutes")
       .format("HH:mm");
-    // Truyền thông tin khám đến màn hình phương thức thanh toán
     navigation.navigate("PaymentMethodScreen", {
       doctor_id: doctorId,
       patient_id: patientId,
@@ -247,13 +242,15 @@ const ListDate = ({
           <Text style={[{ marginTop: 5, fontWeight: "bold" }, styles.text]}>
             Chọn thời gian khám:
           </Text>
-          <ScrollView>
-            {timeOptions.map((time, index) => (
-              <TouchableOpacity key={index} onPress={() => selectTime(time)}>
-                <Text style={{ padding: 10, fontSize: 18 }}>{time}</Text>
+          <FlatList
+            data={timeOptions}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => selectTime(item)}>
+                <Text style={{ padding: 10, fontSize: 18 }}>{item}</Text>
               </TouchableOpacity>
-            ))}
-          </ScrollView>
+            )}
+            keyExtractor={(item, index) => index.toString()}
+          />
         </View>
       )}
 
@@ -292,7 +289,6 @@ const ListDate = ({
               alignItems: "center",
             }}
           >
-            {/* Nút tiếp tục lấy thông tin khám */}
             <TouchableOpacity
               style={styles.wrapperBtnContinute}
               onPress={handleGoToPayment}

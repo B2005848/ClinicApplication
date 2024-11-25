@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import {
   View,
   Text,
+  Button,
+  StatusBar,
   KeyboardAvoidingView,
   Platform,
-  Button,
-  ScrollView,
-  StatusBar,
+  FlatList,
 } from "react-native";
-
 import { Icon } from "react-native-elements";
 import styles from "./style";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -47,97 +46,100 @@ export default function BookingScreenNew({ route }) {
       keyboardVerticalOffset={Platform.OS === "ios" ? 32 : 0}
     >
       <StatusBar barStyle="default" backgroundColor="#5486c4" />
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.menuContent}>
-          <Text style={styles.title}>ĐẶT LỊCH - THEO PHÒNG KHÁM</Text>
-          <Text style={(styles.titleStep, styles.note)}>
-            Chọn thông tin khám{" "}
-            <FontAwesomeIcon
-              icon="fa-solid fa-file-waveform"
-              style={{ color: "#74C0FC" }}
-            />
-          </Text>
-          {/* Chọn phòng khám */}
-          <Text style={styles.titleStep}>
-            Vui lòng chọn phòng khám chuyên khoa{" "}
-            <Text style={{ color: "red" }}>(*)</Text>
-          </Text>
-          <View style={styles.listDepartment}>
-            <ListDepartment
-              onDepartmentSelect={handleDepartmentSelect}
-              resetDepartments={resetDepartments}
-            />
-          </View>
+      <FlatList
+        data={[]}
+        ListHeaderComponent={
+          <>
+            <View style={styles.menuContent}>
+              <Text style={styles.title}>ĐẶT LỊCH - THEO PHÒNG KHÁM</Text>
+              <Text style={[styles.titleStep, styles.note]}>
+                Chọn thông tin khám{" "}
+                <FontAwesomeIcon
+                  icon="fa-solid fa-file-waveform"
+                  style={{ color: "#74C0FC" }}
+                />
+              </Text>
 
-          {/* Nút chọn lại phòng ban */}
-          {selectedDepartmentId && (
-            <Button
-              title="Chọn lại phòng khám"
-              onPress={handleResetDepartmentSelection}
-            />
-          )}
-
-          {/* Chọn dịch vụ */}
-          <Text style={styles.titleStep}>
-            Vui lòng chọn dịch vụ <Text style={{ color: "red" }}>(*)</Text>
-          </Text>
-          <View style={styles.listService}>
-            {selectedDepartmentId && (
-              <ListService
-                dep_id={selectedDepartmentId}
-                services={services}
-                onServiceSelect={setSelectedService}
-                setServices={setServices}
+              {/* Chọn phòng khám */}
+              <Text style={styles.titleStep}>
+                Vui lòng chọn phòng khám chuyên khoa{" "}
+                <Text style={{ color: "red" }}>(*)</Text>
+              </Text>
+              <ListDepartment
+                onDepartmentSelect={handleDepartmentSelect}
+                resetDepartments={resetDepartments}
               />
-            )}
-          </View>
 
-          {/* Chọn bác sĩ */}
-          <Text style={styles.titleStep}>
-            Vui lòng chọn bác sĩ <Text style={{ color: "red" }}>(*)</Text>
-          </Text>
-          <View style={styles.listDoctor}>
-            {selectedService && (
-              <ListDoctorAppointment
-                specialty_id={selectedService.specialty_id}
-                onDoctorSelect={(doctor) => {
-                  setSelectedDoctor(doctor);
-                  console.log("Selected doctor:", doctor);
-                }}
-              />
-            )}
-          </View>
+              {/* Nút chọn lại phòng ban */}
+              {selectedDepartmentId && (
+                <Button
+                  title="Chọn lại phòng khám"
+                  onPress={handleResetDepartmentSelection}
+                />
+              )}
 
-          {/* Chọn ngày giờ khám */}
-          <Text style={styles.titleStep}>
-            Vui lòng chọn ngày và giờ khám{" "}
-            <Text style={{ color: "red" }}>(*)</Text>
-          </Text>
-          <View style={styles.unavailableDateContainer}>
-            <Icon name="square" type="font-awesome" color="#d3d3d3" />
-            <Text style={styles.unavailableDateText}>
-              {"  :  "} Ngày không thể chọn {"   "}
-            </Text>
-            <Icon name="square" type="font-awesome" color="black" />
-            <Text style={styles.unavailableDateText}>
-              {"  :  "} Ngày có thể chọn
-            </Text>
-          </View>
+              {/* Chọn dịch vụ */}
+              <Text style={styles.titleStep}>
+                Vui lòng chọn dịch vụ <Text style={{ color: "red" }}>(*)</Text>
+              </Text>
+              {selectedDepartmentId && (
+                <ListService
+                  dep_id={selectedDepartmentId}
+                  services={services}
+                  onServiceSelect={setSelectedService}
+                  setServices={setServices}
+                />
+              )}
 
+              {/* Chọn bác sĩ */}
+              <Text style={styles.titleStep}>
+                Vui lòng chọn bác sĩ <Text style={{ color: "red" }}>(*)</Text>
+              </Text>
+              {selectedService && (
+                <ListDoctorAppointment
+                  specialty_id={selectedService.specialty_id}
+                  onDoctorSelect={(doctor) => setSelectedDoctor(doctor)}
+                />
+              )}
+
+              {/* Chọn ngày giờ khám */}
+              <Text style={styles.titleStep}>
+                Vui lòng chọn ngày và giờ khám{" "}
+                <Text style={{ color: "red" }}>(*)</Text>
+              </Text>
+              <View style={styles.unavailableDateContainer}>
+                <Icon name="square" type="font-awesome" color="#d3d3d3" />
+                <Text style={styles.unavailableDateText}>
+                  {"  :  "} Ngày không thể chọn{" "}
+                </Text>
+                <Icon name="square" type="font-awesome" color="black" />
+                <Text style={styles.unavailableDateText}>
+                  {"  :  "} Ngày có thể chọn
+                </Text>
+              </View>
+            </View>
+          </>
+        }
+        ListFooterComponent={
           <View style={styles.listDate}>
             {selectedDoctor && (
               <ListDate
                 departmentId={selectedDepartmentId}
-                specialtyId={selectedService.specialty_id}
-                doctorId={selectedDoctor.doctor_id}
-                serviceId={selectedService.service_id}
+                specialtyId={
+                  selectedService ? selectedService.specialty_id : null
+                }
+                doctorId={selectedDoctor ? selectedDoctor.doctor_id : null}
+                serviceId={selectedService ? selectedService.service_id : null}
                 patientId={patient_id}
-                serviceFee={selectedService.service_fee}
+                serviceFee={
+                  selectedService ? selectedService.service_fee : null
+                }
               />
             )}
           </View>
-        </View>
-      </ScrollView>
+        }
+        keyExtractor={(item, index) => index.toString()}
+      />
     </KeyboardAvoidingView>
   );
 }

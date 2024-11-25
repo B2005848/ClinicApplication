@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   ActivityIndicator,
   Alert,
-  ScrollView,
+  FlatList, // Sử dụng FlatList thay vì ScrollView
   StatusBar,
   SafeAreaView,
+  StyleSheet,
 } from "react-native";
 import axios from "axios";
 import Constants from "expo-constants";
@@ -27,6 +27,7 @@ const AppointmentListOld = ({ patientId, onCountChange }) => {
       );
       if (response.data.status) {
         setAppointments(response.data.data);
+
         // Đếm số lượng lịch hẹn có trạng thái "C" và gửi lên AppTabScreen
         const completedCount = response.data.data.filter(
           (appointment) => appointment.status === "C"
@@ -45,7 +46,12 @@ const AppointmentListOld = ({ patientId, onCountChange }) => {
 
   useEffect(() => {
     fetchAppointments();
-  }, [appointments]);
+  }, [patientId]); // Chỉ gọi lại khi patientId thay đổi
+
+  // Lọc danh sách lịch hẹn để chỉ hiển thị những lịch có trạng thái "C"
+  const completedAppointments = appointments.filter(
+    (appointment) => appointment.status === "C"
+  );
 
   if (loading) {
     return (
@@ -56,52 +62,46 @@ const AppointmentListOld = ({ patientId, onCountChange }) => {
     );
   }
 
-  // Lọc danh sách lịch hẹn để chỉ hiển thị những lịch có trạng thái "S"
-  const scheduledAppointments = appointments.filter(
-    (appointment) => appointment.status === "C"
-  );
-
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="default" backgroundColor="#5486c4" />
-      <ScrollView contentContainerStyle={styles.container}>
-        {scheduledAppointments.length === 0 ? (
+      <FlatList
+        data={completedAppointments}
+        keyExtractor={(item) => item.appointment_id.toString()} // Gán key cho mỗi item
+        renderItem={({ item }) => (
+          <View style={styles.appointmentCard}>
+            <Text style={styles.appointmentText}>
+              Mã lịch hẹn: {item.appointment_id}
+            </Text>
+            <Text style={styles.appointmentText}>Bác sĩ: {item.staff_id}</Text>
+            <Text style={styles.appointmentText}>
+              Phòng ban: {item.department_id}
+            </Text>
+            <Text style={styles.appointmentText}>
+              Dịch vụ: {item.service_id}
+            </Text>
+            <Text style={styles.appointmentText}>
+              Ngày hẹn:{" "}
+              {new Date(item.appointment_date).toLocaleDateString("vi-VN")}
+            </Text>
+            <Text style={styles.appointmentText}>
+              Giờ bắt đầu: {moment.utc(item.start_time).format("HH:mm")}
+            </Text>
+            <Text style={styles.appointmentText}>
+              Giờ kết thúc: {moment.utc(item.end_time).format("HH:mm")}
+            </Text>
+            <Text style={styles.appointmentText}>
+              Trạng thái:{" "}
+              {item.status === "S" ? "Đã lên lịch" : "Đã hoàn thành"}
+            </Text>
+          </View>
+        )}
+        ListEmptyComponent={
           <Text style={styles.emptyText}>
             Bạn chưa từng đặt hẹn tại phòng khám.
           </Text>
-        ) : (
-          scheduledAppointments.map((item) => (
-            <View key={item.appointment_id} style={styles.appointmentCard}>
-              <Text style={styles.appointmentText}>
-                Mã lịch hẹn: {item.appointment_id}
-              </Text>
-              <Text style={styles.appointmentText}>
-                Bác sĩ: {item.staff_id}
-              </Text>
-              <Text style={styles.appointmentText}>
-                Phòng ban: {item.department_id}
-              </Text>
-              <Text style={styles.appointmentText}>
-                Dịch vụ: {item.service_id}
-              </Text>
-              <Text style={styles.appointmentText}>
-                Ngày hẹn:{" "}
-                {new Date(item.appointment_date).toLocaleDateString("vi-VN")}
-              </Text>
-              <Text style={styles.appointmentText}>
-                Giờ bắt đầu: {moment.utc(item.start_time).format("HH:mm")}
-              </Text>
-              <Text style={styles.appointmentText}>
-                Giờ kết thúc: {moment.utc(item.end_time).format("HH:mm")}
-              </Text>
-              <Text style={styles.appointmentText}>
-                Trạng thái:{" "}
-                {item.status === "S" ? "Đã lên lịch" : "Đã hoàn thành"}
-              </Text>
-            </View>
-          ))
-        )}
-      </ScrollView>
+        }
+      />
     </SafeAreaView>
   );
 };
