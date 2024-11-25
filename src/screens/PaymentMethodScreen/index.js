@@ -59,6 +59,7 @@ const PaymentMethodScreen = ({ route, navigation }) => {
       return;
     }
 
+    // ============== THANH TOÁN BẰNG VN PAY==================
     if (selectedPaymentMethod.payment_method_id === 2) {
       try {
         // Step 1: Send booking data to create an appointment
@@ -73,6 +74,7 @@ const PaymentMethodScreen = ({ route, navigation }) => {
             shift_id: shift_id,
             service_id: service_id,
             reason: reason,
+            payment_method_id: 2,
           }
         );
 
@@ -110,12 +112,64 @@ const PaymentMethodScreen = ({ route, navigation }) => {
         console.error("Error processing payment:", error);
         Alert.alert("Lỗi", "Không thể thực hiện thanh toán");
       }
-    } else {
-      // Handle other payment methods if needed
-      Alert.alert(
-        "Phương thức thanh toán đã chọn",
-        `Bạn đã chọn phương thức: ${selectedPaymentMethod.method_name}`
-      );
+
+      // ===============THANH TOÁN TRỰC TIẾP TẠI PHÒNG KHÁM ================
+    } else if (selectedPaymentMethod.payment_method_id === 1) {
+      // Handle other payment methods trực tiếp tại phòng khám
+      try {
+        // Step 1: Send booking data to create an appointment
+        const responseBooking = await axios.post(
+          `${API_URL}/api/appointment/booking/${patient_id}`,
+          {
+            staff_id: doctor_id,
+            department_id: department_id,
+            appointment_date: appointment_date,
+            start_time: start_time,
+            end_time: end_time,
+            shift_id: shift_id,
+            service_id: service_id,
+            reason: reason,
+            payment_method_id: 1,
+          }
+        );
+
+        // Cập nhật dữ liệu bảng giao dịch của lịch hẹn tại phòng khám với trạng thái chưa thanh toán
+        if (responseBooking.status === 200 && responseBooking.data.data) {
+          const appointment_id = responseBooking.data.data.appointment_id;
+
+          // Step 2:
+          const responsePayment = await axios.post(
+            `${API_URL}/api/appointment/add`,
+            {
+              patient_id: patient_id,
+              appointment_id: appointment_id, // Pass the retrieved appointment_id here
+              amount: service_fee,
+              payment_method_id: 1,
+              payment_status: "P",
+              bankCode: "TT",
+            }
+          );
+
+          // Handle VNPay response
+          if (responsePayment.status === 201) {
+            Alert.alert(
+              "Thành công",
+              "Đặt lịch hẹn thành công!, vui lòng đến phòng khám để tiếp tục hỗ trợ thanh toán"
+            );
+            navigation.navigate("CustomerScreen");
+          } else {
+            Alert.alert(
+              "Thông báo lỗi",
+              "Hệ thống đang lỗi, vui lòng thử lại sau"
+            );
+          }
+        } else {
+          Alert.alert("Lỗi", "Đặt lịch thất bại, vui lòng thử lại sau");
+        }
+      } catch (error) {
+        console.error("Lỗi khi thanh toán trực tiếp:", error);
+        Alert.alert("Thông báo lỗi", "Hệ thống đang lỗi, vui lòng thử lại sau");
+      }
     }
   };
 
