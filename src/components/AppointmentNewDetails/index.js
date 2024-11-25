@@ -49,6 +49,7 @@ const AnimatedIcon = ({ icon, color }) => {
     </Animated.View>
   );
 };
+
 const AppointmentNewDetails = ({ route }) => {
   const { appointment } = route.params;
   const navigation = useNavigation();
@@ -76,7 +77,7 @@ const AppointmentNewDetails = ({ route }) => {
               if (response.data.status) {
                 Alert.alert("Thông báo", "Lịch hẹn đã được hủy thành công.");
                 // Optionally navigate back or refresh the list of appointments
-                navigation.navigate("AppointmentTabScreen", {
+                navigation.navigate("CustomerScreen", {
                   patientId: appointment.appointment_id,
                 });
               } else {

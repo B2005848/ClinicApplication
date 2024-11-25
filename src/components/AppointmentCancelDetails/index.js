@@ -44,7 +44,7 @@ const AppointmentCancelDetails = ({ route }) => {
               if (response.status === 200) {
                 Alert.alert("Thông báo", "Lịch hẹn đã được xóa thành công.");
                 // Optionally navigate back or refresh the list of appointments
-                navigation.navigate("AppointmentTabScreen", {
+                navigation.navigate("CustomerScreen", {
                   patientId: appointment.appointment_id,
                 });
               } else {
