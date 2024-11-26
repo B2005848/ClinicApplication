@@ -110,20 +110,10 @@ const CustomerScreen = ({ route }) => {
             </Text>
 
             <Text style={[styles.text, styles.note]}>
-              "Vui lòng chọn cách thức đặt lịch khám bệnh"
+              "Ấn để bắt đầu đặt lịch hẹn"
             </Text>
 
             <View style={[styles.itemBookings]}>
-              <View>
-                <TouchableOpacity style={styles.wapperButtonBooking}>
-                  <Text style={[styles.text, styles.itemBookingText]}>
-                    THEO BÁC SĨ
-                  </Text>
-                </TouchableOpacity>
-              </View>
-
-              <Text>--</Text>
-
               <View>
                 <TouchableOpacity
                   style={styles.wapperButtonBooking}
@@ -134,7 +124,7 @@ const CustomerScreen = ({ route }) => {
                   }
                 >
                   <Text style={[styles.text, styles.itemBookingText]}>
-                    THEO PHÒNG KHÁM
+                    ĐẶT LỊCH HẸN
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -221,10 +211,22 @@ const CustomerScreen = ({ route }) => {
             ]}
           >
             {/* Icon Chat */}
-            <TouchableOpacity style={styles.chatIcon} onPress={navigateToChat}>
+            <TouchableOpacity
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                padding: 10,
+              }}
+              onPress={navigateToChat}
+            >
+              <Text style={[styles.chatText, { marginRight: 10 }]}>
+                Hỗ trợ khách hàng
+              </Text>
               <FontAwesomeIcon
                 icon={["fas", "comment-dots"]}
-                size={30}
+                size={40}
                 color="#00BFFF"
               />
             </TouchableOpacity>
