@@ -8,14 +8,14 @@ import {
   ActivityIndicator,
   ScrollView,
 } from "react-native";
-import { Image } from "react-native-elements";
+import { Image, Icon } from "react-native-elements";
 import React, { useEffect, useState } from "react";
 import styles from "./style";
 import { useNavigation } from "@react-navigation/native";
 import { logoutService } from "../../services/handleLogin";
 import { getDataInfo } from "../../services/handleGetInfo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import HeaderCustomer from "../../components/HeaderCustomer";
 import BannerCustomer from "../../components/BannerCustomer";
 import MenuAccount from "../../components/MenuAccount";
@@ -46,6 +46,13 @@ const CustomerScreen = ({ route }) => {
 
   const toggleMenu = () => {
     setIsMenuVisible(!isMenuVisiable);
+  };
+
+  const navigateToChat = () => {
+    navigation.navigate("ChatScreen", {
+      senderId: "patient_12345",
+      receiverId: "Admin",
+    });
   };
 
   if (loading) {
@@ -92,6 +99,7 @@ const CustomerScreen = ({ route }) => {
             onMenuPress={toggleMenu}
           />
           <BannerCustomer />
+
           <View>
             <Text style={[styles.text, styles.title]}>
               <Image
@@ -201,6 +209,25 @@ const CustomerScreen = ({ route }) => {
                 <Text style={[styles.menuText, styles.text]}>Về chúng tôi</Text>
               </TouchableOpacity>
             </View>
+          </View>
+
+          <View
+            style={[
+              {
+                display: "flex",
+                alignItems: "flex-end",
+                backgroundColor: "#fffffe",
+              },
+            ]}
+          >
+            {/* Icon Chat */}
+            <TouchableOpacity style={styles.chatIcon} onPress={navigateToChat}>
+              <FontAwesomeIcon
+                icon={["fas", "comment-dots"]}
+                size={30}
+                color="#00BFFF"
+              />
+            </TouchableOpacity>
           </View>
         </ImageBackground>
       </View>

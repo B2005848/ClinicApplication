@@ -21,6 +21,7 @@ import FailurePaymentScreen from "./screens/FailurePaymentScreen";
 import AppointmentTabScreen from "./screens/AppointmentTabScreen";
 import AppointmentNewDetails from "./components/AppointmentNewDetails";
 import AppointmentCancelDetails from "./components/AppointmentCancelDetails";
+import ChatScreen from "./screens/ChatScreen";
 // Import FontAwesomeIcon
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -240,6 +241,13 @@ export default function App() {
             name="FailurePaymentScreen"
             component={FailurePaymentScreen}
             options={{ headerShown: false }}
+          />
+
+          {/* CHAT ONLINE */}
+          <Stack.Screen
+            name="ChatScreen"
+            component={ChatScreen}
+            options={{ title: "Chat with Admin" }}
           />
         </Stack.Navigator>
       </NavigationContainer>
