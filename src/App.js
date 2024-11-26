@@ -113,6 +113,7 @@ export default function App() {
             options={({ navigation }) => ({
               headerShown: true,
               title: "Đăng nhập",
+              headerBackTitle: "Trở về",
               headerStyle: {
                 backgroundColor: "#5486c4",
                 fontFamily: "Open Sans-Bold",
@@ -138,6 +139,7 @@ export default function App() {
             options={({ navigation }) => ({
               headerShown: true,
               title: "Đăng Kí Tài Khoản",
+              headerBackTitle: "Trở về",
               headerStyle: {
                 backgroundColor: "#48bbc6",
                 fontFamily: "Open Sans-Bold",
@@ -247,7 +249,10 @@ export default function App() {
           <Stack.Screen
             name="ChatScreen"
             component={ChatScreen}
-            options={{ title: "Chat with Admin" }}
+            options={{
+              title: "Bộ phận hỗ trợ", // Tiêu đề của màn hình
+              headerBackTitle: "Trở về", // Thay tiêu đề nút back thành "Trở về"
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>
