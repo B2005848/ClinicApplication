@@ -28,6 +28,18 @@ const PaymentMethodScreen = ({ route, navigation }) => {
     reason,
   } = route.params; // Lấy thông tin cuộc hẹn từ route.params
 
+  console.log(
+    doctor_id,
+    patient_id,
+    department_id,
+    service_id,
+    appointment_date,
+    start_time,
+    end_time,
+    shift_id,
+    service_fee,
+    reason
+  );
   const [paymentMethods, setPaymentMethods] = useState([]); // Danh sách phương thức thanh toán
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null); // Phương thức thanh toán đã chọn
 
@@ -106,10 +118,20 @@ const PaymentMethodScreen = ({ route, navigation }) => {
             );
           }
         } else {
-          // await axios.delete(
-          //   `${API_URL}/api/appointment/delete/${appointment_id}`
-          // );
-          Alert.alert("Lỗi", "Đặt lịch thất bại, vui lòng thử lại sau");
+          Alert.alert(
+            "Lỗi",
+            "Hiện tại đã xảy ra lỗi trong quá trình thanh toán, vui lòng kiểm tra lại lịch hẹn của bạn",
+            [
+              {
+                text: "OK",
+                onPress: () => {
+                  navigation.navigate("AppointmentTabScreen", {
+                    patientId: patient_id,
+                  });
+                },
+              },
+            ]
+          );
         }
       } catch (error) {
         console.error("Error processing payment:", error);

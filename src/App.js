@@ -183,6 +183,7 @@ export default function App() {
             options={() => ({
               headerShown: true,
               title: "LỊCH HẸN CỦA BẠN",
+              headerBackTitle: "Trở về",
               headerStyle: {
                 backgroundColor: "#5486c4",
                 fontFamily: "Open Sans-Bold",
@@ -197,6 +198,7 @@ export default function App() {
             component={AppointmentNewDetails}
             options={() => ({
               headerShown: true,
+              headerBackTitle: "Trở về",
               title: "",
               headerTintColor: "#fff",
               headerStyle: {
