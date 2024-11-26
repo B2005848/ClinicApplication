@@ -50,7 +50,7 @@ const CustomerScreen = ({ route }) => {
 
   const navigateToChat = () => {
     navigation.navigate("ChatScreen", {
-      senderId: "patient_12345",
+      senderId: userInfo.patient_id,
       receiverId: "Admin",
     });
   };

@@ -6,12 +6,12 @@ import io from "socket.io-client"; // Import socket.io-client
 
 const { API_URL } = Constants.expoConfig.extra;
 
-const ChatScreen = () => {
+const ChatScreen = ({ route }) => {
+  const { senderId } = route.params;
   const [messages, setMessages] = useState([]); // Dữ liệu tin nhắn
   const [newMessage, setNewMessage] = useState(""); // Tin nhắn mới
   const [isLoading, setIsLoading] = useState(false); // Trạng thái đang tải
   const [page, setPage] = useState(1); // Trạng thái trang hiện tại
-  const senderId = "0969229338"; // ID của bệnh nhân
   const receiverId = "Admin"; // Receiver luôn là Admin
   const socket = io(API_URL, { transports: ["websocket"] });
 
