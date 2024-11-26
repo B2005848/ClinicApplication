@@ -16,6 +16,7 @@
 - **Axios**: get api from Server Side.
 - **AsyncStorage**: Store value_tem management library.
 - **Hookstate**: management state.
+- **Socket.io**: realtime for chat.
 
 ## Prerequisites
 
@@ -44,7 +45,7 @@ Before you begin, ensure you have met the following requirements:
 - AsyncStorage
 - Axios
 - Node.js
-- React Native(https://www.npmjs.com/package/react-native-swiper-flatlist, https://www.npmjs.com/package/react-native-ui-datepicker, npm install react-native-paper
+- React Native(https://www.npmjs.com/package/react-native-swiper-flatlist, https://www.npmjs.com/package/react-native-ui-datepicker, npm install react-native-paper, https://www.npmjs.com/package/react-native-gifted-chat
   )
 - Expo (https://docs.expo.dev/versions/latest/sdk/date-time-picker/)
 - Hookstate
