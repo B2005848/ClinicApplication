@@ -106,6 +106,9 @@ const PaymentMethodScreen = ({ route, navigation }) => {
             );
           }
         } else {
+          // await axios.delete(
+          //   `${API_URL}/api/appointment/delete/${appointment_id}`
+          // );
           Alert.alert("Lỗi", "Đặt lịch thất bại, vui lòng thử lại sau");
         }
       } catch (error) {
