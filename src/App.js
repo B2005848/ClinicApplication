@@ -21,6 +21,7 @@ import FailurePaymentScreen from "./screens/FailurePaymentScreen";
 import AppointmentTabScreen from "./screens/AppointmentTabScreen";
 import AppointmentNewDetails from "./components/AppointmentNewDetails";
 import AppointmentCancelDetails from "./components/AppointmentCancelDetails";
+import PaymentHistoryScreen from "./screens/PaymentHistoryScreen";
 import ChatScreen from "./screens/ChatScreen";
 // Import FontAwesomeIcon
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -168,7 +169,7 @@ export default function App() {
               gestureEnabled: false,
             }}
           />
-          {/* BOOKING SCREEN */}
+          {/*============================= BOOKING SCREEN */}
           <Stack.Screen
             name="BookingNewScreen"
             component={BookingScreenByDepartment}
@@ -247,7 +248,16 @@ export default function App() {
             options={{ headerShown: false }}
           />
 
-          {/* CHAT ONLINE */}
+          {/* ======================== LỊCH SỬ THANH TOÁN============= */}
+          <Stack.Screen
+            name="PaymentHistoryScreen"
+            component={PaymentHistoryScreen}
+            options={{
+              title: "LỊCH SỬ THANH TOÁN", // Tiêu đề của màn hình
+              headerBackTitle: "Trở về", // Thay tiêu đề nút back thành "Trở về"
+            }}
+          />
+          {/*======================= CHAT ONLINE */}
           <Stack.Screen
             name="ChatScreen"
             component={ChatScreen}

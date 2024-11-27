@@ -173,7 +173,15 @@ const CustomerScreen = ({ route }) => {
                 </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.menuItem}>
+              {/* ---------------NÚT CHUYỂN ĐẾN TRANG XEM LỊCH SỬ THANH TOÁN ---------------*/}
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() =>
+                  navigation.navigate("PaymentHistoryScreen", {
+                    patientId: userInfo?.patient_id,
+                  })
+                }
+              >
                 <Image
                   source={require("@assets/paymentHistory.png")}
                   style={{ width: 100, height: 100 }}
