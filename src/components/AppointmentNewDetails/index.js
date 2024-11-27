@@ -15,6 +15,7 @@ import { faCircleCheck, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 import axios from "axios"; // Ensure axios is installed
 import moment from "moment-timezone";
+import { formatDate } from "../../helpers/format-datetime";
 import { formatCurrency } from "../../helpers/currencyFormatter";
 import styles from "./style";
 import Constants from "expo-constants";
@@ -190,8 +191,7 @@ const AppointmentNewDetails = ({ route }) => {
             {"  "}
             Đặt lịch hẹn lúc:{" "}
             <Text style={styles.value}>
-              {moment.utc(appointment.end_time).format("HH:mm")} vào ngày{" "}
-              {new Date(appointment.created_at).toLocaleDateString("vi-VN")}
+              {new Date(appointment.created_at).toLocaleString()}
             </Text>{" "}
           </Text>
 
