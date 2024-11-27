@@ -23,6 +23,7 @@ import AppointmentNewDetails from "./components/AppointmentNewDetails";
 import AppointmentCancelDetails from "./components/AppointmentCancelDetails";
 import PaymentHistoryScreen from "./screens/PaymentHistoryScreen";
 import ChatScreen from "./screens/ChatScreen";
+import UpdatePatientInfo from "./components/ModifyInformationDetails";
 // Import FontAwesomeIcon
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -264,6 +265,16 @@ export default function App() {
             component={ChatScreen}
             options={{
               title: "Bộ phận hỗ trợ", // Tiêu đề của màn hình
+              headerBackTitle: "Trở về", // Thay tiêu đề nút back thành "Trở về"
+            }}
+          />
+
+          {/*======================= CẬP NHẬT THÔNG TIN CÁ NHÂN */}
+          <Stack.Screen
+            name="ModifyScreen"
+            component={UpdatePatientInfo}
+            options={{
+              title: "Cập nhật thông tin ", // Tiêu đề của màn hình
               headerBackTitle: "Trở về", // Thay tiêu đề nút back thành "Trở về"
             }}
           />

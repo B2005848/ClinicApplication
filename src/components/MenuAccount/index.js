@@ -80,7 +80,13 @@ const MenuAccount = ({ patientId, full_name, onClose }) => {
           </View>
 
           <View>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("ModifyScreen", {
+                  patient_id: patientId,
+                })
+              }
+            >
               <Icon name="gear" type="font-awesome" size={30} color="#d1d1e9" />
             </TouchableOpacity>
           </View>
