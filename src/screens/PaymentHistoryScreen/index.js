@@ -4,7 +4,7 @@ import axios from "axios";
 import Constants from "expo-constants";
 import { formatDate } from "../../helpers/format-datetime";
 import { formatCurrency } from "../../helpers/currencyFormatter";
-
+import style from "./style";
 const { API_URL } = Constants.expoConfig.extra;
 
 const PaymentHistoryScreen = ({ route }) => {
@@ -43,6 +43,15 @@ const PaymentHistoryScreen = ({ route }) => {
     }
   };
 
+  const renderPaymentMethod = (method) => {
+    switch (method) {
+      case "TT":
+        return <Text>Trực tiếp tại phòng khám</Text>;
+      case "VNBANK":
+        return <Text>VNPay</Text>;
+    }
+  };
+
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -61,9 +70,6 @@ const PaymentHistoryScreen = ({ route }) => {
 
   return (
     <View style={{ flex: 1, padding: 10 }}>
-      <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 10 }}>
-        LỊCH SỬ THANH TOÁN
-      </Text>
       <FlatList
         data={paymentHistory}
         keyExtractor={(item) => item.transaction_id.toString()}
@@ -76,22 +82,28 @@ const PaymentHistoryScreen = ({ route }) => {
               marginBottom: 10,
             }}
           >
-            <Text style={{ fontWeight: "bold" }}>
+            <Text style={{ fontFamily: "Open Sans-Bold" }}>
               Dịch vụ: {item.service_name}
             </Text>
-            <Text>
+
+            <Text style={[{ marginBottom: 3 }, style.text]}>
               Ngày thanh toán:{" "}
               {new Date(item.transaction_date).toLocaleString()}
             </Text>
-            <Text>Số tiền: {formatCurrency(item.amount)}</Text>
-            <Text>
+            <Text style={[{ marginBottom: 3 }, style.text]}>
+              Số tiền: {formatCurrency(item.amount)}
+            </Text>
+            <Text style={[{ marginBottom: 3 }, style.text]}>
+              Phương thức {renderPaymentMethod(item.bankCode)}
+            </Text>
+            <Text style={[{ marginBottom: 3 }, style.text]}>
               Trạng thái thanh toán: {renderPaymentStatus(item.payment_status)}
             </Text>
-            <Text>
+            <Text style={[{ marginBottom: 3 }, style.text]}>
               Ngày hẹn: {new Date(item.appointment_date).toLocaleDateString()}
             </Text>
-            <Text>
-              Thời gian: {new Date(item.start_time).toLocaleTimeString()} -{" "}
+            <Text style={[{ marginBottom: 3 }, style.text]}>
+              Thời gian hẹn: {new Date(item.start_time).toLocaleTimeString()} -{" "}
               {new Date(item.end_time).toLocaleTimeString()}
             </Text>
           </View>

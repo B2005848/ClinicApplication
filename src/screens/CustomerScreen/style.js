@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
+    height: "100%",
   },
 
   image: {
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
   },
 
   containerMenu: {
-    height: "45%",
+    height: "50%",
     justifyContent: "center",
     alignContent: "center",
     backgroundColor: "#fffffe",

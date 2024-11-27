@@ -207,37 +207,36 @@ const CustomerScreen = ({ route }) => {
                 <Text style={[styles.menuText, styles.text]}>Về chúng tôi</Text>
               </TouchableOpacity>
             </View>
-          </View>
 
-          <View
-            style={[
-              {
-                display: "flex",
-                alignItems: "flex-end",
-                backgroundColor: "#fffffe",
-              },
-            ]}
-          >
-            {/* Icon Chat */}
-            <TouchableOpacity
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                padding: 10,
-              }}
-              onPress={navigateToChat}
+            <View
+              style={[
+                {
+                  display: "flex",
+                  backgroundColor: "#fffffe",
+                },
+              ]}
             >
-              <Text style={[styles.chatText, { marginRight: 10 }]}>
-                Hỗ trợ khách hàng
-              </Text>
-              <FontAwesomeIcon
-                icon={["fas", "comment-dots"]}
-                size={40}
-                color="#00BFFF"
-              />
-            </TouchableOpacity>
+              {/* Icon Chat */}
+              <TouchableOpacity
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                  padding: 10,
+                }}
+                onPress={navigateToChat}
+              >
+                <Text style={[styles.chatText, { marginRight: 10 }]}>
+                  Hỗ trợ khách hàng
+                </Text>
+                <FontAwesomeIcon
+                  icon={["fas", "comment-dots"]}
+                  size={40}
+                  color="#00BFFF"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
         </ImageBackground>
       </View>
