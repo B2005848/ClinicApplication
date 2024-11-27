@@ -57,6 +57,7 @@ export default function App() {
     // check login exist?
     const checkLogin = async () => {
       const isLogged = await AsyncStorage.getItem("isLogged");
+      const patient_id = await AsyncStorage.getItem("patientId");
       const refreshTokenExpiresAt = await AsyncStorage.getItem(
         "refreshTokenExpiresAt"
       );
@@ -70,7 +71,7 @@ export default function App() {
 
       console.log("now:", now);
       console.log("refreshTokenExpiryTime:", refreshTokenExpiryTime);
-
+      console.log("patient_id", patient_id);
       if (isLogged === "true" && now < refreshTokenExpiryTime) {
         state.isLogged.set(true);
       } else {

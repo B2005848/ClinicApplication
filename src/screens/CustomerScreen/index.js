@@ -22,23 +22,23 @@ import MenuAccount from "../../components/MenuAccount";
 const CustomerScreen = ({ route }) => {
   const [userInfo, setUserInfo] = useState(null);
   const [isMenuVisiable, setIsMenuVisible] = useState(false); // Trạng thái menu
-  const [loading, setLoading] = useState(true); // Thêm trạng thái loading
   const navigation = useNavigation();
 
   useEffect(() => {
     const fetchData = async () => {
-      const storedUserInfo = await AsyncStorage.getItem("userInfo");
-      if (storedUserInfo) {
-        setUserInfo(JSON.parse(storedUserInfo));
-      } else if (route.params && route.params.phone) {
-        const response = await getDataInfo(route.params.phone);
+      const patient_id = await AsyncStorage.getItem("patientId");
+
+      if (patient_id) {
+        setUserInfo(patient_id);
+        console.log(patient_id);
+        const response = await getDataInfo(patient_id);
+        console.log(response);
         if (response.success) {
           setUserInfo(response.data);
         } else {
           Alert.alert("Lỗi", response.message);
         }
       }
-      setLoading(false); // Tắt trạng thái loading sau khi dữ liệu đã tải
     };
 
     fetchData();
@@ -54,20 +54,6 @@ const CustomerScreen = ({ route }) => {
       receiverId: "Admin",
     });
   };
-
-  if (loading) {
-    // Hiển thị vòng quay tải dữ liệu khi đang chờ dữ liệu
-    return (
-      <View
-        style={[
-          styles.container,
-          { justifyContent: "center", alignItems: "center" },
-        ]}
-      >
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
-  }
 
   return (
     <ScrollView>

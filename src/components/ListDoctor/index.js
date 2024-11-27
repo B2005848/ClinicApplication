@@ -90,7 +90,7 @@ const ListDoctorAppointment = ({ specialty_id, onDoctorSelect }) => {
             source={{
               uri: item.image_avt
                 ? `${API_URL}${item.image_avt}`
-                : "http://192.168.1.161:3000/uploads/avtStaffs/CTU_logo.png",
+                : `${API_URL}/uploads/avtStaffs/CTU_logo.png`,
             }}
             onError={() => console.log("Error loading avatar")}
           />

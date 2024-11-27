@@ -42,7 +42,7 @@ const MenuAccount = ({ patientId, full_name, onClose }) => {
           setError(data.message); // Xử lý lỗi nếu không có dữ liệu
         }
       } catch (err) {
-        setError("Failed to load total revenue");
+        setError("Bạn không có khoản chi nào trong năm nay");
       } finally {
         setLoading(false);
       }
