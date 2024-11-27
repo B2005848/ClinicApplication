@@ -1,21 +1,56 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
 import { Avatar } from "react-native-elements";
 import { logoutService } from "../../services/handleLogin";
-
 import Icon from "react-native-vector-icons/FontAwesome"; // Sử dụng FontAwesome icons
 import styles from "./style";
+import Constants from "expo-constants";
+import axios from "axios"; // Thêm axios để gọi API
+import { formatCurrency } from "../../helpers/currencyFormatter";
+const { API_URL } = Constants.expoConfig.extra;
 
-const MenuAccount = ({ full_name, onClose }) => {
+const MenuAccount = ({ patientId, full_name, onClose }) => {
   const navigation = useNavigation();
+  const [totalRevenue, setTotalRevenue] = useState(null); // State lưu trữ tổng chi tiêu
+  const [loading, setLoading] = useState(true); // State để theo dõi trạng thái tải dữ liệu
+  const [error, setError] = useState(null); // State để theo dõi lỗi nếu có
+  const currentYear = new Date().getFullYear(); // Lấy năm hiện tại
+
+  // Hàm logout
   const handleLogout = async () => {
     const result = await logoutService();
     if (result.success) {
       navigation.navigate("HomeScreen");
     }
   };
+
+  // Fetch tổng chi tiêu năm hiện tại từ API
+  useEffect(() => {
+    const fetchTotalRevenue = async () => {
+      try {
+        // Gọi API để lấy tổng chi tiêu của bệnh nhân cho năm hiện tại
+        const { data } = await axios.get(
+          `${API_URL}/api/statistics/revenue/total-revenue/${patientId}`,
+          {
+            params: { year: currentYear }, // Truyền year là năm hiện tại
+          }
+        );
+        if (data.status) {
+          setTotalRevenue(data.total_revenue); // Cập nhật totalRevenue với dữ liệu trả về
+        } else {
+          setError(data.message); // Xử lý lỗi nếu không có dữ liệu
+        }
+      } catch (err) {
+        setError("Failed to load total revenue");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTotalRevenue();
+  }, [patientId]);
+
   return (
     <View style={styles.menuContainer}>
       <View style={styles.headerMenu}>
@@ -40,9 +75,7 @@ const MenuAccount = ({ full_name, onClose }) => {
               source={{
                 uri: "https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg",
               }}
-              onError={
-                () => console.log("Error loading avatar") // Log hoặc xử lý khi ảnh không load
-              }
+              onError={() => console.log("Error loading avatar")}
             />
           </View>
 
@@ -53,7 +86,7 @@ const MenuAccount = ({ full_name, onClose }) => {
           </View>
         </View>
 
-        {/* full name and tổng chi tiêu  */}
+        {/* full name and tổng chi tiêu */}
         <View style={styles.menuContent2}>
           <View>
             <Text
@@ -84,8 +117,9 @@ const MenuAccount = ({ full_name, onClose }) => {
                 },
               ]}
             >
-              Tổng chi tiêu năm 2024
+              Tổng chi tiêu năm {currentYear}
             </Text>
+
             <Text
               style={{
                 fontSize: 12,
@@ -93,7 +127,11 @@ const MenuAccount = ({ full_name, onClose }) => {
                 marginTop: 5,
               }}
             >
-              2.000.000đ
+              {loading
+                ? "Đang tải..."
+                : totalRevenue
+                  ? `${formatCurrency(totalRevenue)}`
+                  : error || "Chưa có dữ liệu"}
             </Text>
           </View>
 
@@ -101,23 +139,17 @@ const MenuAccount = ({ full_name, onClose }) => {
           <View></View>
 
           {/* booking option */}
-          <View
-            style={{
-              width: "100%",
-              top: 70,
-              alignItems: "center",
-            }}
-          >
+          <View style={{ width: "100%", top: 70, alignItems: "center" }}>
             <View style={styles.hr}></View>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("BookingNewScreen", {
+                  patient_id: patientId,
+                })
+              }
+            >
               <Text style={[styles.text, styles.titlebtnBooking]}>
-                ĐẶT LỊCH - TÁI KHÁM
-              </Text>
-            </TouchableOpacity>
-            <View style={styles.hr}></View>
-            <TouchableOpacity>
-              <Text style={[styles.text, styles.titlebtnBooking]}>
-                ĐẶT LỊCH - CHƯA TỪNG KHÁM
+                ĐẶT LỊCH HẸN
               </Text>
             </TouchableOpacity>
             <View style={styles.hr}></View>

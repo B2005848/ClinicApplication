@@ -83,6 +83,7 @@ const CustomerScreen = ({ route }) => {
           {/* kiểm tra menu account có được ấn chưa */}
           {isMenuVisiable && (
             <MenuAccount
+              patientId={userInfo.patient_id}
               full_name={
                 userInfo
                   ? userInfo.first_name + " " + userInfo.last_name

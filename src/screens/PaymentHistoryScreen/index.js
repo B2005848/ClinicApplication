@@ -16,12 +16,17 @@ const PaymentHistoryScreen = ({ route }) => {
   useEffect(() => {
     const fetchPaymentHistory = async () => {
       try {
+        const currentYear = new Date().getFullYear();
         const { data } = await axios.get(
-          `${API_URL}/api/statistics/revenue/payment-history-appointment/${patientId}`
+          `${API_URL}/api/statistics/revenue/payment-history-appointment/${patientId}?year=${currentYear}`
         );
-        setPaymentHistory(data.data); // Lưu dữ liệu vào state
+        if (data) {
+          setPaymentHistory(data.data); // Lưu dữ liệu vào state
+        } else {
+          setError("Bạn không có giao dịch nào với chúng tôi");
+        }
       } catch (error) {
-        setError("Failed to load payment history");
+        setError("Bạn không có giao dịch nào với chúng tôi");
       } finally {
         setLoading(false);
       }
