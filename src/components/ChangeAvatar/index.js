@@ -68,9 +68,12 @@ export default function ChageAvatar({ route }) {
 
       // Check the response from the server
       if (response.data.success) {
-        Alert.alert("Success", "Avatar uploaded successfully!");
+        Alert.alert(
+          "Thành công",
+          "Đã cập nhật ảnh đại diện thành công!, vui lòng đăng nhập lại để tải ảnh mới"
+        );
       } else {
-        Alert.alert("Error", "Failed to upload avatar.");
+        Alert.alert("Error", "Lỗi khi cập nhật ảnh đại diện.");
       }
     } catch (error) {
       console.error("Error uploading avatar:", error);

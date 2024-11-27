@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { View, TextInput, Button, Alert, StyleSheet, Text } from "react-native";
+import {
+  View,
+  TextInput,
+  Button,
+  Alert,
+  StyleSheet,
+  Text,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+} from "react-native";
 import axios from "axios";
 import Constants from "expo-constants";
 import { RadioButton } from "react-native-paper"; // Import RadioButton from react-native-paper
@@ -124,87 +134,99 @@ export default function UpdatePatientInfo({ route }) {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Cập nhật thông tin cá nhân</Text>
-
-      <TextInput
-        style={styles.input}
-        placeholder="Họ"
-        value={patientInfo.first_name}
-        onChangeText={(value) => handleChange("first_name", value)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Tên"
-        value={patientInfo.last_name}
-        onChangeText={(value) => handleChange("last_name", value)}
-      />
-
-      {/* Format ngày sinh sử dụng hàm formatDateBirth */}
-      <TextInput
-        style={styles.input}
-        placeholder="Ngày sinh (YYYY-MM-DD)"
-        value={patientInfo.birthday} // Sử dụng formatDate.formatDateBirth để format ngày sinh
-        onChangeText={(value) => handleChange("birthday", value)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="CMND/CCCD"
-        value={patientInfo.citizen_id}
-        onChangeText={(value) => handleChange("citizen_id", value)}
-      />
-
-      {/* Giới tính */}
-      <Text style={styles.inputLabel}>Giới tính</Text>
-      <RadioButton.Group
-        onValueChange={(value) => handleChange("gender", value)}
-        value={patientInfo.gender}
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 128 : 0}
+    >
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        style={{ flex: 1 }}
+        keyboardShouldPersistTaps="handled"
       >
-        <View style={styles.radioButtonContainer}>
-          <View style={styles.radioButtonOption}>
-            <Text>Nam</Text>
-            <RadioButton value="1" />
-          </View>
-          <View style={styles.radioButtonOption}>
-            <Text>Nữ</Text>
-            <RadioButton value="0" />
-          </View>
+        <View style={styles.container}>
+          <Text style={styles.title}>Cập nhật thông tin cá nhân</Text>
+
+          <TextInput
+            style={styles.input}
+            placeholder="Họ"
+            value={patientInfo.first_name}
+            onChangeText={(value) => handleChange("first_name", value)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Tên"
+            value={patientInfo.last_name}
+            onChangeText={(value) => handleChange("last_name", value)}
+          />
+
+          {/* Format ngày sinh sử dụng hàm formatDateBirth */}
+          <TextInput
+            style={styles.input}
+            placeholder="Ngày sinh (YYYY-MM-DD)"
+            value={patientInfo.birthday} // Sử dụng formatDate.formatDateBirth để format ngày sinh
+            onChangeText={(value) => handleChange("birthday", value)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="CMND/CCCD"
+            value={patientInfo.citizen_id}
+            onChangeText={(value) => handleChange("citizen_id", value)}
+          />
+
+          {/* Giới tính */}
+          <Text style={styles.inputLabel}>Giới tính</Text>
+          <RadioButton.Group
+            onValueChange={(value) => handleChange("gender", value)}
+            value={patientInfo.gender}
+          >
+            <View style={styles.radioButtonContainer}>
+              <View style={styles.radioButtonOption}>
+                <Text>Nam</Text>
+                <RadioButton value="1" />
+              </View>
+              <View style={styles.radioButtonOption}>
+                <Text>Nữ</Text>
+                <RadioButton value="0" />
+              </View>
+            </View>
+          </RadioButton.Group>
+
+          <TextInput
+            style={styles.input}
+            placeholder="Số điện thoại"
+            value={patientInfo.phone_number}
+            onChangeText={(value) => handleChange("phone_number", value)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Ngành học"
+            value={patientInfo.major}
+            onChangeText={(value) => handleChange("major", value)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            value={patientInfo.email}
+            onChangeText={(value) => handleChange("email", value)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Địa chỉ liên hệ"
+            value={patientInfo.address_contact}
+            onChangeText={(value) => handleChange("address_contact", value)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Số bảo hiểm y tế"
+            value={patientInfo.health_insurance_id}
+            onChangeText={(value) => handleChange("health_insurance_id", value)}
+          />
+
+          <Button title="Cập nhật thông tin" onPress={updatePatientInfo} />
         </View>
-      </RadioButton.Group>
-
-      <TextInput
-        style={styles.input}
-        placeholder="Số điện thoại"
-        value={patientInfo.phone_number}
-        onChangeText={(value) => handleChange("phone_number", value)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Ngành học"
-        value={patientInfo.major}
-        onChangeText={(value) => handleChange("major", value)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={patientInfo.email}
-        onChangeText={(value) => handleChange("email", value)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Địa chỉ liên hệ"
-        value={patientInfo.address_contact}
-        onChangeText={(value) => handleChange("address_contact", value)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Số bảo hiểm y tế"
-        value={patientInfo.health_insurance_id}
-        onChangeText={(value) => handleChange("health_insurance_id", value)}
-      />
-
-      <Button title="Cập nhật thông tin" onPress={updatePatientInfo} />
-    </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
