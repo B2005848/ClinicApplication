@@ -1,125 +1,72 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-  Image,
-  ScrollView,
-} from "react-native";
+import React, { useState } from "react";
+import { Button, Image, View, StyleSheet, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import axios from "axios";
+import axios from "axios"; // Import axios for making HTTP requests
 import Constants from "expo-constants";
-import styles from "./style"; // Import your styles
 
-const { API_URL } = Constants.expoConfig.extra; // Assuming your API URL is set in the `extra` section of your `app.json`
+const { API_URL } = Constants.expoConfig.extra;
 
-const UpdatePatientInfo = ({ route }) => {
-  const { patient_id } = route.params;
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [gender, setGender] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [avatar, setAvatar] = useState(null);
+export default function UpdatePatientInfo({ route }) {
+  const [image, setImage] = useState(null); // State to store the selected image URI
+  const { patient_id } = route.params; // Destructure patient_id from route.params
 
-  // Fetch patient data from API
-  useEffect(() => {
-    const fetchPatientData = async () => {
-      try {
-        const response = await axios.get(
-          `${API_URL}/api/handle/patient/getinfo/${patient_id}`
-        );
-        if (response.data.status === 200) {
-          const data = response.data.dataInfo;
-          setFirstName(data.first_name);
-          setLastName(data.last_name);
-          setGender(data.gender);
-          setPhoneNumber(data.phone_number);
-          setEmail(data.email);
-          setAddress(data.address_contact);
-          setAvatar(`${API_URL}${data.image_avt}`);
-        } else {
-          Alert.alert("Error", "Failed to fetch patient data.");
-        }
-      } catch (error) {
-        console.error("Error fetching patient data:", error);
-        Alert.alert("Error", "There was an issue fetching the patient data.");
-      }
-    };
-
-    fetchPatientData();
-  }, [patient_id]); // Fetch data when patient_id changes
-
-  // Select image for avatar
-  const selectAvatar = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: [ImagePicker.MediaType.photo], // Updated to use MediaType instead of MediaTypeOptions
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setAvatar(result.uri); // Save selected avatar image URI
-    }
-  };
-
-  // Update patient information
-  const updatePatientInfo = async () => {
-    const updatedData = {};
-
-    if (firstName !== "") updatedData.first_name = firstName;
-    if (lastName !== "") updatedData.last_name = lastName;
-    if (gender !== "") updatedData.gender = gender;
-    if (phoneNumber !== "") updatedData.phone_number = phoneNumber;
-    if (email !== "") updatedData.email = email;
-    if (address !== "") updatedData.address_contact = address;
-
-    try {
-      const response = await axios.patch(
-        `${API_URL}/api/handle/patient/information/update/${patient_id}`,
-        updatedData
+  // Function to pick an image from the library
+  const pickImage = async () => {
+    // Request permissions if not already granted
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert(
+        "Permission required",
+        "You need to grant permission to access the media library."
       );
-
-      if (response.data.success) {
-        Alert.alert("Success", "Patient information updated successfully!");
-      } else {
-        Alert.alert("Error", "Failed to update patient information.");
-      }
-    } catch (error) {
-      console.error("Error updating patient info:", error);
-      Alert.alert("Error", "There was an issue updating the information.");
-    }
-  };
-
-  // Upload avatar image
-  const uploadAvatar = async () => {
-    if (!avatar) {
-      Alert.alert("Error", "Please select an avatar image.");
       return;
     }
 
-    const formData = new FormData();
-    formData.append("avatarPatient", {
-      uri: avatar,
-      name: `avatar-${patient_id}.jpg`, // Use patient_id to generate a unique filename
-      type: "image/jpeg", // Specify image type
+    // Launch image picker to select an image
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images, // Only allow images
+      allowsEditing: true,
+      aspect: [1, 1], // Aspect ratio for image editing
+      quality: 1, // Set maximum quality
     });
 
+    console.log(result); // Log the result to check the response
+
+    // If the user selects an image, set it in the state
+    if (!result.canceled) {
+      setImage(result.assets[0].uri); // Get the URI of the selected image
+    }
+  };
+
+  // Function to upload the image to the server
+  const uploadAvatar = async () => {
+    if (!image) {
+      Alert.alert("Error", "Please select an image first.");
+      return;
+    }
+
+    // Prepare the FormData for the image upload
+    const formData = new FormData();
+    formData.append("avatarPatient", {
+      uri: image, // URI of the selected image
+      name: "avatar.jpg", // You can generate a unique name or use a fixed name
+      type: "image/jpeg", // MIME type of the image
+    });
+    formData.append("patientId", patient_id); // Make sure you're using `patient_id` here
+
     try {
+      // Make a POST request to upload the image
       const response = await axios.post(
-        `${API_URL}/api/file/uploadAvtPatient`,
+        `${API_URL}/api/file/uploadAvtPatient`, // Replace with your actual API URL
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/form-data", // Ensure the correct content type is set
           },
         }
       );
 
+      // Check the response from the server
       if (response.data.success) {
         Alert.alert("Success", "Avatar uploaded successfully!");
       } else {
@@ -131,87 +78,25 @@ const UpdatePatientInfo = ({ route }) => {
     }
   };
 
-  // Submit form data (update patient info and upload avatar)
-  const handleSubmit = async () => {
-    // First, update patient info
-    await updatePatientInfo();
-
-    // Then, upload avatar if selected
-    if (avatar) {
-      await uploadAvatar();
-    }
-  };
-
   return (
-    <ScrollView style={styles.container}>
-      {/* Wrap content in ScrollView */}
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Họ và tên đệm:</Text>
-        <TextInput
-          style={styles.input}
-          value={firstName}
-          onChangeText={setFirstName}
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Tên của bạn:</Text>
-        <TextInput
-          style={styles.input}
-          value={lastName}
-          onChangeText={setLastName}
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Giới tính:</Text>
-        <TextInput
-          style={styles.input}
-          value={gender}
-          onChangeText={setGender}
-          placeholder="Enter 1 for male, 0 for female"
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Số điện thoại liên hệ:</Text>
-        <TextInput
-          style={styles.input}
-          value={phoneNumber}
-          onChangeText={setPhoneNumber}
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Email:</Text>
-        <TextInput style={styles.input} value={email} onChangeText={setEmail} />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Địa chỉ liên lạc:</Text>
-        <TextInput
-          style={styles.input}
-          value={address}
-          onChangeText={setAddress}
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Ảnh đại diện:</Text>
-        <TouchableOpacity onPress={selectAvatar} style={styles.avatarPicker}>
-          <Text style={styles.avatarText}>Tải ảnh</Text>
-        </TouchableOpacity>
-
-        {avatar && (
-          <Image source={{ uri: avatar }} style={styles.avatarPreview} />
-        )}
-      </View>
-
-      <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}>
-        <Text style={styles.submitButtonText}>LƯU</Text>
-      </TouchableOpacity>
-    </ScrollView>
+    <View style={styles.container}>
+      <Button title="Pick an image from camera roll" onPress={pickImage} />
+      {image && <Image source={{ uri: image }} style={styles.image} />}
+      <Button title="Upload Avatar" onPress={uploadAvatar} />
+    </View>
   );
-};
+}
 
-export default UpdatePatientInfo;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 20,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    marginTop: 20,
+  },
+});

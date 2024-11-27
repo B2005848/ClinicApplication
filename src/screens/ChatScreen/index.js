@@ -51,7 +51,7 @@ const ChatScreen = ({ route }) => {
         ]);
       }
     } catch (error) {
-      console.error("Lỗi lấy tin nhắn: ", error);
+      console.error("Đã hết tin nhắn ", error);
     } finally {
       setIsLoading(false);
     }
