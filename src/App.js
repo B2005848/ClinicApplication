@@ -23,7 +23,8 @@ import AppointmentNewDetails from "./components/AppointmentNewDetails";
 import AppointmentCancelDetails from "./components/AppointmentCancelDetails";
 import PaymentHistoryScreen from "./screens/PaymentHistoryScreen";
 import ChatScreen from "./screens/ChatScreen";
-import UpdatePatientInfo from "./components/ModifyInformationDetails";
+import ChageAvatar from "./components/ChangeAvatar";
+import UpdatePatientInfo from "./screens/UpdateInfoScreen";
 // Import FontAwesomeIcon
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -270,11 +271,21 @@ export default function App() {
           />
 
           {/*======================= CẬP NHẬT THÔNG TIN CÁ NHÂN */}
+          {/* Thông tin cơ bản */}
           <Stack.Screen
-            name="ModifyScreen"
+            name="UpdateInfo"
             component={UpdatePatientInfo}
             options={{
-              title: "Cập nhật thông tin ", // Tiêu đề của màn hình
+              title: "Thông tin cá nhân ", // Tiêu đề của màn hình
+              headerBackTitle: "Trở về", // Thay tiêu đề nút back thành "Trở về"
+            }}
+          />
+          {/* Ảnh đại diện */}
+          <Stack.Screen
+            name="ChageAvatar"
+            component={ChageAvatar}
+            options={{
+              title: "Thay đổi ảnh đại diện ", // Tiêu đề của màn hình
               headerBackTitle: "Trở về", // Thay tiêu đề nút back thành "Trở về"
             }}
           />

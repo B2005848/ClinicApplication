@@ -10,7 +10,7 @@ import axios from "axios"; // Thêm axios để gọi API
 import { formatCurrency } from "../../helpers/currencyFormatter";
 const { API_URL } = Constants.expoConfig.extra;
 
-const MenuAccount = ({ patientId, full_name, onClose }) => {
+const MenuAccount = ({ patientId, full_name, imageAvt, onClose }) => {
   const navigation = useNavigation();
   const [totalRevenue, setTotalRevenue] = useState(null); // State lưu trữ tổng chi tiêu
   const [loading, setLoading] = useState(true); // State để theo dõi trạng thái tải dữ liệu
@@ -70,10 +70,15 @@ const MenuAccount = ({ patientId, full_name, onClose }) => {
 
           <View>
             <Avatar
+              onPress={() =>
+                navigation.navigate("ChageAvatar", {
+                  patient_id: patientId,
+                })
+              }
               size={60}
               rounded
               source={{
-                uri: "https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg",
+                uri: `${API_URL}${imageAvt}`,
               }}
               onError={() => console.log("Error loading avatar")}
             />
@@ -82,7 +87,7 @@ const MenuAccount = ({ patientId, full_name, onClose }) => {
           <View>
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate("ModifyScreen", {
+                navigation.navigate("UpdateInfo", {
                   patient_id: patientId,
                 })
               }

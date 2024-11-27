@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Button, Image, View, StyleSheet, Alert } from "react-native";
+import { Button, Image, View, StyleSheet, Alert, Text } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios"; // Import axios for making HTTP requests
 import Constants from "expo-constants";
 
 const { API_URL } = Constants.expoConfig.extra;
 
-export default function UpdatePatientInfo({ route }) {
+export default function ChageAvatar({ route }) {
   const [image, setImage] = useState(null); // State to store the selected image URI
   const { patient_id } = route.params; // Destructure patient_id from route.params
 
@@ -27,7 +27,7 @@ export default function UpdatePatientInfo({ route }) {
       mediaTypes: ImagePicker.MediaTypeOptions.Images, // Only allow images
       allowsEditing: true,
       aspect: [1, 1], // Aspect ratio for image editing
-      quality: 1, // Set maximum quality
+      quality: 0.8, // Set maximum quality
     });
 
     console.log(result); // Log the result to check the response
@@ -80,9 +80,17 @@ export default function UpdatePatientInfo({ route }) {
 
   return (
     <View style={styles.container}>
-      <Button title="Pick an image from camera roll" onPress={pickImage} />
+      <Button
+        title="Chọn ảnh từ thư viện"
+        onPress={pickImage}
+        color="#4CAF50" // Green color
+      />
       {image && <Image source={{ uri: image }} style={styles.image} />}
-      <Button title="Upload Avatar" onPress={uploadAvatar} />
+      <Button
+        title="LƯU"
+        onPress={uploadAvatar}
+        color="#2196F3" // Blue color
+      />
     </View>
   );
 }
@@ -92,11 +100,30 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#f8f8f8", // Soft background color
     padding: 20,
+    borderRadius: 10,
+    margin: 10,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#333", // Dark text color for title
+    marginBottom: 20,
   },
   image: {
     width: 200,
     height: 200,
     marginTop: 20,
+    borderRadius: 100, // Make the image circular
+    borderWidth: 4, // Add border around the image
+    borderColor: "#ddd", // Light gray border color
+  },
+  button: {
+    marginTop: 15,
+    width: "80%",
+    borderRadius: 30,
+    padding: 10,
+    backgroundColor: "#4CAF50", // Green background color
   },
 });

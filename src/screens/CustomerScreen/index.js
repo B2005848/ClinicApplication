@@ -75,6 +75,7 @@ const CustomerScreen = ({ route }) => {
                   ? userInfo.first_name + " " + userInfo.last_name
                   : "Đang tải thông tin..."
               }
+              imageAvt={userInfo.image_avt}
               onClose={toggleMenu}
             />
           )}
