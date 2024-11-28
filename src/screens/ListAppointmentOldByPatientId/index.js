@@ -30,7 +30,7 @@ const AppointmentListOld = ({ patientId, onCountChange }) => {
 
         // Đếm số lượng lịch hẹn có trạng thái "C" và gửi lên AppTabScreen
         const completedCount = response.data.data.filter(
-          (appointment) => appointment.status === "C"
+          (appointment) => appointment.status === "CO-P"
         ).length;
         onCountChange(completedCount); // Gửi số lượng lịch hẹn cho tab
       } else {
@@ -50,7 +50,7 @@ const AppointmentListOld = ({ patientId, onCountChange }) => {
 
   // Lọc danh sách lịch hẹn để chỉ hiển thị những lịch có trạng thái "C"
   const completedAppointments = appointments.filter(
-    (appointment) => appointment.status === "C"
+    (appointment) => appointment.status === "CO-P"
   );
 
   if (loading) {
