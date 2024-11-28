@@ -170,7 +170,7 @@ const PaymentMethodScreen = ({ route, navigation }) => {
               appointment_id: appointment_id, // Pass the retrieved appointment_id here
               amount: service_fee,
               payment_method_id: 1,
-              payment_status: "P",
+              payment_status: "X",
               bankCode: "TT",
             }
           );
