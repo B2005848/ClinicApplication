@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, ActivityIndicator, FlatList } from "react-native";
 import axios from "axios";
 import Constants from "expo-constants";
-import { formatDate } from "../../helpers/format-datetime";
+import formatDate from "../../helpers/format-datetime";
 import { formatCurrency } from "../../helpers/currencyFormatter";
 import style from "./style";
 const { API_URL } = Constants.expoConfig.extra;
@@ -44,7 +44,7 @@ const PaymentHistoryScreen = ({ route }) => {
       case "F":
         return <Text style={{ color: "red" }}>Thất bại</Text>;
       default:
-        return <Text>Không xác định</Text>;
+        return <Text>Chưa thanh toán</Text>;
     }
   };
 
@@ -79,38 +79,52 @@ const PaymentHistoryScreen = ({ route }) => {
         data={paymentHistory}
         keyExtractor={(item) => item.transaction_id.toString()}
         renderItem={({ item }) => (
-          <View
-            style={{
-              padding: 10,
-              borderBottomWidth: 1,
-              borderBottomColor: "#ddd",
-              marginBottom: 10,
-            }}
-          >
-            <Text style={{ fontFamily: "Open Sans-Bold" }}>
-              Dịch vụ: {item.service_name}
-            </Text>
+          <View>
+            <View>
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 20,
+                  fontFamily: "OpenSans-Bold",
+                }}
+              >
+                NĂM {new Date().getFullYear()}
+              </Text>
+            </View>
+            <View
+              style={{
+                padding: 10,
+                borderBottomWidth: 1,
+                borderBottomColor: "#ddd",
+                marginBottom: 10,
+              }}
+            >
+              <Text style={{ fontFamily: "Open Sans-Bold" }}>
+                Dịch vụ: {item.service_name}
+              </Text>
 
-            <Text style={[{ marginBottom: 3 }, style.text]}>
-              Ngày thanh toán:{" "}
-              {new Date(item.transaction_date).toLocaleString()}
-            </Text>
-            <Text style={[{ marginBottom: 3 }, style.text]}>
-              Số tiền: {formatCurrency(item.amount)}
-            </Text>
-            <Text style={[{ marginBottom: 3 }, style.text]}>
-              Phương thức {renderPaymentMethod(item.bankCode)}
-            </Text>
-            <Text style={[{ marginBottom: 3 }, style.text]}>
-              Trạng thái thanh toán: {renderPaymentStatus(item.payment_status)}
-            </Text>
-            <Text style={[{ marginBottom: 3 }, style.text]}>
-              Ngày hẹn: {new Date(item.appointment_date).toLocaleDateString()}
-            </Text>
-            <Text style={[{ marginBottom: 3 }, style.text]}>
-              Thời gian hẹn: {new Date(item.start_time).toLocaleTimeString()} -{" "}
-              {new Date(item.end_time).toLocaleTimeString()}
-            </Text>
+              <Text style={[{ marginBottom: 3 }, style.text]}>
+                Ngày thanh toán:{" "}
+                {formatDate.formatDateTime(item.transaction_date)}
+              </Text>
+              <Text style={[{ marginBottom: 3 }, style.text]}>
+                Số tiền: {formatCurrency(item.amount)}
+              </Text>
+              <Text style={[{ marginBottom: 3 }, style.text]}>
+                Phương thức {renderPaymentMethod(item.bankCode)}
+              </Text>
+              <Text style={[{ marginBottom: 3 }, style.text]}>
+                Trạng thái thanh toán:{" "}
+                {renderPaymentStatus(item.payment_status)}
+              </Text>
+              <Text style={[{ marginBottom: 3 }, style.text]}>
+                Ngày hẹn: {formatDate.formatDateBirth(item.appointment_date)}
+              </Text>
+              <Text style={[{ marginBottom: 3 }, style.text]}>
+                Thời gian hẹn: {formatDate.formatTime(item.start_time)} -{" "}
+                {formatDate.formatTime(item.end_time)}
+              </Text>
+            </View>
           </View>
         )}
       />

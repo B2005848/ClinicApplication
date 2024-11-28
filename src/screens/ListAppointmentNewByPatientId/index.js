@@ -57,7 +57,10 @@ const AppointmentListNew = ({ patientId, onCountChange }) => {
   };
 
   const scheduledAppointments = appointments.filter(
-    (appointment) => appointment.status === "CO-F" || appointment.status === "S"
+    (appointment) =>
+      appointment.status === "CO-F" ||
+      appointment.status === "S" ||
+      appointment.status === "C-IN"
   );
 
   if (loading) {

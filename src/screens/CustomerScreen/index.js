@@ -123,13 +123,20 @@ const CustomerScreen = ({ route }) => {
           <View style={styles.containerMenu}>
             <View style={styles.menu}>
               {/* -----------------NÚT CHUYỂN ĐẾN TRANG HỒ SƠ BỆNH ÁN------------------- */}
-              <TouchableOpacity style={styles.menuItem}>
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() =>
+                  navigation.navigate("PatientRecordScreen", {
+                    patient_id: userInfo?.patient_id,
+                  })
+                }
+              >
                 <Image
                   source={require("@assets/medicalRecord.png")}
                   style={{ width: 100, height: 100 }}
                 />
                 <Text style={[styles.menuText, styles.text]}>
-                  Hồ sơ bệnh án
+                  Quá trình điều trị
                 </Text>
               </TouchableOpacity>
 

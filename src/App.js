@@ -25,6 +25,7 @@ import PaymentHistoryScreen from "./screens/PaymentHistoryScreen";
 import ChatScreen from "./screens/ChatScreen";
 import ChageAvatar from "./components/ChangeAvatar";
 import UpdatePatientInfo from "./screens/UpdateInfoScreen";
+import PatientRecordsScreen from "./screens/PatientRecordsScreen";
 // Import FontAwesomeIcon
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -286,6 +287,17 @@ export default function App() {
             component={ChageAvatar}
             options={{
               title: "Thay đổi ảnh đại diện ", // Tiêu đề của màn hình
+              headerBackTitle: "Trở về", // Thay tiêu đề nút back thành "Trở về"
+            }}
+          />
+
+          {/* //=============== MÀN HÌNH HỒ SƠ BỆNH ÁN=============== */}
+          {/* Ảnh đại diện */}
+          <Stack.Screen
+            name="PatientRecordScreen"
+            component={PatientRecordsScreen}
+            options={{
+              title: "Quá trình điều trị", // Tiêu đề của màn hình
               headerBackTitle: "Trở về", // Thay tiêu đề nút back thành "Trở về"
             }}
           />
