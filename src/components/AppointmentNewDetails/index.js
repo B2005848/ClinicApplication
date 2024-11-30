@@ -256,7 +256,7 @@ const AppointmentNewDetails = ({ route }) => {
                     <AnimatedIcon icon={faSpinner} color="#FFD43B" />
                   </>
                 ) : (
-                  "Giao dịch đã hủy"
+                  "Chưa thanh toán"
                 )}
               </Text>
             </Text>
