@@ -75,22 +75,22 @@ const PaymentHistoryScreen = ({ route }) => {
 
   return (
     <View style={{ flex: 1, padding: 10 }}>
+      <View>
+        <Text
+          style={{
+            textAlign: "center",
+            fontSize: 20,
+            fontFamily: "OpenSans-Bold",
+          }}
+        >
+          NĂM {new Date().getFullYear()}
+        </Text>
+      </View>
       <FlatList
         data={paymentHistory}
         keyExtractor={(item) => item.transaction_id.toString()}
         renderItem={({ item }) => (
           <View>
-            <View>
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontSize: 20,
-                  fontFamily: "OpenSans-Bold",
-                }}
-              >
-                NĂM {new Date().getFullYear()}
-              </Text>
-            </View>
             <View
               style={{
                 padding: 10,

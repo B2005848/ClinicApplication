@@ -51,7 +51,7 @@ export default function BookingScreenNew({ route }) {
         ListHeaderComponent={
           <>
             <View style={styles.menuContent}>
-              <Text style={styles.title}>ĐẶT LỊCH - THEO PHÒNG KHÁM</Text>
+              <Text style={styles.title}>ĐĂNG KÍ KHÁM BỆNH</Text>
               <Text style={[styles.titleStep, styles.note]}>
                 Chọn thông tin khám{" "}
                 <FontAwesomeIcon
