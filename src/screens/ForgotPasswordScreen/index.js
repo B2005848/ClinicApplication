@@ -132,7 +132,7 @@ const ResetPasswordScreen = () => {
             onPress={handleVerifyOtpAndChangePassword}
             style={styles.button}
           >
-            <Text style={styles.buttonText}>Submit</Text>
+            <Text style={styles.buttonText}>LƯU</Text>
           </TouchableOpacity>
 
           {error && <Text style={styles.errorText}>{error}</Text>}

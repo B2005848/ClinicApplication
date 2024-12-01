@@ -40,10 +40,7 @@ const ChangePasswordScreen = ({ route, navigation }) => {
         navigation.goBack(); // Quay lại màn hình
       }
     } catch (error) {
-      Alert.alert(
-        "Lỗi",
-        error.response?.data?.message || "Lỗi server, vui lòng thử lại sau!"
-      );
+      Alert.alert("Lỗi", "Sai mật khẩu cũ");
     } finally {
       setLoading(false);
     }

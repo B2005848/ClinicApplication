@@ -91,7 +91,10 @@ const AppointmentListNew = ({ patientId, onCountChange }) => {
         keyExtractor={(item) => item.appointment_id.toString()}
         renderItem={({ item }) => (
           <View style={styles.appointmentCard}>
-            <View style={{ flex: 2 }}>
+            <View
+              onTouchStart={() => handleViewDetails(item)}
+              style={{ flex: 2 }}
+            >
               <Text
                 style={[
                   styles.appointmentText,
