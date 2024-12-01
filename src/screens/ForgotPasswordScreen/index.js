@@ -6,27 +6,29 @@ import {
   Button,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from "react-native";
 import axios from "axios";
 import Constants from "expo-constants";
+import { useNavigation } from "@react-navigation/native";
 
 const { API_URL } = Constants.expoConfig.extra;
 const ResetPasswordScreen = () => {
-  const [username, setUsername] = useState("");
+  const [email, setemail] = useState("");
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [error, setError] = useState("");
+  const navigation = useNavigation();
 
   const handleSendOtp = async () => {
     try {
       const response = await axios.post(
         `${API_URL}/api/patient/email/send-otp`,
         {
-          email: username, // Assume username is email
+          email: email, // Assume email is email
         }
       );
-      console.log(response);
       if (response.status === 200) {
         setOtpSent(true);
         setError("");
@@ -43,38 +45,41 @@ const ResetPasswordScreen = () => {
   };
 
   const handleVerifyOtpAndChangePassword = async () => {
-    if (!username || !otp || !newPassword) {
-      setError("Vui lòng điền email của bạn");
+    if (!email || !otp || !newPassword) {
+      setError("Vui lòng điền thông tin đầy đủ của bạn");
       return;
     }
     try {
       const verifyOtpResponse = await axios.post(
         `${API_URL}/api/patient/email/verify-otp`,
         {
+          email: email,
           otp: otp,
-          patient_id: username,
         }
       );
 
-      if (verifyOtpResponse.data.status) {
+      if (verifyOtpResponse.status === 200) {
         const changePasswordResponse = await axios.put(
-          `${API_URL}/api/patient/account/change-password/${username}`,
+          `${API_URL}/api/patient/account/change-password/${email}`,
           { new_password: newPassword }
         );
 
-        if (changePasswordResponse.data.status) {
+        if (changePasswordResponse.status === 200) {
           setError("");
-          alert("Mật khẩu đã thay đổi thành công!");
+          Alert.alert("Thành công", "Đổi mật khẩu thành công!");
+          navigation.navigate("LoginScreen");
         } else {
           setError(
             "Có lỗi trong quá trình đổi mật khẩu. Vui lòng thử lại sau."
           );
+          console.log("LỖI1", changePasswordResponse);
         }
       } else {
         setError("OTP không chính xác.");
       }
     } catch (error) {
       setError("Có lỗi trong quá trình đổi mật khẩu. Vui lòng thử lại sau.");
+      console.log("LỖI2", changePasswordResponse);
     }
   };
 
@@ -85,8 +90,8 @@ const ResetPasswordScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="Nhập email khôi phục"
-        value={username}
-        onChangeText={setUsername}
+        value={email}
+        onChangeText={setemail}
       />
 
       {otpSent && (
