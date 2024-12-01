@@ -91,8 +91,10 @@ export default function LoginScreen() {
         style={{ top: 20 }}
         onPress={() => navigation.navigate("ForgotPasswordScreen")}
       >
-        <View style={styles.bgrButton}>
-          <Text style={styles.titleButton}>Quên mật khẩu?</Text>
+        <View>
+          <Text style={{ color: "#1E90FF", marginTop: 20 }}>
+            Quên mật khẩu?
+          </Text>
         </View>
       </TouchableOpacity>
     </KeyboardAvoidingView>

@@ -1,198 +1,127 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, Alert, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import axios from "axios";
-import { TextInput as PaperTextInput } from "react-native-paper";
+import Constants from "expo-constants";
 
-const ForgotPasswordScreen = () => {
-  const [email, setEmail] = useState("");
+const { API_URL } = Constants.expoConfig.extra;
+const ResetPasswordScreen = () => {
+  const [username, setUsername] = useState("");
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [patientId, setPatientId] = useState(""); // Thêm trường nhập mã bệnh nhân
-  const [loading, setLoading] = useState(false);
-  const [step, setStep] = useState(1); // Quản lý bước hiện tại (1: Gửi OTP, 2: Xác thực OTP, 3: Đổi mật khẩu)
+  const [otpSent, setOtpSent] = useState(false);
+  const [error, setError] = useState("");
 
-  // Bước 1: Gửi OTP qua Email
-  const handleSendOTP = async () => {
-    if (!email || !patientId) {
-      Alert.alert("Error", "Email and Patient ID are required");
-      return;
-    }
-
-    setLoading(true);
-
+  const handleSendOtp = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/patient/email/send-otp",
+        `${API_URL}/api/patient/email/send-otp`,
         {
-          email: email,
+          email: username, // Assume username is email
         }
       );
-
+      console.log(response);
       if (response.status === 200) {
-        Alert.alert("Success", "OTP has been sent to your email");
-        setStep(2); // Chuyển sang bước 2: Xác thực OTP
-      }
-    } catch (error) {
-      Alert.alert("Error", "Failed to send OTP. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Bước 2: Xác thực OTP
-  const handleVerifyOTP = async () => {
-    if (!otp) {
-      Alert.alert("Error", "OTP is required");
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/patient/email/verify-otp",
-        {
-          email: email,
-          otp: otp,
-        }
-      );
-
-      if (response.data.status === true) {
-        Alert.alert("Success", "OTP verified successfully");
-        setStep(3); // Chuyển sang bước 3: Đổi mật khẩu
+        setOtpSent(true);
+        setError("");
       } else {
-        Alert.alert("Error", "Invalid OTP");
+        setError("Lỗi gửi OTP. Vui lòng thử lại sau");
+        console.log(response);
       }
     } catch (error) {
-      Alert.alert("Error", "Failed to verify OTP. Please try again.");
-    } finally {
-      setLoading(false);
+      console.log(response);
+      setError(
+        "Có lỗi xảy ra trong quá trình gửi OTP, vui lòng kiểm tra email"
+      );
     }
   };
 
-  // Bước 3: Đổi mật khẩu
-  const handleChangePassword = async () => {
-    if (!newPassword) {
-      Alert.alert("Error", "New password is required");
+  const handleVerifyOtpAndChangePassword = async () => {
+    if (!username || !otp || !newPassword) {
+      setError("Vui lòng điền email của bạn");
       return;
     }
-
-    setLoading(true);
-
     try {
-      const patientId = "0981899709"; // Sửa lại theo thực tế
-
-      const response = await axios.put(
-        `http://localhost:3000/api/patient/account/change-password-with-old/${patientId}`,
+      const verifyOtpResponse = await axios.post(
+        `${API_URL}/api/patient/email/verify-otp`,
         {
-          old_password: "your-old-password", // Mật khẩu cũ
-          new_password: newPassword,
+          otp: otp,
+          patient_id: username,
         }
       );
 
-      if (response.status === 200) {
-        Alert.alert("Success", "Password changed successfully");
-      }
-    } catch (error) {
-      Alert.alert("Error", "Failed to change password. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+      if (verifyOtpResponse.data.status) {
+        const changePasswordResponse = await axios.put(
+          `${API_URL}/api/patient/account/change-password/${username}`,
+          { new_password: newPassword }
+        );
 
-  // Bước 4: Gửi lại OTP
-  const handleResendOTP = async () => {
-    if (!email || !patientId) {
-      Alert.alert("Error", "Email and Patient ID are required");
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/patient/email/send-otp",
-        {
-          email: email,
+        if (changePasswordResponse.data.status) {
+          setError("");
+          alert("Mật khẩu đã thay đổi thành công!");
+        } else {
+          setError(
+            "Có lỗi trong quá trình đổi mật khẩu. Vui lòng thử lại sau."
+          );
         }
-      );
-
-      if (response.status === 200) {
-        Alert.alert("Success", "OTP has been resent to your email");
+      } else {
+        setError("OTP không chính xác.");
       }
     } catch (error) {
-      Alert.alert("Error", "Failed to resend OTP. Please try again.");
-    } finally {
-      setLoading(false);
+      setError("Có lỗi trong quá trình đổi mật khẩu. Vui lòng thử lại sau.");
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Forgot Password</Text>
+      <Text style={styles.header}>Khôi phục tài khoản</Text>
 
-      {step === 1 && (
-        <>
-          <PaperTextInput
-            label="Patient ID"
-            value={patientId}
-            onChangeText={setPatientId}
-            style={styles.input}
-            keyboardType="numeric"
-          />
-          <PaperTextInput
-            label="Email"
-            value={email}
-            onChangeText={setEmail}
-            style={styles.input}
-            keyboardType="email-address"
-          />
-          <Button
-            title={loading ? "Sending..." : "Send OTP"}
-            onPress={handleSendOTP}
-            disabled={loading}
-          />
-        </>
+      <TextInput
+        style={styles.input}
+        placeholder="Nhập email khôi phục"
+        value={username}
+        onChangeText={setUsername}
+      />
+
+      {otpSent && (
+        <TextInput
+          style={styles.input}
+          placeholder="Enter OTP"
+          value={otp}
+          onChangeText={setOtp}
+        />
       )}
 
-      {step === 2 && (
-        <>
-          <PaperTextInput
-            label="Enter OTP"
-            value={otp}
-            onChangeText={setOtp}
-            style={styles.input}
-            keyboardType="numeric"
-          />
-          <Button
-            title={loading ? "Verifying..." : "Verify OTP"}
-            onPress={handleVerifyOTP}
-            disabled={loading}
-          />
-          <Button
-            title={loading ? "Resending..." : "Resend OTP"}
-            onPress={handleResendOTP}
-            disabled={loading}
-          />
-        </>
+      <TouchableOpacity onPress={handleSendOtp} style={styles.button}>
+        <Text style={styles.buttonText}>
+          {otpSent ? "Gửi lại OTP" : "Gửi mã OTP"}
+        </Text>
+      </TouchableOpacity>
+
+      {otpSent && (
+        <TextInput
+          style={styles.input}
+          placeholder="Nhập mật khẩu mới"
+          value={newPassword}
+          onChangeText={setNewPassword}
+          secureTextEntry
+        />
       )}
 
-      {step === 3 && (
-        <>
-          <PaperTextInput
-            label="New Password"
-            value={newPassword}
-            onChangeText={setNewPassword}
-            secureTextEntry
-            style={styles.input}
-          />
-          <Button
-            title={loading ? "Changing..." : "Change Password"}
-            onPress={handleChangePassword}
-            disabled={loading}
-          />
-        </>
-      )}
+      <TouchableOpacity
+        onPress={handleVerifyOtpAndChangePassword}
+        style={styles.button}
+      >
+        <Text style={styles.buttonText}>Submit</Text>
+      </TouchableOpacity>
+
+      {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   );
 };
@@ -204,15 +133,35 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "#fff",
   },
-  title: {
+  header: {
     fontSize: 24,
     fontWeight: "bold",
+    marginBottom: 20,
     textAlign: "center",
-    marginBottom: 30,
   },
   input: {
+    height: 45,
+    borderColor: "#ccc",
+    borderWidth: 1,
     marginBottom: 15,
+    paddingLeft: 10,
+    borderRadius: 5,
+  },
+  button: {
+    backgroundColor: "#4CAF50",
+    paddingVertical: 12,
+    borderRadius: 5,
+    marginBottom: 15,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+  },
+  errorText: {
+    color: "red",
+    textAlign: "center",
   },
 });
 
-export default ForgotPasswordScreen;
+export default ResetPasswordScreen;
