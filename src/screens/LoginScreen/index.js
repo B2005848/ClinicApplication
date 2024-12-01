@@ -86,6 +86,15 @@ export default function LoginScreen() {
           </View>
         </TouchableOpacity>
       )}
+
+      <TouchableOpacity
+        style={{ top: 20 }}
+        onPress={() => navigation.navigate("ForgotPasswordScreen")}
+      >
+        <View style={styles.bgrButton}>
+          <Text style={styles.titleButton}>Quên mật khẩu?</Text>
+        </View>
+      </TouchableOpacity>
     </KeyboardAvoidingView>
   );
 }

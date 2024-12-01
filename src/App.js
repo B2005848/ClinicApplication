@@ -27,6 +27,7 @@ import ChageAvatar from "./components/ChangeAvatar";
 import UpdatePatientInfo from "./screens/UpdateInfoScreen";
 import PatientRecordsScreen from "./screens/PatientRecordsScreen";
 import ChangePasswordScreen from "./screens/ChangePasswordScreen";
+import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
 // Import FontAwesomeIcon
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -308,6 +309,16 @@ export default function App() {
             component={ChangePasswordScreen}
             options={{
               title: "Đổi mật khẩu tài khoản", // Tiêu đề của màn hình
+              headerBackTitle: "Trở về", // Thay tiêu đề nút back thành "Trở về"
+            }}
+          />
+
+          {/* QUÊN MẬT KHẨU */}
+          <Stack.Screen
+            name="ForgotPasswordScreen"
+            component={ForgotPasswordScreen}
+            options={{
+              title: "Khôi phục tài khoản", // Tiêu đề của màn hình
               headerBackTitle: "Trở về", // Thay tiêu đề nút back thành "Trở về"
             }}
           />
