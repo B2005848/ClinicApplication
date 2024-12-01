@@ -7,6 +7,9 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import axios from "axios";
 import Constants from "expo-constants";
@@ -84,50 +87,58 @@ const ResetPasswordScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Khôi phục tài khoản</Text>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 128 : 0}
+    >
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ flex: 1 }}>
+        <View style={styles.container}>
+          <Text style={styles.header}>Khôi phục tài khoản</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Nhập email khôi phục"
-        value={email}
-        onChangeText={setemail}
-      />
+          <TextInput
+            style={styles.input}
+            placeholder="Nhập email khôi phục"
+            value={email}
+            onChangeText={setemail}
+          />
 
-      {otpSent && (
-        <TextInput
-          style={styles.input}
-          placeholder="Enter OTP"
-          value={otp}
-          onChangeText={setOtp}
-        />
-      )}
+          {otpSent && (
+            <TextInput
+              style={styles.input}
+              placeholder="Enter OTP"
+              value={otp}
+              onChangeText={setOtp}
+            />
+          )}
 
-      <TouchableOpacity onPress={handleSendOtp} style={styles.button}>
-        <Text style={styles.buttonText}>
-          {otpSent ? "Gửi lại OTP" : "Gửi mã OTP"}
-        </Text>
-      </TouchableOpacity>
+          <TouchableOpacity onPress={handleSendOtp} style={styles.button}>
+            <Text style={styles.buttonText}>
+              {otpSent ? "Gửi lại OTP" : "Gửi mã OTP"}
+            </Text>
+          </TouchableOpacity>
 
-      {otpSent && (
-        <TextInput
-          style={styles.input}
-          placeholder="Nhập mật khẩu mới"
-          value={newPassword}
-          onChangeText={setNewPassword}
-          secureTextEntry
-        />
-      )}
+          {otpSent && (
+            <TextInput
+              style={styles.input}
+              placeholder="Nhập mật khẩu mới"
+              value={newPassword}
+              onChangeText={setNewPassword}
+              secureTextEntry
+            />
+          )}
 
-      <TouchableOpacity
-        onPress={handleVerifyOtpAndChangePassword}
-        style={styles.button}
-      >
-        <Text style={styles.buttonText}>Submit</Text>
-      </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleVerifyOtpAndChangePassword}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Submit</Text>
+          </TouchableOpacity>
 
-      {error && <Text style={styles.errorText}>{error}</Text>}
-    </View>
+          {error && <Text style={styles.errorText}>{error}</Text>}
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
