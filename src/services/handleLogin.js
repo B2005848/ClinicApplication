@@ -43,7 +43,7 @@ export const loginService = async (phone, password) => {
       console.error("Đăng nhập không thành công:", error.response.data);
       Alert.alert(
         "Lỗi",
-        "Đăng nhập không thành công: " + error.response.data.message
+        "Đăng nhập không thành công: " + "Sai thông tin đăng nhập"
       );
     } else if (error.request) {
       console.error("Không nhận được phản hồi từ server:", error.request);

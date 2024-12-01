@@ -54,7 +54,9 @@ export default function SignUpScreen() {
       Alert.alert("Vui lòng nhập lại mật khẩu đăng kí");
       return;
     }
-
+    if (password !== confirmPassword) {
+      Alert.alert("Nhập lại mật khẩu không chính xác");
+    }
     try {
       const result = await signUpService(
         phone,
@@ -66,7 +68,6 @@ export default function SignUpScreen() {
       );
       if (result.success) {
         console.log(result.message);
-
         Alert.alert("Đăng kí tài khoản thành công", result.data);
         navigation.navigate("LoginScreen");
       }
