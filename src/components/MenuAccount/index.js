@@ -8,6 +8,7 @@ import styles from "./style";
 import Constants from "expo-constants";
 import axios from "axios"; // Thêm axios để gọi API
 import { formatCurrency } from "../../helpers/currencyFormatter";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 const { API_URL } = Constants.expoConfig.extra;
 
 const MenuAccount = ({ patientId, full_name, imageAvt, onClose }) => {
@@ -62,9 +63,19 @@ const MenuAccount = ({ patientId, full_name, imageAvt, onClose }) => {
       </View>
       <View style={styles.menuContent}>
         <View style={styles.menuContent1}>
+          {/* ĐỔI MẬT KHẨU */}
           <View>
-            <TouchableOpacity>
-              <Icon name="bell" type="font-awesome" size={25} color="#6246ea" />
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("ChangePasswordScreen", {
+                  patient_id: patientId,
+                })
+              }
+            >
+              <FontAwesomeIcon
+                icon="fa-solid fa-key"
+                style={{ color: "#FFD43B" }}
+              />
             </TouchableOpacity>
           </View>
 
@@ -96,7 +107,6 @@ const MenuAccount = ({ patientId, full_name, imageAvt, onClose }) => {
             </TouchableOpacity>
           </View>
         </View>
-
         {/* full name and tổng chi tiêu */}
         <View style={styles.menuContent2}>
           <View>
@@ -167,6 +177,7 @@ const MenuAccount = ({ patientId, full_name, imageAvt, onClose }) => {
           </View>
         </View>
 
+        {/* ĐĂNG XUẤT */}
         <View style={styles.menuContent3}>
           <TouchableOpacity
             style={styles.wapperbtnLogout}
