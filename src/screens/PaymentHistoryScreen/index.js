@@ -43,6 +43,9 @@ const PaymentHistoryScreen = ({ route }) => {
         return <Text style={{ color: "green" }}>Hoàn thành</Text>;
       case "F":
         return <Text style={{ color: "red" }}>Thất bại</Text>;
+      case "H":
+        return <Text style={{ color: "blue" }}>Đã hoàn tiền</Text>;
+
       default:
         return <Text>Chưa thanh toán</Text>;
     }
